@@ -43,7 +43,7 @@ For $x=3$, we have $a=d$. For each odd modulus $m$ below choose $r$ with $r^2\eq
 | 2471 | 1117 | 552 | $19$ |
 | 2471 | 2791 | 1030 | none |
 
-For example, modulo 199 alone the possible indices are $2,3,5,7,8,9,10$, disjoint from the four allowed by 121. These are exhaustive searches of *residue rings*. Bounds on the original integer bases play no role. Lean checks that simultaneous local witnesses cannot exist for either row group. The ideal-theoretic implication from an integer solution to those witnesses is proved above in prose. [Lean certificate for 167](../lean/Twist167.lean) · [Lean certificate for 2471](../lean/Twist2471.lean)
+For example, modulo 199 alone the possible indices are $2,3,5,7,8,9,10$, disjoint from the four allowed by 121. These are exhaustive searches of *residue rings*. Bounds on the original integer bases play no role. Lean checks that simultaneous local witnesses cannot exist for either row group. The [quadratic bridge](../lean/QuadraticBridge.lean) takes an integral twist identity to these witnesses in Lean. Its ideal-theoretic premise follows from the written proof above. [Lean certificate for 167](../lean/Twist167.lean) · [Lean certificate for 2471](../lean/Twist2471.lean)
 
 ## All odd exponents for the two fixed bases
 

@@ -2,6 +2,8 @@
 
 The conjecture states that positive integers satisfying $A^x+B^y=C^z$ with $x,y,z\geq3$ have a common prime divisor in $A,B,C$. This repository investigates restrictions on a hypothetical primitive solution. The general problem remains open. [Problem statement](https://www.bealbank.com/who-we-are/our-founder/the-beal-conjecture/)
 
+The [expert guide](docs/collaborating.md) gives the precise open equation, computations to replay, conventions for combining independent work, and remaining proof obligations.
+
 ## Results
 
 | Scope | Conclusion | Evidence |
@@ -11,7 +13,9 @@ The conjecture states that positive integers satisfying $A^x+B^y=C^z$ with $x,y,
 | $167^x+b^4=c^{11}$, odd $x\geq3$ | A primitive solution requires $x\equiv1\pmod{22}$. | [Descent and finite residue calculation](docs/descent.md) |
 | $2471^x+b^4=c^{31}$, odd $x\geq3$ | A primitive solution requires $x\equiv5\pmod{62}$. | [Descent and finite residue calculation](docs/descent.md) |
 
-At $x=3$ the two fixed-base equations are impossible. The Lean files verify the finite modular contradictions in these two cases. The class-group reductions and an extension to varying bases are written proofs. The full odd-exponent sweeps have Python verifiers. [Research plan and discovery methods](docs/research-plan.md)
+**The remaining case at 31.** Every primitive solution with $d=2471$ would satisfy $683\mid c$. Each surviving twist has primitive points over every completion of $\mathbb Q$. A global descent expresses both survivors using one irreducible Thue–Mahler form of degree 31. Its primitive solutions subject to the square and valuation constraints remain to be determined. [Local points](docs/local-points.md) · [Global reduction](docs/thue-mahler.md) · [Number-field inputs](docs/trace-field.md) · [Frey curve and remaining newforms](docs/frey-curve.md)
+
+At $x=3$ both fixed-base equations are impossible. Lean checks the implications from a shared integral twist identity to contradiction for both bases. Deriving the identity from the class group is still a written proof. The odd-exponent sweeps use Python. [Research plan](docs/research-plan.md)
 
 ## Reproduce the calculations
 
@@ -29,9 +33,17 @@ git -C ../lebnag show e8b1dab1f30487b0c38eee94b297bd88c821924f:lebesgue_nagell_s
 python3 scripts/check_smooth.py ../lebesgue_nagell_solutions.txt
 ```
 
-With Lean 4.19.0 (pinned by `lean-toolchain`), replay both modular certificates. They use only the Lean standard library. Each file prints the axioms of its final theorem.
+To reproduce the exponent-31 global and local computations, run the following commands. The GP script uses PARI/GP (tested with 2.17.2). The C++ verifier checks all exceptional and small good primes in the local argument.
 
 ```sh
-lean -j1 lean/Twist167.lean
-lean -j1 lean/Twist2471.lean
+python3 scripts/check_residual_form.py
+gp -fq scripts/check_trace_field.gp
+c++ -O2 -std=c++17 scripts/check_local_points.cpp -o /tmp/beal-local-points
+/tmp/beal-local-points
+```
+
+Build the formal results with Lean 4.19.0, pinned by `lean-toolchain`. The project uses the Lean standard library. Top-level theorem names and their assumptions are in the [expert guide](docs/collaborating.md).
+
+```sh
+lake build
 ```

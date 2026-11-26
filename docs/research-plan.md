@@ -1,6 +1,6 @@
 # Research plan
 
-The next arithmetic target is to eliminate either of the two surviving classes for $2471^x+b^4=c^{31}$. The next formal target is to prove that an integer solution supplies the local witnesses already ruled out by Lean when $x=3$.
+The outstanding arithmetic target is the [degree-31 Thue–Mahler equation](thue-mahler.md) shared by both surviving exponent classes for $2471^x+b^4=c^{31}$. The global-to-local evaluation of the integral twist is now formalized for the two cubic exclusions. The unformalized part starts with the ideal class group. [Expert contributor guide](collaborating.md)
 
 ## Starting point
 
@@ -11,7 +11,7 @@ Write $d^x+b^4=c^p$ with positive pairwise coprime bases, odd $x\geq 3$ and prim
 | 167 | 11 | $(1,4),\ (23,7)$ |
 | 2471 | 31 | $(5,23),\ (67,8)$ |
 
-The row $x\equiv1\pmod{44}$ begins at $x=45$ under our hypotheses. A survivor passes the selected tests. Its existence as an integer solution is open in this argument. For $x=3$ the finite local contradictions for both pairs have been kernel-checked. The implication from integer solutions to those local conditions and the classification across odd exponent residues currently rely on the written descent and exact computation. [Lean certificate for 167](../lean/Twist167.lean) · [Lean certificate for 2471](../lean/Twist2471.lean)
+The row $x\equiv1\pmod{44}$ begins at $x=45$ under our hypotheses. A survivor passes the selected tests. Its existence as an integer solution is open in this argument. For $x=3$, Lean checks the contradiction given the principalized identity. The deduction of that identity from the ideal-class data remains a paper proof. [Lean bridge](../lean/QuadraticBridge.lean)
 
 ## What the AI-assisted proofs actually did
 
@@ -24,7 +24,8 @@ OpenAI reports that for its August collection a model found mathematical argumen
 ## 1. Connect the arithmetic to the Lean certificates
 
 1. Prove from primitivity that $c$ is odd for the two listed $d$. In $K=\mathbb Q(\sqrt{-d})$, show that the conjugate factors of $c^p$ are coprime and that the class of the root ideal lies in the subgroup killed by $p$. Certify that the prime ideal over 2 used in the calculation generates that subgroup. Include the class-number input and the orientation of the chosen generator.
-2. Extract a **single** $k$ and an algebraic integer whose $p$th power is $\eta^k(b^2+d^{(x-1)/2}\sqrt{-d})$. Prove that both substitutions $\sqrt{-d}\mapsto\pm s$ preserve the ring operations modulo each listed modulus, including $p^2$. Reduce the same $b$ in both substitutions. Connect this statement to the existing `LocalWitness` declarations at $x=3$.
+2. Extract a **single** $k$ and an algebraic integer whose $p$th power is $\eta^k(b^2+d^{(x-1)/2}\sqrt{-d})$. Connect its signed coefficients to the existing bridge. The ring evaluation, preservation of powers and application of the two cubic certificates already build in Lean.
+
 3. Prove why the tests at moduli coprime to $d$ repeat after $x\mapsto x+4p$. The imaginary coefficient scales by $d^{2p}$, the square coordinate by $(d^p)^2$, and the twist index stays fixed. This gives an invertible change of **local** variables. The scaled integer bases would lose primitivity. Then formalize the finite odd-residue sweep and the separate exclusion of $k=0$, with its primitive-divisor theorem dependency visible. Report exactly which global assumptions remain when inspecting the final Lean theorem.
 4. Formalize the varying-base corollary in the [descent notes](descent.md#varying-the-base). For $x=3+4pj$, expand $(d u^{4p})^x=d^3 W^{4p}$ with $W=d^ju^x$. The condition $\gcd(u,M)=1$ makes $W$ invertible at every cubic-certificate modulus dividing $M$. Dividing the local identity by $W^{2p}$ must yield the existing cubic witness with the same $k$. This permits reuse of the certificates for arbitrarily large bases.
 
@@ -39,8 +40,10 @@ Put $d=2471=7\cdot353$. Each residue class gives a fixed curve over $\mathbb Z[1
 
 Here $j\geq0$. Since $7$ and $353$ divide neither numerator, the powers shown are exact at both primes, and one $j$ sets all four valuations. Conversely a positive rational point with these exact denominators and numerators coprime to each other and to $d$ recovers an integer solution by clearing denominators. Keep $k$ attached when imposing the twisted local conditions.
 
-First attack the $k=23$ curve, whose $j=0$ case is integral. Give one investigator the task of deriving a restriction on these valuations or on the twist at a new place. Give another the same statement and ask for a counterexample, an actual local lift, or a published theorem with all hypotheses checked. For $q=7,353$ one can already take $b=1$ locally in the original equation because $1+d^x$ has a 31st root by Hensel lifting from 1. In the ramified quadratic completion the residue field still has order $q$, and $31$ is coprime to $q(q-1)$ at both primes. Hensel lifting therefore makes every local unit a 31st power, including the unit $\eta^k\gamma$. Those primes constrain the global denominators, but a unit-power test there cannot eliminate either twist.
+The [all-places calculation](local-points.md) proves that each of these two twists admits primitive points over every completion. It also supplies $683\mid c$. A further search for an obstructing prime on the same twist cannot close either case. A stronger covering curve or a condition tying different places together could still succeed.
 
-A finite exclusion must cover every allowed $j$ and every residue of the unknowns in its stated domain. Otherwise record the surviving class and a witness. Use bounded point searches to refute proposed lemmas or locate examples. An empty search cannot discharge an unbounded branch. If the tests still admit local points, the next question is whether a descent or an $S$-integral point computation on the fixed curve can enforce the synchronized denominators globally. Apply the same test to $k=8$, retaining its factor $d^2$.
+**Primary arithmetic task.** Use the [explicit binary form](thue-mahler.md) and its [degree-31 root field](trace-field.md) to enumerate or exclude its primitive solutions. Preserve the equality of valuations at 7 and 353, the single allowed slope at 683, and the positive-square condition. Begin with the possible prime ideals above 2, 7 and 353. Translate the known slopes into ideal conditions using the change of generator. Identify what class-group and unit certificates a complete calculation would need. A computed unit subgroup or a bounded enumeration requires an index or height bound before it can settle the residual equation.
 
-Excluding the required points on both curves would settle this family for $d=2471$ and $p=31$. To extend it, identify which step works for arbitrary squarefree $d$ and which uses these two primes or this class group. Beal solutions with neither summand a square require a separate reduction.
+**Independent check.** Use the [Frey curve at level 79072](frey-curve.md) and its trace restrictions as a second route. Any elimination needs to consider residual primes in the coefficient fields of the newforms left by level lowering. Rational-coefficient tests alone cover only part of that space.
+
+Solving the two branches would settle this fixed-base exponent-31 family. An extension to general Beal would also need to cover other class groups, squarefree parts, and signatures in which neither summand is a square.

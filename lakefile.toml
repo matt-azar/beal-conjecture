@@ -1,0 +1,7 @@
+name = "beal-conjecture"
+defaultTargets = ["BealCertificates"]
+
+[[lean_lib]]
+name = "BealCertificates"
+srcDir = "lean"
+roots = ["Twist167", "Twist2471", "QuadraticBridge", "Forced683"]
