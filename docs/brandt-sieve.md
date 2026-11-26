@@ -77,4 +77,4 @@ python3 -m pip install numpy==2.3.5 python-flint==0.9.0
 python3 scripts/check_brandt.py
 ```
 
-Classical modular symbols independently verify both joint exclusions on the full 11336-dimensional plus space. The published correspondence and the exact matrix calculations are mathematical inputs outside the current Lean developments. [Independent eclib replay](../scripts/check_eclib_hecke.cpp)
+Classical modular symbols independently verify both joint exclusions on the full 11336-dimensional plus space. The published correspondence and the exact matrix calculations are mathematical inputs outside the current Lean developments. [Independent eclib replay](../scripts/check_eclib_hecke.cpp) · [Dependency-free replay without the trace at 683](modular-symbols-replay.md)

@@ -39,6 +39,7 @@ The [README](../README.md#reproduce-the-calculations) lists the primary replays.
 | `python3 scripts/check_brandt.py` | Four 2124-dimensional blocks give total determinant 29 modulo 31. The two known elliptic-curve trace pairs give positive controls. |
 | `gp -fq scripts/check_transfer_263.gp` and `gp -fq scripts/check_mordell_263.gp` | The exact-level rank is 262/262. On the Mordell curve the rank is one, the torsion is trivial, and four finite-field witnesses exclude all the required index primes. |
 | Classical eclib replay | Full column ranks 676 and 11336 for each of the two trace pairs at the respective levels. A level-11 control has nullity one. |
+| `scripts/check_modsym_hecke.cpp`, following the [replay note](modular-symbols-replay.md) | `FINAL dim 0` at 5344 modulo 11 and at 79072 modulo 31 on the full relative spaces of dimension 1345 and 22657. The 79072 run uses 311 in place of 683. The control curve gives `FINAL dim 2`. |
 
 The last check uses eclib 20250122, FFLAS-FFPACK 2.5, Givaro 4.2, NTL, GMP and OpenBLAS. With their development headers installed, run from the repository root:
 
