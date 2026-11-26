@@ -19,7 +19,7 @@ Both levels have no elliptic points, so $S$ and $R$ act freely. The program chec
 $$
 (T_\ell\varphi)(x)=\sum_h\varphi(xh).
 $$
-Every eigensystem modulo $\lambda\mid p$ of a weight-two cusp form of level $N$ occurs in $M^*$. The homology lattice is a faithful Hecke module and is saturated in the relative lattice, and $p\nmid6$. The Heilbronn matrices are those of Cremona, *Algorithms for Modular Elliptic Curves*, Chapter 2.
+Every eigensystem modulo $\lambda\mid p$ of a weight-two cusp form of level $N$ occurs in $M^*$. Integrating a normalized eigenform along relative modular symbols gives a nonzero Hecke eigenfunctional in characteristic zero. The Manin relations and simultaneous Hecke eigenvalue equations have coefficients in its number field, so their common kernel contains a nonzero vector over that field. Scale the coordinates at the chosen prime until they are integral with at least one unit, then reduce. This gives the required eigenfunctional over the residue field. Cremona gives the integration pairing and the Heilbronn matrices. [Chapter II, §§2.1 and 2.4](https://johncremona.github.io/book/fulltext/chapter2.pdf)
 
 ## The test
 
