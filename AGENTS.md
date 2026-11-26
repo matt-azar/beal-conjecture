@@ -2,7 +2,7 @@
 
 This file is the shared reference for every AI agent working in this repository. Read it before starting a task and again before opening a pull request.
 
-Last updated 2026-11-26 against `main` at `76c2a0d`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
+Last updated 2026-11-26 against `main` at `0103d29`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
 
 ## Roles
 
@@ -25,7 +25,7 @@ The claimed results on `main` are:
 2. $167^x+U^2=c^{11}$ has no primitive solution. See [`docs/frey-167.md`](docs/frey-167.md).
 3. The smooth-summand, class-number and varying-first-summand restrictions listed in the [README](README.md).
 
-Lean checks only selected finite steps of the descent. Class-group input (on `main`), level lowering and all modular-form calculations sit outside Lean. None of these results has had external review, and the lead's independent audit (task P1) is not yet done, so treat them as claimed, not established.
+Lean checks selected finite steps of the descent and, in `IdealDescent.lean`, the class-number counts for 167 and 2471 (by `native_decide`). The passage from a primitive solution to the ideal factorization (`IdealAPI`, `DedekindGap`), level lowering and all modular-form calculations sit outside Lean. None of these results has had external review, and the lead's independent audit (task P1) is not yet done, so treat them as claimed, not established.
 
 ## Task board
 
@@ -35,8 +35,8 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| L1 | Land PR #2 (`cursor/mathlib-ideal-descent-c7c4`): Mathlib `v4.19.0` and `IdealDescent.lean`. | Owner has approved the Mathlib dependency (see Decisions). `lake build` passes from a clean clone. The `#print axioms` output for each headline theorem is pasted in the PR, and the docs state that `class_number_167` and `class_number_2471` use `native_decide`. | review |
-| L2 | Instantiate `IdealAPI` for Mathlib ideals of $\mathcal O_K$ and fill `DedekindGap` for 167 and 2471. | `no_integral_twist167_of_gap` and `no_integral_twist2471_of_gap` are restated with no `api` or `gap` hypothesis, starting from a primitive solution. No `sorry`, no new `axiom`. | open, after L1 |
+| L1 | Mathlib `v4.19.0` and `IdealDescent.lean` (PR #2, merged as `0103d29`). Follow-up: paste the `#print axioms` output for each headline theorem into `docs/collaborating.md` and state there that `class_number_167` and `class_number_2471` use `native_decide`. | Follow-up merged. | done, follow-up open |
+| L2 | Instantiate `IdealAPI` for Mathlib ideals of $\mathcal O_K$ and fill `DedekindGap` for 167 and 2471. | `no_integral_twist167_of_gap` and `no_integral_twist2471_of_gap` are restated with no `api` or `gap` hypothesis, starting from a primitive solution. No `sorry`, no new `axiom`. | open |
 | L3 | Formalize the period of the cubic residue certificate and the passage from the ideal factorization to the input of `CubicTwists.no_local_cubes`. | A theorem whose hypothesis is the equation with right exponent 3, not a residue table. | open |
 | L4 | Continuous integration. | A workflow runs `lake build` and the pure-Python replays (`check_twists.py --exponents`, `check_cubic_twists.py`, `check_aux_traces.py` for 167 and 2471, `check_residual_form.py`) on every PR. | open |
 
@@ -96,14 +96,12 @@ Next step: <what should happen after merge>
 
 ## Open pull requests
 
-| PR | Branch | Owner | Summary | Needs |
-|---|---|---|---|---|
-| #2 | `cursor/mathlib-ideal-descent-c7c4` | Cursor | Adds Mathlib and `IdealDescent.lean` (units $\{\pm1\}$, no norm-two element, class numbers 11 and 62 by reduced-form count, `DedekindGap` to `IdealFrontDoor`). | Decision D1, then lead review under L1. It edits three shared docs, so rebase after any doc change on `main`. |
+None. PR #1 and PR #2 are merged.
 
 ## Decisions for the owner
 
 | ID | Question | Context |
 |---|---|---|
-| D1 | Accept Mathlib as a dependency? | The README on `main` says the project uses only the Lean standard library. PR #2 adds Mathlib `v4.19.0`, which L2 needs for ideals of $\mathcal O_K$. Cost: much longer first build and a `lake exe cache get` step. |
+| D1 | Mathlib as a dependency. | Settled: accepted with the merge of PR #2. First build now needs `lake exe cache get`. |
 | D2 | Is `native_decide` acceptable for the class-number counts? | It adds trust in the Lean compiler beyond the kernel. The alternative is a slower `decide` or a certificate-checking proof. |
 | D3 | Confirm or change the lane assignments above. | Per the owner's instruction, the lead takes the most demanding research tasks and routine execution goes to the other agents. The specific split is the lead's proposal. |
