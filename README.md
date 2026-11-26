@@ -25,7 +25,7 @@ From the repository root, use Python 3.9 or later. The first command checks the 
 python3 scripts/check_twists.py --exponents
 ```
 
-The cubic right-side certificates and auxiliary Frey traces run with standard Python. The Hecke replays use PARI/GP 2.17.2 and Python with `numpy==2.3.5` and `python-flint==0.9.0`, respectively. The classical C++ replay and its dependencies are in the [expert guide](docs/collaborating.md#verification). A second modular-symbol replay needs only a C++ compiler and reaches the level-79072 exclusion without the trace at 683. [Commands and expected output](docs/modular-symbols-replay.md)
+The cubic right-side certificates and auxiliary Frey traces use standard Python. The modular calculations use PARI/GP 2.17.2 or Python with `numpy==2.3.5` and `python-flint==0.9.0`. The standalone C++ modular-symbol replay requires AVX2 and OpenMP. It reaches the level-79072 exclusion without the trace at 683. [Standalone commands and expected output](docs/modular-symbols-replay.md) · [Classical eclib dependencies](docs/collaborating.md#verification) · [Clean replay with pinned versions](docs/clean-replay.md)
 
 ```sh
 python3 scripts/check_cubic_twists.py

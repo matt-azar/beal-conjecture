@@ -43,7 +43,7 @@ The [README](../README.md#reproduce-the-calculations) lists the primary replays.
 
 The [audit](audit.md) records which steps of the proof have been independently checked. Its standalone replay `python3 scripts/audit_skeleton.py` (standard library only) recomputes the class numbers 11, 13 and 62 and the parity claims, and finds no small solutions.
 
-The last check uses eclib 20250122, FFLAS-FFPACK 2.5, Givaro 4.2, NTL, GMP and OpenBLAS. With their development headers installed, run from the repository root:
+The classical eclib replay (`scripts/check_eclib_hecke.cpp`) uses eclib 20250122, FFLAS-FFPACK 2.5, Givaro 4.2, NTL, GMP and OpenBLAS. Install their development headers and run the commands below from the repository root. The clean replay records the pinned commands, both modular-symbol control kernels and the exact Lean build output. [Clean replay](clean-replay.md)
 
 ```sh
 c++ -O3 -std=c++17 scripts/check_eclib_hecke.cpp -o /tmp/beal-hecke -lec -lntl -lgivaro -lgmpxx -lgmp -lopenblas
