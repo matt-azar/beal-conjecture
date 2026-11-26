@@ -193,10 +193,16 @@ theorem gcd_c_two_d {c d : Nat} (hc : c % 2 = 1) (hcd : Nat.Coprime c d) :
     Nat.Coprime c (2 * d) :=
   (coprime_odd_two hc).mul_right hcd
 
-/-! ## Abstract Dedekind API (Mathlib realization deferred) -/
+/-! ## Abstract Dedekind API
+
+`OmegaRing.lean` realizes `IdealAPI` by Mathlib ideals of the monogenic
+order `ℤ[ω]` (`Ideal (OmegaRing D)`), which is `𝓞 K` for the project
+bases. The remaining Dedekind / class-group fields live in `DedekindGap`.
+-/
 
 /-- Minimal ideal operations for steps 1–6. Instantiate via Mathlib's
-ideals of `𝓞 K`, or supply an external certificate. -/
+ideals of `𝓞 K` (see `OmegaRing.idealAPI167` / `idealAPI2471`), or
+supply an external certificate. -/
 structure IdealAPI (D : Int) where
   Ideal : Type
   principal : Element → Ideal
