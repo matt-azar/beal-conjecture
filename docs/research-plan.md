@@ -2,6 +2,8 @@
 
 The fourth-power cases at 167, 263 and 2471 are closed by a computer-assisted proof. At 263 the third-base test exposed a cubic case requiring an additional global argument. The next research question is which part of the argument survives a change of base or summand exponent. [Theorem and proof](fixed-bases.md) · [Expert collaborator guide](collaborating.md)
 
+That proof has not had external review. The [audit](audit.md) covers only its elementary skeleton so far, and the modular exclusions, cubic cases and the 263 argument are not yet audited.
+
 ## How promising are the avenues?
 
 | Avenue | What the investigation established | Priority and next test |

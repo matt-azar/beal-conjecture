@@ -6,6 +6,8 @@ The conjecture states that positive integers satisfying $A^x+B^y=C^z$ with $x,y,
 
 **For $A\in\{167,263,2471\}$, there is no positive primitive solution of $A^x+B^y=C^z$ whenever $4\mid y$ and $x,y,z\geq3$.** The proof covers unbounded bases $B,C$ and unbounded exponents. It combines ideal descent, the primitive-divisor theorem, published results on generalized Fermat equations, and exact modular-form calculations. Only selected descent implications have been checked in Lean. [Complete proof by cases](docs/fixed-bases.md) · [Expert collaborator guide](docs/collaborating.md)
 
+These results are claimed, not established. None has had external review. The lead's [audit](docs/audit.md) has so far checked only the elementary skeleton of the fixed-base proof, and the modular exclusions are not yet audited. Bennett and Siksek solved the closely related equations $X^2+q^\alpha=y^n$ for primes $q<100$ by the same method, so these are new instances of a known method. [Prime power gaps](https://arxiv.org/abs/2110.05553)
+
 | Other scope | Conclusion |
 |---|---|
 | $A=167$, even $y$ and $11\mid z$ | The stronger equation $167^x+U^2=c^{11}$ has no primitive solution for any positive $x,U,c$. [Arbitrary square summand](docs/frey-167.md#an-arbitrary-square-summand-at-exponent-11) |
@@ -33,6 +35,7 @@ gp -q -f scripts/check_new_5344.gp
 gp -q -f scripts/check_transfer_263.gp
 gp -q -f scripts/check_mordell_263.gp
 python3 scripts/check_brandt.py
+python3 scripts/audit_skeleton.py
 ```
 
 For the smooth-summand result, obtain the authors' table at the pinned revision. The verifier authenticates the file by SHA-256 and checks each row's arithmetic.

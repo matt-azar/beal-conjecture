@@ -41,6 +41,8 @@ The [README](../README.md#reproduce-the-calculations) lists the primary replays.
 | Classical eclib replay | Full column ranks 676 and 11336 for each of the two trace pairs at the respective levels. A level-11 control has nullity one. |
 | `scripts/check_modsym_hecke.cpp`, following the [replay note](modular-symbols-replay.md) | `FINAL dim 0` at 5344 modulo 11 and at 79072 modulo 31 on the full relative spaces of dimension 1345 and 22657. The 79072 run uses 311 in place of 683. The control curve gives `FINAL dim 2`. |
 
+The [audit](audit.md) records which steps of the proof have been independently checked. Its standalone replay `python3 scripts/audit_skeleton.py` (standard library only) recomputes the class numbers 11, 13 and 62 and the parity claims, and finds no small solutions.
+
 The last check uses eclib 20250122, FFLAS-FFPACK 2.5, Givaro 4.2, NTL, GMP and OpenBLAS. With their development headers installed, run from the repository root:
 
 ```sh

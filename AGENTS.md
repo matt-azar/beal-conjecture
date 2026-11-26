@@ -2,7 +2,7 @@
 
 This file is the shared reference for every AI agent working in this repository. Read it before starting a task and again before opening a pull request.
 
-Last updated 2026-11-26 against `main` at `c19b902`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
+Last updated 2026-11-26 against `main` at `979e32a`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
 
 ## Roles
 
@@ -81,7 +81,7 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 | R1 | Sixth-power case at the second base: $2471^x+B^6=C^{31}$ with $x$ odd and $C$ odd. Derive the twist with $b^2$ replaced by $B^3$, the exponent-and-twist sieve, both signs of the multiplicative traces, the Frey curve and its lowered level, and the admissible $T_5$ eigenvalues. Plan in [`docs/research-plan.md`](docs/research-plan.md#the-next-arithmetic-target). | `docs/sixth-power-2471.md` contains the full derivation and an exact specification of each finite computation (space, operators, residue prime, expected control). Astra runs them under C1. The result is either a complete exclusion or the exact surviving twist pairs and eigensystems. | active |
 | R2 | Level-stability criterion for a varying first summand: conditions on discriminant valuations and local residues under which new prime factors vanish under level lowering, so one Hecke computation covers an infinite family with fewer multiplier restrictions than [`docs/varying-base.md`](docs/varying-base.md) and [`docs/frey-167.md`](docs/frey-167.md#varying-the-first-summand). | A stated and proved criterion, with the two existing families recovered as special cases and at least one new family tested. | open |
 | R3 | Feasibility study for removing $4\mid y$. Identify what replaces the quadratic descent and the parity argument when $y$ is odd or $y\equiv2\pmod4$, and which signatures are covered by published results. | `docs/beyond-fourth-powers.md` states, for each residue of $y$, either a concrete route with its first test or the specific obstruction. This is open research and may end with obstructions only. | open |
-| P1 | Independent audit of [`docs/fixed-bases.md`](docs/fixed-bases.md). Check that the case split is exhaustive, that the hypotheses of each cited theorem (Bennett–Ellenberg–Ng Theorem 1, Bilu–Hanrot–Voutier, level lowering including irreducibility and conductor computation) are met, and that sign and orientation conventions agree between the docs and the scripts. | [`docs/audit.md`](docs/audit.md) lists every step as checked, checked with caveat, or gap. Gaps become tasks on this board. | active. First pass (case split, parity, class numbers, Lucas step) in review. Frey curves, level lowering and the cubic and 263 arguments remain. |
+| P1 | Independent audit of [`docs/fixed-bases.md`](docs/fixed-bases.md). Check that the case split is exhaustive, that the hypotheses of each cited theorem (Bennett–Ellenberg–Ng Theorem 1, Bilu–Hanrot–Voutier, level lowering including irreducibility and conductor computation) are met, and that sign and orientation conventions agree between the docs and the scripts. | [`docs/audit.md`](docs/audit.md) lists every step as checked, checked with caveat, or gap. Gaps become tasks on this board. | active. First pass (case split, parity, class numbers, Lucas step) merged in PR #6. Two steps carry a caveat pending C4. The nine items under "Not yet audited" in `docs/audit.md` remain, starting with the Frey curves, irreducibility and level lowering. |
 | R4 | Literature positioning. For each claimed result, find the closest published theorem and state exactly what is and is not new. Start from Bennett–Siksek and the Lebesgue–Nagell literature for $d\equiv7\pmod 8$. | A section in `docs/audit.md` with one row per result and a citation checked against the source. | open |
 | P3 | Review every PR for mathematical correctness, including whether each Lean statement says what the docs claim it says. | Ongoing. | active |
 
@@ -90,9 +90,9 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 | ID | Task | Done when | Status |
 |---|---|---|---|
 | C1 | Execute the computations specified by R1 (and later R2). | A replay script per computation with pinned versions, a positive control, and the raw output committed in the doc. Report the output as found, including survivors. Do not change the specification. If it looks wrong, say so in the PR. | open, after R1 spec |
-| C2 | Clean-environment replay of every script listed in the README with the pinned versions, including `check_modsym_hecke.cpp` from PR #4. | Outputs match the expected results table in [`docs/collaborating.md`](docs/collaborating.md#verification), or mismatches are filed. | open |
+| C2 | Clean-environment replay of every script listed in the README with the pinned versions, including `check_modsym_hecke.cpp` from PR #4 and `audit_skeleton.py` from PR #6. The lead has run only the Python replays listed in `docs/audit.md`. | Outputs match the expected results table in [`docs/collaborating.md`](docs/collaborating.md#verification), or mismatches are filed. | open |
 | C3 | Breadth survey over squarefree $d\equiv7\pmod{16}$. | The list of $d$ (bounded by discriminant) and the initial trace primes are committed in a first PR, before any Hecke computation is run. A second PR reports, for every $d$ on the list, class number, residual primes, Frey levels, dimensions before and after each filter, and the outcome. Unresolved bases are listed with their eigensystems. | open |
-| C4 | Citation check: open every external source cited in `docs/` and confirm the theorem number and statement match the use. | A table in the PR with one row per citation. Feeds P1. | open |
+| C4 | Citation check: open every external source cited in `docs/` and confirm the theorem number and statement match the use. Do these two first, since the audit marks them as recalled rather than read: Bennett–Ellenberg–Ng Theorem 1 (does it cover $b^4+(d^{x/2})^2=C^z$ for every $z\geq4$?) and the Bilu–Hanrot–Voutier table of defective Lucas pairs at indices 5, 7, 13. | A table in the PR with one row per citation. Feeds P1. | open |
 | C5 | Rank-one denominator test on a second residual cubic, following [`docs/transfer-263.md`](docs/transfer-263.md#a-denominator-obstruction-on-the-remaining-mordell-curve). | Lower priority. Start after C1 to C3. | open |
 | C6 | Integrate the shared docs (`README.md`, `docs/collaborating.md`, `docs/research-plan.md`) after each merge, using the wording proposed in the PR. | Ongoing. | active |
 | C7 | Independent review of the lead's research PRs (R1 to R3, P1). | A written review per PR that tries to break the argument. See Working rules. | ongoing |
@@ -131,7 +131,7 @@ Next step: <what should happen after merge>
 
 ## Open pull requests
 
-See the repository's pull-request list. PRs #1 to #4 are merged.
+See the repository's pull-request list. PRs #1 to #6 are merged.
 
 ## Decisions for the owner
 
