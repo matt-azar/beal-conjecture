@@ -56,7 +56,7 @@ c++ -O2 -std=c++17 scripts/check_local_points.cpp -o /tmp/beal-local-points
 /tmp/beal-local-points
 ```
 
-Build the formal results with Lean 4.19.0, pinned by `lean-toolchain`, and Mathlib `v4.19.0` (for `IdealDescent`). Top-level theorem names and their assumptions are in the [expert guide](docs/collaborating.md).
+Build with Lean 4.19.0 and Mathlib v4.19.0. For $d=167,2471$, Lean realizes `IdealAPI` using Mathlib ideals of $\mathbb Z[\omega]$, with $\omega=(1+\sqrt{-d})/2$. The exclusions for left exponent $x=3$ at right exponents 11 and 31, respectively, still assume `DedekindGap`. [Concrete ideal implementation](lean/OmegaRing.lean) · [Theorems and assumptions](docs/collaborating.md#verification)
 
 ```sh
 lake exe cache get
