@@ -7,7 +7,7 @@ Consider a primitive equation $d^x+b^4=c^p$ with odd $x\geq3$. The bases are pos
 | 167 | 11 | $x\equiv1\pmod{22}$ | $(1,4),(23,7)$ |
 | 2471 | 31 | $x\equiv5\pmod{62}$ | $(5,23),(67,8)$ |
 
-In particular, **neither $167^3+b^4=c^{11}$ nor $2471^3+b^4=c^{31}$ has a primitive solution**. The exponent restrictions above are necessary conditions. Existence in any surviving class remains undetermined by this sieve.
+In particular, **neither $167^3+b^4=c^{11}$ nor $2471^3+b^4=c^{31}$ has a primitive solution**. The exponent restrictions above are necessary conditions. The modular arguments subsequently exclude each surviving class. [Base 167](frey-167.md) · [Base 2471](frey-curve.md)
 
 ## From an integer solution to a twist
 
@@ -54,9 +54,9 @@ We may also discard $k=0$ for every actual odd $x\geq3$. In this branch $I$ is p
 | $d$ | Moduli used for the two substitutions |
 |---:|---|
 | 167 | 89, 121, 199, 353, 397 |
-| 2471 | 683, 961, 1117, 1303, 1489, 1861, 2357, 2543, 2729, 2791, 3163 |
+| 2471 | 683, 961, 1117, 1303, 1489, 2357, 2543, 2791, 3163 |
 
-At $d=167$ we also test $167^x+b^4=c^{11}\pmod{23}$ directly. This condition is periodic in $x$ modulo 22 since $23\nmid167$. The complete odd-exponent enumeration is reproduced by `python3 scripts/check_twists.py --exponents`. Its proof uses the Lucas theorem and the periodicity argument as well as the computation.
+At $d=167$ we also test $167^x+b^4=c^{11}\pmod{23}$ directly. This condition is periodic in $x$ modulo 22 since $23\nmid167$. The complete odd-exponent enumeration is reproduced by `python3 scripts/check_twists.py --exponents`. At 2471 the verifier also tests the principal class and returns it only at residues 31 and 93. The signed $(31,31,2)$ theorem independently excludes those two residues. [Proof including varying bases](varying-base.md)
 
 ## Varying the base
 

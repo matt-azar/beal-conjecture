@@ -1,4 +1,6 @@
-# One Thue–Mahler equation for the remaining exponent-31 cases
+# A Thue–Mahler reduction of the two exponent-31 twists
+
+The [modular proof](frey-curve.md) excludes both branches. This reduction gives an independent way to study the associated binary form.
 
 Suppose $2471^x+b^4=c^{31}$ with positive pairwise coprime bases and odd $x\geq3$. The [descent and exponent sieve](descent.md) leaves two cases. Each corresponds to one sign of the **same** irreducible binary form $F$ of degree 31. This gives an effective finite reduction. The integer solutions of the resulting Thue–Mahler equation have yet to be computed here.
 

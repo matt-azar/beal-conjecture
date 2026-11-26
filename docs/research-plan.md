@@ -1,17 +1,28 @@
-# Research plan
+# Research plan and assessment
 
-The outstanding arithmetic target is the [degree-31 Thue–Mahler equation](thue-mahler.md) shared by both surviving exponent classes for $2471^x+b^4=c^{31}$. The global-to-local evaluation of the integral twist is now formalized for the two cubic exclusions. The unformalized part starts with the ideal class group. [Expert contributor guide](collaborating.md)
+The fourth-power cases at 167, 263 and 2471 are closed by a computer-assisted proof. At 263 the third-base test exposed a cubic case requiring an additional global argument. The next research question is which part of the argument survives a change of base or summand exponent. [Theorem and proof](fixed-bases.md) · [Expert collaborator guide](collaborating.md)
 
-## Starting point
+## How promising are the avenues?
 
-Write $d^x+b^4=c^p$ with positive pairwise coprime bases, odd $x\geq 3$ and prime $p$. This form also covers summand exponents divisible by four and right-hand exponents divisible by $p$, by absorbing their quotients into $b$ and $c$. The quadratic descent attaches one ideal-class index $k$ to a hypothetical solution. The same $k$ must pass every local test. With the choice of generator in the [descent notes](descent.md), the [exponent sieve](../scripts/check_twists.py) leaves the following pairs.
+| Avenue | What the investigation established | Priority and next test |
+|---|---|---|
+| Quadratic descent followed by a Frey curve | At 2471 every completion admits points on both candidate twists. The descent nevertheless forces $683\mid c$. Its lowered trace is incompatible with $a_5$ on the whole relevant modular-form space. At 167, the traces at 3 and 5 alone suffice after level lowering. | Highest for further examples. Compare independent bases with a prime dividing the quadratic class number. Track genuine surviving newforms as well as exclusions. [Level 79072](brandt-sieve.md) · [Level 5344](frey-167.md) |
+| Vary the first summand at a fixed right prime | Some new prime factors can be added with exponents divisible by the residual prime. They disappear under level lowering, allowing one Hecke computation to cover infinitely many inputs. | Best demonstrated route beyond the two bases. Seek a criterion on the discriminant valuations and local residues that keeps the level fixed while relaxing the multiplier restrictions. [Exponent 11](frey-167.md#varying-the-first-summand) · [Exponent 31](varying-base.md) |
+| Elementary or quadratic descent at small exponents | At right exponent 3 and even $c$, the prime above 2 is determined by $x\bmod4$. Tracking its orientation gives obstructions at 9 and 19 for 167, and at 13 for 2471. | Strong when the class-number and local inputs are available. For another base start with all possible orientations at 2 and certify which ones a primitive solution can use. [Cubic proof](right-exponent-three.md) |
+| Elliptic curves of rank one | At 263 the remaining cubics would give points on $Y^2=X^3-263^5$ integral outside 263. A rational point and four finite-field witnesses show every affine rational point has 26723 in its denominator. | Promising when a low-rank elliptic curve and restricted denominators arise. At higher rank, controlling a single rational point generally leaves independent directions untested. [Rank and index argument](transfer-263.md#a-denominator-obstruction-on-the-remaining-mordell-curve) |
+| Additional local searches on the same exponent-31 twists | Both twists already have points at every place. Local data still supply trace restrictions to an independent global argument. | Closed as a standalone strategy for these twists. Further local work needs a stronger cover or a new global invariant. [All-places proof](local-points.md) |
+| Degree-31 Thue–Mahler equation | Both branches give a single binary form. Exact ideal arithmetic reduces a necessary condition to $[P_2]=x[P_{17}P_{23}]$ in its root field. The field is totally real of unit rank 30. | Low priority for these bases. The Hecke proof already settles them. A certified ideal-class quotient could still test this approach for a future case where modular forms survive. [Ideal-class relation and replay](trace-ideal-classes.md) |
+| Lean verification | The current build checks finite obstructions and the implication from an explicit integral twist to $683\mid c$. | High value for assurance. The oriented cubic residue certificate now builds. Formalize its period and the passage from the ideal factorization to its input next. [`TwistIdentity.lean`](../lean/TwistIdentity.lean) supplies norms, $\eta$ encodings, and `IdealFrontDoor`. [`IdealDescent.lean`](../lean/IdealDescent.lean) proves units $\{\pm1\}$, the norm-two exclusion, reduced-form class numbers with $p\parallel h$, and `DedekindGap` → `IdealFrontDoor`; instantiate `IdealAPI` (Mathlib $\mathcal O_K$) to close the gap. The modular-form bridge is separate. [Current declarations](collaborating.md#verification) |
 
-| $d$ | $p$ | $(x\bmod 4p,\ k)$ still possible |
-|---:|---:|---|
-| 167 | 11 | $(1,4),\ (23,7)$ |
-| 2471 | 31 | $(5,23),\ (67,8)$ |
+The general Beal conjecture still includes arbitrary prime divisors in the bases and signatures with all exponents odd. A new squarefree part can change both the class group and the modular level. Even replacing a fourth power by a sixth power changes the parity proof: for $d\equiv7\pmod{16}$, $x$ odd and $B=3$, one has $d^x+B^6\equiv0\pmod{16}$, allowing an even right base in that test. Removing $4\mid y$ is a substantive mathematical step. No uniform reduction of general Beal to these computations has been established.
 
-The row $x\equiv1\pmod{44}$ begins at $x=45$ under our hypotheses. A survivor passes the selected tests. Its existence as an integer solution is open in this argument. For $x=3$, Lean checks the contradiction given the principalized identity. The deduction of that identity from the ideal-class data remains a paper proof. [Lean bridge](../lean/QuadraticBridge.lean)
+## The next arithmetic target
+
+The first test beyond fourth powers succeeded. At 167 with right exponent 11, allowing an arbitrary square gives a four-dimensional first Hecke kernel in the odd-right-base case. Both admissible trace sets at 5 eliminate it. For even right base the quadratic ideal at 2 has valuation $9\bmod11$, impossible in the class group of order 11. Thus $167^x+U^2=c^{11}$ is excluded for every positive $x$. [Proof and exact ranks](frey-167.md#an-arbitrary-square-summand-at-exponent-11)
+
+Apply this test next to $2471^x+B^6=C^{31}$. For $x$ odd and $C$ even, the ideal over 2 gives the necessary class relation $29[Q]+31[I]=0$, where $[Q]$ has order 31 and $31[I]$ has order dividing 2. This already excludes that branch. For odd $C$, replace the square coordinate $b^2$ in the twist by $B^3$. Recompute the entire exponent-and-twist sieve, both signs of the multiplicative traces, and the new allowable $T_5$ eigenvalues. Test the joint kernels only for the surviving twist pairs. This targets a relaxation of the summand condition at a second base. A proof for odd $C$ may require different auxiliary primes.
+
+For a second test of breadth, select a bounded list of squarefree $d\equiv7\pmod{16}$ by discriminant before choosing any trace primes. Report the proportion for which level lowering and a fixed initial set of traces suffice, together with the unresolved bases and their eigensystems. Three completed examples establish transfer in specific cases and do not estimate that proportion.
 
 ## What the AI-assisted proofs actually did
 
@@ -21,29 +32,10 @@ The row $x\equiv1\pmod{44}$ begins at $x=45$ under our hypotheses. A survivor pa
 
 OpenAI reports that for its August collection a model found mathematical arguments, people and the model prepared manuscripts, and the model subsequently produced Lean certificates. A passing certificate indicates what was verified. Identifying who found the argument and how requires the discovery record. [OpenAI's account](https://openai.com/index/ten-advances-in-mathematics/)
 
-## 1. Connect the arithmetic to the Lean certificates
+## Reusable investigative method
 
-1. Prove from primitivity that $c$ is odd for the two listed $d$. In $K=\mathbb Q(\sqrt{-d})$, show that the conjugate factors of $c^p$ are coprime and that the class of the root ideal lies in the subgroup killed by $p$. Certify that the prime ideal over 2 used in the calculation generates that subgroup. Include the class-number input and the orientation of the chosen generator.
-2. Extract a **single** $k$ and an algebraic integer whose $p$th power is $\eta^k(b^2+d^{(x-1)/2}\sqrt{-d})$. Connect its signed coefficients to the existing bridge. The ring evaluation, preservation of powers and application of the two cubic certificates already build in Lean. [`TwistIdentity.lean`](../lean/TwistIdentity.lean) supplies $\gamma$, norms, $\eta$ encodings, odd-$p$ unit absorption, and `IdealFrontDoor`. [`IdealDescent.lean`](../lean/IdealDescent.lean) proves units $\{\pm1\}$, the norm-two exclusion, reduced-form class numbers with $p\parallel h$, and the composition `DedekindGap` → `IdealFrontDoor` / cubic exclusion for both bases. Instantiating `IdealAPI` (Mathlib ideals of $\mathcal O_K$) to fill `DedekindGap` closes the bridge.
-
-3. Prove why the tests at moduli coprime to $d$ repeat after $x\mapsto x+4p$. The imaginary coefficient scales by $d^{2p}$, the square coordinate by $(d^p)^2$, and the twist index stays fixed. This gives an invertible change of **local** variables. The scaled integer bases would lose primitivity. Then formalize the finite odd-residue sweep and the separate exclusion of $k=0$, with its primitive-divisor theorem dependency visible. Report exactly which global assumptions remain when inspecting the final Lean theorem.
-4. Formalize the varying-base corollary in the [descent notes](descent.md#varying-the-base). For $x=3+4pj$, expand $(d u^{4p})^x=d^3 W^{4p}$ with $W=d^ju^x$. The condition $\gcd(u,M)=1$ makes $W$ invertible at every cubic-certificate modulus dividing $M$. Dividing the local identity by $W^{2p}$ must yield the existing cubic witness with the same $k$. This permits reuse of the certificates for arbitrarily large bases.
-
-## 2. Attack the two surviving classes for 2471
-
-Put $d=2471=7\cdot353$. Each residue class gives a fixed curve over $\mathbb Z[1/d]$. The integer problem also prescribes the denominators in lowest terms.
-
-| $x$ and $k$ | Curve | $U$ | $V$ |
-|---|---|---|---|
-| $x=5+124j$, $k=23$ | $U^4+d^5=V^{31}$ | $b/d^{31j}$ | $c/d^{4j}$ |
-| $x=67+124j$, $k=8$ | $U^4+d^7=d^2V^{31}$ | $b/d^{31j+15}$ | $c/d^{4j+2}$ |
-
-Here $j\geq0$. Since $7$ and $353$ divide neither numerator, the powers shown are exact at both primes, and one $j$ sets all four valuations. Conversely a positive rational point with these exact denominators and numerators coprime to each other and to $d$ recovers an integer solution by clearing denominators. Keep $k$ attached when imposing the twisted local conditions.
-
-The [all-places calculation](local-points.md) proves that each of these two twists admits primitive points over every completion. It also supplies $683\mid c$. A further search for an obstructing prime on the same twist cannot close either case. A stronger covering curve or a condition tying different places together could still succeed.
-
-**Primary arithmetic task.** Use the [explicit binary form](thue-mahler.md) and its [degree-31 root field](trace-field.md) to enumerate or exclude its primitive solutions. Preserve the equality of valuations at 7 and 353, the single allowed slope at 683, and the positive-square condition. Begin with the possible prime ideals above 2, 7 and 353. Translate the known slopes into ideal conditions using the change of generator. Identify what class-group and unit certificates a complete calculation would need. A computed unit subgroup or a bounded enumeration requires an index or height bound before it can settle the residual equation.
-
-**Independent check.** Use the [Frey curve at level 79072](frey-curve.md) and its trace restrictions as a second route. Any elimination needs to consider residual primes in the coefficient fields of the newforms left by level lowering. Rational-coefficient tests alone cover only part of that space.
-
-Solving the two branches would settle this fixed-base exponent-31 family. An extension to general Beal would also need to cover other class groups, squarefree parts, and signatures in which neither summand is a square.
+1. Fix a signature or coefficient family, record all quantifiers, and identify any published classification that already applies.
+2. Derive one global object from a putative solution. In the quadratic descent this is a single twist index and, when necessary, a fixed prime above 2. Every local condition must use that same choice.
+3. Enumerate exact residue classes with short verifiers. Preserve surviving examples and check whether a further local exclusion is possible in principle. Translate forced divisors into Frey traces whenever the local points persist.
+4. Run a simultaneous Hecke test at one residue prime of the coefficient field. Use an independent realization and a known positive control. A surviving modular form is a necessary condition for a solution.
+5. Reassemble the statement across exponents. Check the complement of every case split and cite the external theorem at each step. Formalize the finite computation and its global input as distinct implications.

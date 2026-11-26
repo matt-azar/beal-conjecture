@@ -95,8 +95,9 @@ def scan_exponents(case):
         moduli = (89, 121, 199, 353, 397)
         expected = {1: {4}, 23: {7}}
     else:
-        moduli = (683, 961, 1117, 1303, 1489, 1861, 2357, 2543, 2729, 2791, 3163)
-        expected = {5: {23}, 67: {8}}
+        # These nine moduli also suffice when the principal class must be retained.
+        moduli = (683, 961, 1117, 1303, 1489, 2357, 2543, 2791, 3163)
+        expected = {5: {23}, 31: {0}, 67: {8}, 93: {0}}
 
     modulus_roots = []
     for m in moduli:
@@ -111,8 +112,8 @@ def scan_exponents(case):
             powers = {pow(c, case.p, 23) for c in range(23)}
             if not any((pow(case.d, x, 23) + f) % 23 in powers for f in fourths):
                 continue
-        # The Lucas argument rules out class 0 for every actual odd x >= 3.
-        remaining = set(range(1, case.p))
+        # At 2471 the varying-base proof requires a sweep including the principal class.
+        remaining = set(range(1 if case.d == 167 else 0, case.p))
         for m, root in modulus_roots:
             coefficient = pow(case.d, (x - 1)//2, m)
             remaining &= local_twists(case, m, root, coefficient)
@@ -121,7 +122,8 @@ def scan_exponents(case):
         if remaining:
             survivors[x] = remaining
     require(survivors == expected, f"Unexpected odd-exponent survivors: {survivors}")
-    print(f"d={case.d}, x modulo {4*case.p}, nonprincipal twists: {survivors}")
+    label = "nonprincipal twists" if case.d == 167 else "all twists"
+    print(f"d={case.d}, x modulo {4*case.p}, {label}: {survivors}")
 
 
 if __name__ == "__main__":

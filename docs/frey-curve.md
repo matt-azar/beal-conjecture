@@ -1,6 +1,6 @@
 # A single modular-form level for the exponent-31 family
 
-Suppose $d^x+b^4=c^{31}$ is primitive, with $d=2471=7\cdot353$ and odd $x\geq3$. The [class-group descent](descent.md) gives $x\equiv5\pmod{62}$. Such a solution would produce a weight-two newform of **exact level 79072 with nonrational coefficients**. The modularity and level-lowering inputs below are published theorems. The exclusion of the rational forms is a table calculation. The forms with nonrational coefficients remain to be tested.
+Suppose $d^x+b^4=c^{31}$ is primitive, with $d=2471=7\cdot353$ and odd $x\geq3$. The [class-group descent](descent.md) gives $x\equiv5\pmod{62}$. Such a solution would produce a weight-two newform of **exact level 79072 with nonrational coefficients**. The modularity and level-lowering inputs below are published theorems. The exclusion of the rational forms is a table calculation. The simultaneous Hecke calculation below eliminates the forms in every coefficient field.
 
 ## Conductor and level
 
@@ -32,10 +32,8 @@ curl -fL https://raw.githubusercontent.com/JohnCremona/ecdata/6fedd3ab463a70e520
 python3 scripts/check_frey.py /tmp/curves.70000-79999
 ```
 
-## Remaining Hecke test
+## The second trace and the contradiction
 
 The global twist imposes a second constraint. At $q=683$, substituting both roots of $s^2=-d$ as in the descent leaves $b\equiv\pm26$ for $(x,k)=(5,23)$ and $b\equiv\pm298$ for $(67,8)$, with the exponents here taken at their representatives modulo 124. For each such $b$, $b^4+d^x\equiv0\pmod{683}$. Increasing $x$ by 124 rescales $b$ by $d^{31}$, a unit at 683, so $683\mid c$ for every putative solution in either class. Because $683\equiv3\pmod8$, 2 is a nonsquare, giving nonsplit multiplicative reduction there. On the semisimplified residual representation the Frobenius eigenvalues are $-1,-683$ (the unramified quadratic twist of the Tate curve). At the lowered level, $683$ is good, hence $a_{683}(f)\equiv-(683+1)\equiv-2\pmod\lambda$. [Local representations at multiplicative primes, §5](https://samirsiksek.github.io/siksek.github.io/papers/ihpnotes7.pdf)
 
-The LMFDB completeness range for composite levels of weight two and trivial character ends at 50,000. It therefore gives no complete newform enumeration for this level. [LMFDB coverage](https://www.lmfdb.org/ModularForm/GL2/Q/holomorphic/Completeness)
-
-PARI/GP gives `mfdim([79072,2],0) = 2112` for this newspace. The next computation can intersect the kernels of $T_5^2-4$ and $T_{683}+2$ on the reduction modulo 31 of a full, Hecke-stable integral lattice in the characteristic-zero cuspidal newspace, retaining the same residual eigensystem for both conditions. A verified zero intersection excludes the residual family. A nonzero space supplies candidates for additional traces. Testing rational elliptic curves alone cannot settle this step.
+The exact-level newspace has dimension 2112 by PARI/GP. In the quaternionic realization the full Brandt module has dimension 8496. On this module $T_5^2+T_{683}-2I$ has determinant $29$ modulo 31. A form satisfying the required traces would give an eigenvalue congruent to $4-2-2=0$, impossible. Classical modular symbols independently give full column rank for both simultaneous systems. Hence no primitive solution exists for odd $x\geq3$. [Quaternionic computation and proof](brandt-sieve.md) · [Classical verifier](../scripts/check_eclib_hecke.cpp) · [All right exponents](fixed-bases.md)
