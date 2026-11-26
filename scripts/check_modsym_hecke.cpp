@@ -247,7 +247,7 @@ static Space bigKernel(const Hecke& H, const vector<int>& S) {
   free(buf); free(mult); return Sp;
 }
 int main(int argc, char** argv) {
-  if (argc < 3) { fprintf(stderr, "usage: ms N eig l1 l2.. | ms N big FILTERS OUT | ms N run SPACE FILTERS [skip]\n"); return 1; }
+  if (argc < 3) { fprintf(stderr, "usage: ms N eig l1 l2.. | ms N big FILTERS OUT | ms N run SPACE FILTERS [skip] | ms N dump SPACE OUTPREFIX l1 l2..\n"); return 1; }
   N = atoi(argv[1]); setup(); string mode = argv[2];
   printf("N=%d |P1|=%d V=%d E=%d dim=%d\n", N, M, nV, nE, n); fflush(stdout);
   if (mode == "eig") {           // validation at small level: eigenvalue multiplicities in F_31
@@ -273,11 +273,55 @@ int main(int argc, char** argv) {
       printf("after l=%d (%zu allowed residues, %zu Heilbronn matrices): dim %zu\n", f.first, f.second.size(), H.tab.size(), Sp.W.size()); fflush(stdout);
     }
     printf("FINAL dim %zu\n", Sp.W.size());
+    if (getenv("MS_SAVE")) saveSpace(Sp, getenv("MS_SAVE"));
     int m = (int)Sp.W.size();
     for (int k = 5; k < argc && m; k++) {
       Hecke H = makeHecke(atoi(argv[k])); Mat C = heckeOn(Sp, H); printf("T_%d on survivors:", H.l); int tot = 0;
       for (int a = 0; a < P; a++) { Mat F(m, vector<u8>(m)); for (int i = 0; i < m; i++) for (int j = 0; j < m; j++) F[j][i] = (u8)((C[i][j] + (i == j ? P - a : 0)) % P); int d = (int)kernel(F, m).size(); tot += d; if (d) printf(" %d^%d", a > 15 ? a - P : a, d); }
       printf("   (eigenvectors over F_p: %d of %d)\n", tot, m); fflush(stdout);
+    }
+    return 0;
+  }
+  if (mode == "dump") {         // ms N dump SPACE OUTPREFIX l1 l2 ... : matrices of T_l on a saved Hecke-stable space
+    Space Sp = loadSpace(argv[3]); int m = (int)Sp.W.size(); printf("space dim %d\n", m);
+    vector<vector<u8>> Phi(m, vector<u8>(M));
+    #pragma omp parallel for
+    for (int i = 0; i < m; i++) extend(Sp.W[i].data(), Phi[i].data());
+    for (int a = 5; a < argc; a++) {
+      int l = atoi(argv[a]); if (N % l == 0) { fprintf(stderr, "l divides N\n"); return 1; }
+      auto L = heilbronn(l); double t0 = omp_get_wtime();
+      vector<vector<unsigned>> acc(m, vector<unsigned>(n, 0));
+      #pragma omp parallel
+      {
+        vector<int> tp(n); vector<vector<unsigned>> loc(m, vector<unsigned>(n, 0));
+        #pragma omp for schedule(dynamic, 8) nowait
+        for (size_t k = 0; k < L.size(); k++) {
+          for (int t = 0; t < n; t++) { int x = coordDart[t]; tp[t] = idx((ll)repc[x] * L[k][0] + (ll)repd[x] * L[k][2], (ll)repc[x] * L[k][1] + (ll)repd[x] * L[k][3]); }
+          for (int i = 0; i < m; i++) { const u8* ph = Phi[i].data(); unsigned* ac = loc[i].data(); for (int t = 0; t < n; t++) ac[t] += ph[tp[t]]; }
+        }
+        #pragma omp critical
+        for (int i = 0; i < m; i++) for (int t = 0; t < n; t++) acc[i][t] += loc[i][t];
+      }
+      // full image of the first basis vector, to check that it is a flow
+      bool ok = true;
+      if (m) {
+        vector<u8> psi0(M);
+        #pragma omp parallel for schedule(dynamic, 256)
+        for (int x = 0; x < M; x++) { unsigned s = 0; const u8* ph = Phi[0].data(); for (size_t k = 0; k < L.size(); k++) s += ph[idx((ll)repc[x] * L[k][0] + (ll)repd[x] * L[k][2], (ll)repc[x] * L[k][1] + (ll)repd[x] * L[k][3])]; psi0[x] = (u8)(s % P); }
+        if (!isFlow(psi0.data())) ok = false;
+        for (int t = 0; t < n; t++) if (psi0[coordDart[t]] != acc[0][t] % P) ok = false;
+      }
+      Mat C(m, vector<u8>(m));
+      #pragma omp parallel for
+      for (int i = 0; i < m; i++) {
+        vector<unsigned> chk(n, 0);
+        for (int j = 0; j < m; j++) { unsigned c = acc[i][Sp.piv[j]] % P; C[i][j] = (u8)c; if (c) { const u8* w = Sp.W[j].data(); for (int t = 0; t < n; t++) chk[t] += c * w[t]; } if ((j & 2047) == 2047) for (int t = 0; t < n; t++) chk[t] %= P; }
+        for (int t = 0; t < n; t++) if (chk[t] % P != acc[i][t] % P) { ok = false; break; }
+      }
+      if (!ok) { fprintf(stderr, "FAILED: T_%d does not preserve the space (or image is not a flow)\n", l); return 1; }
+      string fn = string(argv[4]) + "_" + to_string(l) + ".txt"; FILE* f = fopen(fn.c_str(), "w"); fprintf(f, "%d\n", m);
+      for (int i = 0; i < m; i++) { for (int j = 0; j < m; j++) fprintf(f, "%d ", C[i][j]); fprintf(f, "\n"); } fclose(f);
+      printf("T_%d: %zu Heilbronn matrices, invariance and flow checks passed, %.0fs -> %s\n", l, L.size(), omp_get_wtime() - t0, fn.c_str()); fflush(stdout);
     }
     return 0;
   }
