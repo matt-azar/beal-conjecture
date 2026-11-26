@@ -4,4 +4,4 @@ defaultTargets = ["BealCertificates"]
 [[lean_lib]]
 name = "BealCertificates"
 srcDir = "lean"
-roots = ["Twist167", "Twist2471", "QuadraticBridge", "Forced683"]
+roots = ["Twist167", "Twist2471", "QuadraticBridge", "Forced683", "TwistIdentity"]
