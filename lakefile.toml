@@ -1,7 +1,12 @@
 name = "beal-conjecture"
 defaultTargets = ["BealCertificates"]
 
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.19.0"
+
 [[lean_lib]]
 name = "BealCertificates"
 srcDir = "lean"
-roots = ["Twist167", "Twist2471", "QuadraticBridge", "Forced683", "TwistIdentity"]
+roots = ["Twist167", "Twist2471", "QuadraticBridge", "Forced683", "TwistIdentity", "IdealDescent"]

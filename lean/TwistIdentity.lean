@@ -135,14 +135,10 @@ The lemmas above close the purely algebraic-integer fragment of the front
 door. The structure `IdealFrontDoor` packages the Dedekind / class-group
 facts still taken from the paper proof in `docs/descent.md`.
 
-Still outside this file (see the store status doc):
-* conjugate-ideal coprimality ⇒ `(γ) = I^p`
-* `P^p = (η)` with `[P]` generating `Cl[p]`
-* existence of `k` with `IP^k = (β)`
-* passage from ideal equality `(β^p) = (η^k γ)` to a signed ring identity
-* unit group `{±1}` for these orders (used implicitly when absorbing the sign)
-* reduced-form class-number certificates
-* local periodicity `x ↦ x+4p` and the odd-residue sweep
+See `IdealDescent.lean` for proved units `{±1}`, no-norm-two, class numbers,
+and the `DedekindGap` → `IdealFrontDoor` composition. Still open there:
+conjugate coprimality ⇒ `(γ) = I^p`, ideal `P` with `P^p = (η)`, and the
+principalizer. Downstream: local periodicity `x ↦ x+4p` and the odd-residue sweep.
 -/
 
 /-- Hypotheses that turn a primitive solution into a signed twist identity. -/

@@ -42,8 +42,9 @@ c++ -O2 -std=c++17 scripts/check_local_points.cpp -o /tmp/beal-local-points
 /tmp/beal-local-points
 ```
 
-Build the formal results with Lean 4.19.0, pinned by `lean-toolchain`. The project uses the Lean standard library. Top-level theorem names and their assumptions are in the [expert guide](docs/collaborating.md).
+Build the formal results with Lean 4.19.0, pinned by `lean-toolchain`, and Mathlib `v4.19.0` (for `IdealDescent`). Top-level theorem names and their assumptions are in the [expert guide](docs/collaborating.md).
 
 ```sh
+lake exe cache get
 lake build
 ```
