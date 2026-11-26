@@ -6,7 +6,7 @@ S=\{2,5,31,683,1117,1303,1489,2357,2543,2791,3163\}.
 $$
 Then $d^n m^{124}+b^4=c^{31}$ is impossible. In particular this excludes every first base $A=2471u^{124}$ with $\gcd(u,\prod_{q\in S}q)=1$, for every $x\geq3$, $4\mid y$ and $31\mid z$ in $A^x+B^y=C^z$. Substitute $n=x$, $m=u^x$, $b=B^{y/4}$ and $c=C^{z/31}$.
 
-For even $n$, the first summand is a square. Theorem 1 of Bennett–Ellenberg–Ng applies to $b^4+(d^{n/2}m^{62})^2=c^{31}$. For $31\mid n$, one can also write $c^{31}+(-d^{n/31}m^4)^{31}=(b^2)^2$ and apply the main theorem of Darmon–Merel. These are nontrivial primitive solutions in the conventions of both theorems. [Bennett–Ellenberg–Ng](https://people.math.wisc.edu/~ellenberg/BeElNgdraftFINAL.pdf) · [Darmon–Merel](https://www.math.mcgill.ca/darmon/pub/Articles/Research/18.Merel/paper.pdf)
+For even $n$, the first summand is a square. Theorem 1 of Bennett–Ellenberg–Ng applies to $b^4+(d^{n/2}m^{62})^2=c^{31}$. For $31\mid n$, one can also write $c^{31}+(-d^{n/31}m^4)^{31}=(b^2)^2$ and apply the main theorem of Darmon–Merel. These are nontrivial primitive solutions in the conventions of both theorems. [Bennett–Ellenberg–Ng, Theorem 1](https://personal.math.ubc.ca/~bennett/BeElNgdraftFINAL.pdf) · [Darmon–Merel](https://www.math.mcgill.ca/darmon/pub/Articles/Research/18.Merel/paper.pdf)
 
 Suppose $n$ is odd. Write $D=d^n m^{124}$. Then $D\equiv7\pmod{16}$. An odd $b$ would give $c^{31}\equiv8\pmod{16}$, impossible, so $b$ is even and $c$ is odd. Primitivity gives $\gcd(c,2dm)=1$. In $\mathbb Q(s)$, $s=\sqrt{-d}$, the conjugates of $b^2+d^{(n-1)/2}m^{62}s$ generate coprime ideals and their product is $(c)^{31}$. The quadratic descent thus gives a single $0\leq k<31$ and an integral $\beta$ with
 $$
