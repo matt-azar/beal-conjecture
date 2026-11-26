@@ -1,53 +1,62 @@
-# Working on the Beal descent
+# Expert collaborator guide
 
-The residual equation is now explicit. Both exponent-31 branches give a single irreducible degree-31 Thue–Mahler form supported on 2, 7 and 353. Computing its primitive solutions subject to the prescribed exponents and the square condition is the outstanding arithmetic task. [Binary forms, signs and reconstruction](thue-mahler.md)
+For $A\in\{167,263,2471\}$ the project has a computer-assisted proof excluding positive primitive $A^x+B^y=C^z$ for all $x,y,z\geq3$ with $4\mid y$. The most useful independent review is the passage from the arithmetic equation to the exact finite computations. The [proof by cases](fixed-bases.md) gives the full implication. The [research plan](research-plan.md) ranks possible extensions.
 
-The original question is whether a **primitive** solution of $2471^x+b^4=c^{31}$ can occur in either of the two surviving exponent classes. Here $b,c>0$, $x$ is odd and $x\geq3$, and $2471,b,c$ are pairwise coprime. The target includes arbitrarily large exponents and bases. For $4\mid y$ and $31\mid z$, substituting $b=B^{y/4}$ and $c=C^{z/31}$ recovers the corresponding portion of the original Beal equation. [Research plan and residual curves](research-plan.md)
+## Proof map
 
-## Which inputs support which conclusions?
-
-| Question | Starting point |
-|---|---|
-| Is a square summand compatible with an 11-smooth complementary summand? | Bennett–Siksek's Theorem 2 supplies the complete list of 1,240 triples. The Python check authenticates its input and supplies a valuation-one witness in each of the 12 rows where the difference is a higher power. [Derivation and pinned authors' data](results.md#a-square-summand-and-an-11-smooth-summand) |
-| Why remove the principal ideal class? | The Bilu–Hanrot–Voutier primitive-divisor theorem applies after checking the Lucas-pair hypotheses. The exceptional pair at index 13 has norm 2, whereas the descent here gives odd norm. This published input enters the sweep over all odd exponents. [Proof and references](results.md#the-quadratic-class-number-obstruction) |
-| How do the two fixed-base cubic exclusions work? | The written descent uses ideal factorization and a reduced-form count. The cubic congruence certificates themselves cover **all** twist indices, including zero, so these two exclusions are independent of the Lucas theorem. [Arithmetic proof](descent.md#from-an-integer-solution-to-a-twist) · [Lean for 167](../lean/Twist167.lean) · [Lean for 2471](../lean/Twist2471.lean) |
-| What generality does a literature comparison establish? | At $x=3$, substitution into $X^2+Y^3=Z^p$ places the $p=11$ example within a 2026 preprint's classification. Its stated range omits $p=31$. A result for the specific base 2471 gives no classification of all $(3,4,31)$ solutions. [Prior work and hypotheses](descent.md#relation-to-existing-work) |
-
-## Conventions for exchanging calculations
-
-Use $s^2=-d$ and $R=\mathbb Z[(1+s)/2]$. In the integral basis $1,\omega$ with $\omega=(1+s)/2$, one has $\omega^2=\omega-(d+1)/4$. Fix the prime ideal $P$ above 2 by $P^p=(\eta)$. The sign convention is $IP^k=(\beta)$, hence
-
-$$
-\beta^p=\eta^k(b^2+d^{(x-1)/2}s),\qquad 0\leq k<p.
-$$
-
-| $d,p$ | Discriminant, class number | $\eta$ | Surviving $(x\bmod 4p,k)$ |
-|---|---|---|---|
-| $167,11$ | $-167,11$ | $(3+7s)/2$ | $(1,4),(23,7)$ |
-| $2471,31$ | $-2471,62$ | $(90621+391s)/2$ | $(5,23),(67,8)$ |
-
-For the second row, $[P]$ generates the order-31 subgroup killed by 31. Changing the chosen generator to its inverse negates the twist labels. When comparing another computation, translate its ideal convention before comparing $k$. The exponent shifts by $4p$ through an invertible rescaling at moduli coprime to $d$. Only the local residues undergo this rescaling. [Definitions and proof of periodicity](descent.md#all-odd-exponents-for-the-two-fixed-bases)
-
-A valid witness uses one **global** $k$. At a given modulus, the two substitutions $s\mapsto\pm r$ use the **same** residue of $b$ and allow separate $p$th roots. Different moduli may use different residues of $b$. Include zero and nonunits when testing powers at $p^2$. In particular, passing one modulus per twist is insufficient to exclude an integer solution. An empty intersection of the admissible twist sets is sufficient.
-
-## Reproduce and extend
-
-From the repository root, run `python3 scripts/check_twists.py --exponents` with Python 3.9 or later. For the cubic case at 31, the successive twist counts are 13, 2, 1, and 0. For the odd-exponent sweep, the two surviving pairs are shown above. With the pinned Lean 4.19.0, each cubic certificate ends in a theorem named `no_local_witnesses`; its printed axiom dependencies are `propext` and `Quot.sound`. The smooth-summand verifier takes the raw upstream table as its argument. The README gives the pinned revision and replay commands. [Reproduction instructions](../README.md#reproduce-the-calculations)
-
-**Arithmetic contribution.** Generate the integer coefficients using `python3 scripts/check_residual_form.py --coefficients`. The arrays run from $u^{31}$ to $v^{31}$. For each primitive candidate $(u,v)$, check its sign and the linked valuations of $F$, test whether $H+F/2$ is a positive square, and recover $c=22u^2+9uv+29v^2$. Since $c$ is odd, $u$ is even and $v$ odd. This gives a quick cross-check on candidate coordinates. The parametrization uses $P^8$ in both branches, conjugating the $k=23$ branch. [Construction and converse](thue-mahler.md#explicit-integral-coordinates)
-
-The two twists admit primitive points at every place. Their residues at 683 still force $683\mid c$ and a single slope in the common binary-form coordinates. Use this information in a global calculation. [All-places proof and its verifier](local-points.md) · [Smaller defining polynomial and prime decompositions](trace-field.md)
-
-For a curve-based approach start with $x=5+124j$ and $k=23$. The curve $U^4+2471^5=V^{31}$ has $U=b/2471^{31j}$ and $V=c/2471^{4j}$. The *same* integer $j\geq0$ prescribes the denominators at both 7 and 353, with coprimality preventing cancellation. A single rational point on the unrestricted curve is relevant only after checking these valuations and the positive primitive numerators. A proposed local exclusion on a stronger cover should specify its map to the current twist and identify the exponent classes it covers. At 7 and 353 every local unit is already a 31st power. An argument using these primes needs relations beyond a power test on units. [Both residual equations](research-plan.md#2-attack-the-two-surviving-classes-for-2471)
-
-**Formal contribution.** The main arithmetic interface takes an integer solution to an element $\beta$ and one $k$ satisfying the displayed equation. The substantive inputs are coprimality of conjugate ideals, the class group's $p$-torsion, and the extraction of the unit. The two declarations `Beal.QuadraticBridge.no_integral_twist167` and `Beal.QuadraticBridge.no_integral_twist2471` prove the ensuing contradiction for an explicit twist identity at $x=3$. Their input uses signed integer coordinates in the basis $1,\omega$. The declarations `forced683_at5` and `forced683_at67` take the corresponding integral twist and the original equation to $683\mid c$ for all exponent lifts. The front-door file [`TwistIdentity.lean`](../lean/TwistIdentity.lean) formalizes the algebraic-integer fragment (general-odd-$x$ norm of $\gamma$, $\eta$ encodings, odd-$p$ unit absorption) and packages the remaining Dedekind / class-group facts as `IdealFrontDoor`; `no_integral_twist167_of_signed` / `2471_of_signed` reuse the cubic certificates once a signed identity is supplied. Build them all with `lake build`. State which implication a new declaration proves and give its exact assumptions. This lets the next contributor reuse a checked lemma without introducing the desired global conclusion as a premise. [Formal targets](research-plan.md#1-connect-the-arithmetic-to-the-lean-certificates)
-
-## Where an independent calculation would change the result
-
-| Contribution | Inputs | What would settle it |
+| Case | Proof input | What to scrutinize |
 |---|---|---|
-| Thue–Mahler computation | The explicit primitive form, its trace field and the coupled conditions at 7, 353 and 683 | A certified exhaustive enumeration with reconstruction of all positive primitive candidates, or a proof of incompatibility. [Field and prime data](trace-field.md) · [Lattice constraints](thue-mahler.md) |
-| Modular forms | The weight-two newspace at level 79072, of dimension 2112. Rational newforms have been eliminated. | A simultaneous mod-31 Hecke test using a full integral lattice. The same prime over 31 must satisfy every trace condition. [Frey curve and trace filters](frey-curve.md) |
-| Formal ideal theory | The two quadratic rings and the specified prime ideal above 2 | A theorem producing the integral twist from the primitive equation without supplying the desired identity as an input. Partial progress: [TwistIdentity](../lean/TwistIdentity.lean). Remaining gap: Dedekind factorization and class-group generation. [Checked ring evaluation](../lean/QuadraticBridge.lean) · [Checked divisor at 683](../lean/Forced683.lean) |
+| $3\mid z$ | Oriented ideal factorization in a quadratic field for odd $x$, Gaussian cubes for even $x$. | For an even right base, dividing by 2 gives an ideal with valuation one at exactly one prime above 2. The orientation depends on $x\bmod4$. At 263 the last two classes are excluded by the prime 26723 in denominators of rational points. [Denominator proof](transfer-263.md#a-denominator-obstruction-on-the-remaining-mordell-curve) The relevant obstruction repeats modulo 12. [Cubic proof](right-exponent-three.md) |
+| $x$ even and $z\geq4$ | Bennett–Ellenberg–Ng, Theorem 1, applied to a square plus a fourth power. | The two summands have coprime positive bases. [Assembly](fixed-bases.md) |
+| $x$ odd and $z\geq4$ even | Odd squares are 1 modulo 8. | The parity step forces $b$ even and $C^z\equiv7\pmod8$. [Assembly](fixed-bases.md) |
+| $x$ odd, $p\mid z$, $p\geq5$, $p\nmid h(-d)$ | Principalization and the classification of defective Lucas pairs. | Check the nonzero trace, coprimality with the norm, discriminant and the list of quadratic fields at indices 5, 7 and 13. [Lucas argument](fixed-bases.md) |
+| $(d,p)=(167,11)$ | A rational point of order 2 rules out a rational 11-isogeny via the degree-22 classification. Level lowering leads to 32 or 5344. | At 3 the bad fibers require the signed lowered trace. The good fibers at 5 give four possibilities across the two classes of $d^x$. [Frey proof and PARI replay](frey-167.md) |
+| $(d,p)=(263,13)$ | A rational 26-isogeny is impossible. Level lowering gives 32 or 8416. | On the 262-dimensional newspace at 8416, $T_3(T_3+4)$ is invertible modulo 13. The larger relative plus space contains extra systems. [Transfer calculation](transfer-263.md) |
+| $(d,p)=(2471,31)$ | One twist survives globally only if $683\mid c$. That divisor fixes the nonsplit lowered trace. | Verify the signs and that the Hecke operators act at the same residual prime. Rank after extension of scalars covers coefficient fields of every degree. [Descent](descent.md) · [Frey proof](frey-curve.md) · [Brandt matrices](brandt-sieve.md) |
 
-The Python, C++, and PARI/GP runs certify different finite computations. The pinned sources and replay commands are linked above and in the [README](../README.md#reproduce-the-calculations). For a proposed exclusion, record the exact theorem or input data, any external assumptions, and the range of exponents it covers. A failed search at bounded height leaves the two surviving classes intact. Even the lowest possible right base is already at least 61,556,730,755 on the first branch and exceeds $3\cdot10^{115}$ on the second, by the verified lattice minima.
+Here $h(-d)$ denotes the ideal class number of $\mathbb Q(\sqrt{-d})$. A form matching the trace at each prime under different reductions would fail the necessary simultaneous condition.
+
+## Conventions
+
+Write $s^2=-d$, $\omega=(1+s)/2$, and $R=\mathbb Z[\omega]$. Choose $P\mid 2$ by $P^p=(\eta)$. For odd right base the convention $IP^k=(\beta)$ gives $\beta^p=\eta^k(b^2+d^{(x-1)/2}s)$. At both signed embeddings of a split modulus use the same $b$. Allow separate roots, including nonunits. The local residues of $b$ may vary across primes. These exponent classes describe the output of the descent before its modular exclusion.
+
+| $d,p$ | $h(-d)$ | $\eta$ | Surviving nonprincipal $(x\bmod 4p,k)$ |
+|---|---:|---|---|
+| 167, 11 | 11 | $(3+7s)/2$ | $(1,4),(23,7)$ |
+| 2471, 31 | 62 | $(90621+391s)/2$ | $(5,23),(67,8)$ |
+
+In the even-right-base cubic proof the identity is $\beta^3=\eta_Q^k(b^2+d^{(x-1)/2}s)/2$, where $Q$ is the particular prime above 2 selected by the numerator. This $k$ has a different definition. [Orientations at 2](right-exponent-three.md#odd-x-and-even-c)
+
+## Verification
+
+The [README](../README.md#reproduce-the-calculations) lists the primary replays. Use ordinary Python execution. For the modular results, verify at least the following.
+
+| Replay | Expected result |
+|---|---|
+| `python3 scripts/check_cubic_twists.py` | Twelve empty sets for 167 and 2471. At 263 the two surviving rows modulo 9 each contain 4 and 5. |
+| `python3 scripts/check_twists.py --exponents` | At 2471, the complete output includes $(31,0)$ and $(93,0)$ as well as the two nonprincipal pairs. A separate argument excludes the principal pairs. |
+| `gp -q -f scripts/check_new_5344.gp` | Level 32 has $a_5=-2$. At 5344 the first kernel at 3 has dimension 3, the joint kernel with 5 has dimension 0. |
+| `python3 scripts/check_brandt.py` | Four 2124-dimensional blocks give total determinant 29 modulo 31. The two known elliptic-curve trace pairs give positive controls. |
+| `gp -fq scripts/check_transfer_263.gp` and `gp -fq scripts/check_mordell_263.gp` | The exact-level rank is 262/262. On the Mordell curve the rank is one, the torsion is trivial, and four finite-field witnesses exclude all the required index primes. |
+| Classical eclib replay | Full column ranks 676 and 11336 for each of the two trace pairs at the respective levels. A level-11 control has nullity one. |
+
+The last check uses eclib 20250122, FFLAS-FFPACK 2.5, Givaro 4.2, NTL, GMP and OpenBLAS. With their development headers installed, run from the repository root:
+
+```sh
+c++ -O3 -std=c++17 scripts/check_eclib_hecke.cpp -o /tmp/beal-hecke -lec -lntl -lgivaro -lgmpxx -lgmp -lopenblas
+/tmp/beal-hecke
+```
+
+Build the Lean development with `lake build` using the pinned toolchain. The declarations `Beal.QuadraticBridge.no_integral_twist167` and `no_integral_twist2471` start from an integral twist for the **left** exponent $x=3$ at right exponent 11 or 31. The declarations `Beal.Forced683.forced683_at5` and `forced683_at67` prove $683\mid c$ for both lifted classes under the displayed twist and equation. The new theorem `Beal.CubicTwists.no_local_cubes` checks the twelve oriented cases with **right** exponent 3. Its scope is the finite test at the two embeddings. [Cubic Lean certificate](../lean/CubicTwists.lean)
+
+The `Beal.TwistIdentity` development proves the general odd-exponent norm identity, the encodings of the two generators $\eta$, and absorption of an odd-power unit sign. Its `IdealFrontDoor.signed_twist` field specifies the outstanding ideal-theoretic input. The signed declarations `no_integral_twist167_of_signed` and `no_integral_twist2471_of_signed` feed the previous cubic certificates. [Algebraic interface](../lean/TwistIdentity.lean)
+
+The class-number argument, the level-lowering theorem and the modular-form calculations remain external to these Lean statements. [Quadratic bridge](../lean/QuadraticBridge.lean) · [Divisor at 683](../lean/Forced683.lean)
+
+## Contributions that would change the scope
+
+- **Try the rank-one denominator test on another residual cubic.** Given a nontorsion point $P$, take a good prime $q$ outside the allowed denominators at which $P$ reduces to the identity. For each prime $l\mid\#E(\mathbb F_q)$, find an auxiliary reduction certifying that $P$ is indivisible by $l$. At rank one with trivial torsion, this proves that every affine rational point has $q$ in its denominator. [Worked example](transfer-263.md#a-denominator-obstruction-on-the-remaining-mordell-curve)
+- **Test a new base.** State the class number, the exceptional residual prime and the precise Frey level for each exponent class. Report the dimensions before and after each trace filter. A surviving eigensymbol in a space containing oldforms needs identification before it motivates a new descent.
+- **Relax the fourth-power assumption.** The arbitrary-square test succeeds at 167 and right exponent 11. Try the sixth power at 2471 and right exponent 31. An odd sixth power can be 9 modulo 16. When the right base is even, the nontrivial ideal class over 2 supplies the obstruction. For odd right base the square-root coordinate and trace tables must be recomputed. [Worked square case](frey-167.md#an-arbitrary-square-summand-at-exponent-11) · [Next test](research-plan.md#the-next-arithmetic-target)
+- **Formalize an arithmetic bridge.** Produce the oriented integral twist from a primitive solution, or certify a Hecke determinant together with the identification of its operator. A formal statement that takes either conclusion as a premise verifies only the following implication.
+- **Develop an independent global route.** For the degree-31 form the inexpensive test is $[P_2]=x[P_{17}P_{23}]$. The two local twists have points everywhere. A full class-group or unit computation is optional for the completed 2471 example. [Ideal-class relation](trace-ideal-classes.md) · [Global form](thue-mahler.md) · [Local points](local-points.md)
