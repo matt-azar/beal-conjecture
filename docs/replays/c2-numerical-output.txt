@@ -1,0 +1,321 @@
+versions.txt
+Commit c19b9022ecee46970b261a2b8a7060dfe5b65649
+Tracking tree 3b40304d7f9e686d47087c52d8d9ca568f5c1c36
+Initial clean clone (no tracked changes or build outputs).
+Python 3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]
+numpy==2.3.5
+pip==25.0.1
+python-flint==0.9.0
+14.2.0
+['GP/PARI CALCULATOR Version 2.17.2 (released)', '          amd64 running linux (x86-64/GMP-6.3.0 kernel) 64-bit version']
+libec-dev 20250122-2 8bd92f15c035d8cc253e98bdc1be74dde9309dd02a8ebef640b2254923e73ba3
+libec14 20250122-2 2ed8b933caf789b85966a1504c91c5775e15beac01af6f50c9ccffec2f881b32
+fflas-ffpack 2.5.0-3 cf7e1fb89f3ac430e2dd12e2898c6207c9523a99b377f73dba9ebc3ca400fe2f
+fflas-ffpack-common 2.5.0-3 7232d171c44fe72659a30c25dc50e6807990f67b1d2f916c5da475c18b5445b2
+libgf2x3 1.3.0-3 b1199705ce6aa20d37c96704adfdff5aeff618f66902bfc890623c6f9ed2e67d
+libgivaro-dev 4.2.1-1 c8c40d20da1f4954a7977452131a2e0cfd6f9af08faac4e7a9eaa45111a09f8e
+libgivaro9 4.2.1-1 6a7528d298515decfb403e6e455403c843466fff8a3cbaed199c92bd61b52b41
+libntl-dev 11.5.1-1+b3 d817cf7f434e5b084652c8ac9f7a74ae74d14b5584c0a38f634cc24a053d2b68
+libntl44 11.5.1-1+b3 e6de65109fdc0e95dbcad8bd7b78f60f781bed6dc610d71f450279680fd4d193
+libopenblas-pthread-dev 0.3.29+ds-3 1e056a09ed64a39227e25150909a4f9fd83905d4a996f39dd5a919b95ce49559
+libopenblas0-pthread 0.3.29+ds-3 e3541ee2c956c64383054ba116fb6ef86bbaf40035d64e1795185029fdcf0807
+libpari-gmp-tls9 2.17.2-1 f8aa70699e378239f0f7a3c68b051a5f1d9b2dbdf8faab1b92f7ad06eb529439
+pari-gp 2.17.2-1 136f0438decc835e42ba75d19033ed0c14ff77659db9f31f58163747839bc697
+Debian trixie/main amd64 Packages.xz SHA256 be3d7d96a040eda0505c1808cccc67f183bbc05dff0842c50f88e6c396557412
+table.raw 20be2359ca6f16965b2e3b61fe944d0efd9efee67d26a72cb7586bf31a93a822
+curves.70000-79999 668a49dba97210ebc97c70e6ecfb58eddef76bd02b5dea9c2bf8597d7b713623
+
+twists.log
+d=167, p=11, h=11, norm(eta)=2048
+  m=121, root=14, local=[0, 1, 4, 6], intersection=[0, 1, 4, 6]
+  m=199, root=80, local=[2, 3, 5, 7, 8, 9, 10], intersection=[]
+d=167, x modulo 44, nonprincipal twists: {1: {4}, 23: {7}}
+d=2471, p=31, h=62, norm(eta)=2147483648
+  m=961, root=90, local=[1, 2, 6, 7, 8, 9, 12, 16, 19, 20, 22, 23, 29], intersection=[1, 2, 6, 7, 8, 9, 12, 16, 19, 20, 22, 23, 29]
+  m=683, root=332, local=[11, 13, 17, 18, 19, 21, 23, 24, 25, 26, 27], intersection=[19, 23]
+  m=1117, root=552, local=[1, 2, 3, 4, 6, 7, 10, 12, 13, 18, 19, 21, 24, 25, 27, 28, 29, 30], intersection=[19]
+  m=2791, root=1030, local=[1, 2, 3, 4, 6, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], intersection=[]
+d=2471, x modulo 124, all twists: {5: {23}, 31: {0}, 67: {8}, 93: {0}}
+
+cubic.log
+d=167, x=1 mod 12, eta, m=9, no b
+d=167, x=3 mod 12, conjugate, m=19, no b
+d=167, x=5 mod 12, eta, m=9, no b
+d=167, x=7 mod 12, conjugate, m=9, no b
+d=167, x=9 mod 12, eta, m=19, no b
+d=167, x=11 mod 12, conjugate, m=9, no b
+d=2471, x=1 mod 12, conjugate, m=13, no b
+d=2471, x=3 mod 12, eta, m=13, no b
+d=2471, x=5 mod 12, conjugate, m=13, no b
+d=2471, x=7 mod 12, eta, m=13, no b
+d=2471, x=9 mod 12, conjugate, m=13, no b
+d=2471, x=11 mod 12, eta, m=13, no b
+d=263, x=1 mod 12, conjugate, m=9, no b
+d=263, x=3 mod 12, eta, m=9, no b
+d=263, x=5 mod 12, conjugate, m=9, b = [4, 5]
+d=263, x=7 mod 12, eta, m=9, no b
+d=263, x=9 mod 12, conjugate, m=9, no b
+d=263, x=11 mod 12, eta, m=9, b = [4, 5]
+
+traces-167.log
+q=3, x=1, k=4: traces=(-4, 0)
+q=3, x=23, k=7: traces=(-4, 0)
+q=5, x=1, k=4: traces=(0, 4)
+q=5, x=23, k=7: traces=(-4, 2)
+q=7, x=1, k=4: traces=(-4, -3, 0)
+q=7, x=23, k=7: traces=(-4, -3, 0)
+q=13, x=1, k=4: traces=(-4, -2, 2, 4)
+q=13, x=23, k=7: traces=(-5, -4, 0, 4)
+q=23, x=1, k=4: traces=(0, 2)
+q=23, x=23, k=7: traces=(0, 2)
+q=43, x=1, k=4: traces=(-4, 2)
+q=43, x=23, k=7: traces=(3, 5)
+q=89, x=1, k=4: traces=(-3,)
+q=89, x=23, k=7: traces=(-3,)
+q=199, x=1, k=4: traces=(5,)
+q=199, x=23, k=7: traces=(5,)
+q=353, x=1, k=4: traces=(3,)
+q=353, x=23, k=7: traces=(3,)
+q=397, x=1, k=4: traces=(-5,)
+q=397, x=23, k=7: traces=(-5,)
+
+traces-2471.log
+q=3, x=5, k=23: traces=(-4, 0)
+q=3, x=67, k=8: traces=(-4, 0)
+q=5, x=5, k=23: traces=(-2, 2)
+q=5, x=67, k=8: traces=(-2, 2)
+q=11, x=5, k=23: traces=(-12, -4, 0, 4)
+q=11, x=67, k=8: traces=(-12, -4, 0, 4)
+q=13, x=5, k=23: traces=(-6, -2, 2)
+q=13, x=67, k=8: traces=(-6, -2, 2)
+q=17, x=5, k=23: traces=(-2, 0, 4, 8)
+q=17, x=67, k=8: traces=(-8, -6, 2, 4, 6)
+q=61, x=5, k=23: traces=(-6,)
+q=61, x=67, k=8: traces=(8,)
+q=683, x=5, k=23: traces=(-2,)
+q=683, x=67, k=8: traces=(-2,)
+q=1117, x=5, k=23: traces=(-2, 5)
+q=1117, x=67, k=8: traces=(-2, 5)
+q=1303, x=5, k=23: traces=(-8, 9)
+q=1303, x=67, k=8: traces=(-8, 9)
+q=1489, x=5, k=23: traces=(-8,)
+q=1489, x=67, k=8: traces=(-8,)
+q=1861, x=5, k=23: traces=(-5,)
+q=1861, x=67, k=8: traces=(-5,)
+q=2357, x=5, k=23: traces=(-13,)
+q=2357, x=67, k=8: traces=(-13,)
+q=2543, x=5, k=23: traces=(1, 6)
+q=2543, x=67, k=8: traces=(1, 6)
+q=2729, x=5, k=23: traces=(-6, 11)
+q=2729, x=67, k=8: traces=(-6, 11)
+q=3163, x=5, k=23: traces=(4,)
+q=3163, x=67, k=8: traces=(4,)
+
+residual.log
+(u,v)=(1,0): C=22, H=570645584993925951175, F=-12305514202952265789
+(u,v)=(0,1): C=29, H=11691118074963636910747, F=-1818639441937051098764
+(u,v)=(1,1): C=60, H=-2301680733459815535942779854, F=-111692057640582381067821839
+(u,v)=(2,-1): C=99, H=4891715252030544545300428763443, F=278516170761182749149809361950
+(u,v)=(-3,2): C=260, H=20375127915092631723022401183443915453, F=-732069241350051447860803194516548527
+q=7: root with unit norm=0, derivative=3
+q=353: root with unit norm=119, derivative=276
+x=5 mod 124: scaled b mod 683 in [26, 657], u/v=163 mod 683
+x=67 mod 124: scaled b mod 683 in [298, 385], u/v=163 mod 683
+t >= 2 on its branch: c >= 61556730755
+t >= 33 on its branch: c >= 30037741118939165043541773515025179607825654269254898589906307931058569334645705859214658956080886769986664957667560
+
+smooth.log
+n X C D prime_with_v_p(X)=1
+3 10 7 243 2
+3 13 8 343 13
+3 46 13 81 2
+3 2681 193 1296 7
+3 3419 313 18974736 13
+3 9324 443 1331 7
+3 36599 1226 503284375 36599
+3 39151 1153 7776 17
+3 57707 1705 1626379776 13
+3 1549034 15613 1406408618241 2
+4 7 3 32 7
+9 13 2 343 13
+Verified 1240 triples, 12 higher-power differences, 11 distinct X, 0 survivors.
+
+frey.log
+Frey traces at 5: [-2, 2]
+79072a: a_5=-1, a_683=-4
+79072b: a_5=-1, a_683=4
+
+gp-new_5344.log
+$ gp -q -f scripts/check_new_5344.gp
+  ***   Warning: new maximum stack size = 1200001024 (1144.410 Mbytes).
+  *** msinit: Warning: increasing stack size to 16000000.
+  *** msinit: Warning: increasing stack size to 32000000.
+  *** msinit: Warning: increasing stack size to 64000000.
+  *** msinit: Warning: increasing stack size to 128000000.
+  *** _ZM_ker_worker: Warning: increasing stack size to 256000000.
+  *** _ZM_ker_worker: Warning: increasing stack size to 512000000.
+  *** _ZM_inv_worker: Warning: increasing stack size to 1024000000.
+Level 5344: arbitrary square, T3 kernel 4, both T5 intersections zero
+Level 32: new dimension 1, a5 = -2
+Level 5344: new dimension 166; T3 then T5 kernel dimensions 3, 0
+Level 5344: T89 then T3 kernel dimensions 2, 0
+
+gp-transfer_263.log
+$ gp -q -f scripts/check_transfer_263.gp
+  ***   Warning: new maximum stack size = 3000000512 (2861.023 Mbytes).
+  *** msinit: Warning: increasing stack size to 16000000.
+  *** msinit: Warning: increasing stack size to 32000000.
+  *** msinit: Warning: increasing stack size to 64000000.
+  *** msinit: Warning: increasing stack size to 128000000.
+  *** msinit: Warning: increasing stack size to 256000000.
+  *** _ZM_ker_worker: Warning: increasing stack size to 512000000.
+  *** _ZM_ker_worker: Warning: increasing stack size to 1024000000.
+  *** _ZM_inv_worker: Warning: increasing stack size to 2048000000.
+Level 8416: T3(T3+4) rank 262 of 262 modulo 13
+Level 32: new dimension 1, a5 = -2
+
+gp-mordell_263.log
+$ gp -q -f scripts/check_mordell_263.gp
+Certified cubic field; rank bounds 1,1; torsion order 1
+Good prime 26723, group order 26724, X-coordinate valuation -2
+l=2 r=5 order=6 witness=[2, 0]
+l=3 r=5 order=6 witness=[3, 3]
+l=17 r=101 order=102 witness=[73, 99]
+l=131 r=1571 order=1572 witness=[1439, 851]
+
+gp-trace_field.log
+$ gp -q -f scripts/check_trace_field.gp
+signature = [31, 0], field discriminant = 31^31 * 2471^15, index = 391^15
+2 [[1, 1], [1, 5], [1, 5], [1, 5], [1, 5], [1, 5], [1, 5]]
+7 [[1, 1], [2, 15]]
+31 [[31, 1]]
+353 [[1, 1], [2, 15]]
+683 [[1, 31]]
+
+gp-trace_ideal_classes.log
+$ gp -q -f scripts/check_trace_ideal_classes.gp
+(A,B) R = (256); S R^2 = (2471); (kappa) R = P_17 P_23.
+Necessary class relation: [P_2] = x [P_17 P_23].
+
+brandt.log
+j  swap   dim  a5  nullity(T5-a5)  a683  joint nullity
+det(T5^2 + T683 - 2I), j=-1, swap=-1: 11
+-1  -1   2124  -2         2         -2       0
+-1  -1   2124  +2         5         -2       0
+-1  -1   2124  -1         2         -4       1
+-1  -1   2124  -1         2         +4       0
+det(T5^2 + T683 - 2I), j=+1, swap=-1: 6
++1  -1   2124  -2         2         -2       0
++1  -1   2124  +2         5         -2       0
++1  -1   2124  -1         2         -4       0
++1  -1   2124  -1         2         +4       1
+det(T5^2 + T683 - 2I), j=-1, swap=+1: 28
+-1  +1   2124  -2         1         -2       0
+-1  +1   2124  +2         7         -2       0
+det(T5^2 + T683 - 2I), j=+1, swap=+1: 26
++1  +1   2124  -2         2         -2       0
++1  +1   2124  +2        14         -2       0
+Full determinant modulo 31: 29
+
+local-points.log
+q=683, x=5, b = +/-26
+q=683, x=67, b = +/-298
+505656 good primes below 7458361; 8420 split and 16819 inert cases requiring tests.
+
+eclib.log
+level=11 modulus=31 T_3=-1 T_5=1 stacked_rank=1/2
+level=5344 modulus=11 T_3=-4 T_89=-3 stacked_rank=676/676
+level=5344 modulus=11 T_3=0 T_89=-3 stacked_rank=676/676
+level=79072 modulus=31 T_5=-2 T_683=-2 stacked_rank=11336/11336
+level=79072 modulus=31 T_5=2 T_683=-2 stacked_rank=11336/11336
+
+modsym.log
++ cd /tmp/astra-c2-replay
++ export OMP_NUM_THREADS=2
++ OMP_NUM_THREADS=2
++ w=/tmp/astra-c2-build
++ g++ -O3 -march=native -fopenmp -std=c++17 scripts/check_modsym_hecke.cpp -o /tmp/astra-c2-build/ms31
++ g++ -O3 -march=native -fopenmp -std=c++17 -DPMOD=11 scripts/check_modsym_hecke.cpp -o /tmp/astra-c2-build/ms11
++ /tmp/astra-c2-build/ms31 11 eig 2 3 5 7 13
+N=11 |P1|=12 V=4 E=6 dim=3
+T_2 (4 matrices):  3^1 -2^2
+T_3 (6 matrices):  4^1 -1^2
+T_5 (12 matrices):  1^2 6^1
+T_7 (18 matrices):  8^1 -2^2
+T_13 (38 matrices):  4^2 14^1
++ python3 -I scripts/frey_trace_sets.py 167 11 1 22 3 5
++ cat /tmp/astra-c2-build/f167.txt
+3 0 7
+5 0 2 4 7
++ /tmp/astra-c2-build/ms11 5344 big /tmp/astra-c2-build/f167.txt /tmp/astra-c2-build/V167.bin
+N=5344 |P1|=8064 V=2688 E=4032 dim=1345
+matrix built in 0s
+col 0 rank 1  0s
+rank 1295 of 1345 in 0s
+kernel of filter at 3: dim 50
++ /tmp/astra-c2-build/ms11 5344 run /tmp/astra-c2-build/V167.bin /tmp/astra-c2-build/f167.txt
+N=5344 |P1|=8064 V=2688 E=4032 dim=1345
+start dim 50
+after l=3 (2 allowed residues, 6 Heilbronn matrices): dim 50
+after l=5 (4 allowed residues, 12 Heilbronn matrices): dim 0
+FINAL dim 0
++ python3 -I scripts/frey_trace_sets.py 2471 31 5 62 3 5 11 13 19 311
++ cat /tmp/astra-c2-build/f2471.txt
+3 0 27
+5 2 29
+11 0 4 19 27
+13 2 25 29
+19 0 2 4 6 23 27
+311 7 12 22 28 29 30
++ /tmp/astra-c2-build/ms31 79072 big /tmp/astra-c2-build/f2471.txt /tmp/astra-c2-build/V2471.bin
+N=79072 |P1|=135936 V=45312 E=67968 dim=22657
+matrix built in 23s
+col 0 rank 1  23s
+col 2000 rank 2001  63s
+col 4000 rank 4001  109s
+col 6000 rank 6001  149s
+col 8000 rank 8001  193s
+col 10000 rank 10001  228s
+col 12000 rank 12001  258s
+col 14000 rank 14001  284s
+col 16000 rank 16001  306s
+col 18000 rank 18001  322s
+col 20000 rank 19997  333s
+col 22000 rank 21985  338s
+rank 22477 of 22657 in 338s
+kernel of filter at 3: dim 180
++ /tmp/astra-c2-build/ms31 79072 run /tmp/astra-c2-build/V2471.bin /tmp/astra-c2-build/f2471.txt
+N=79072 |P1|=135936 V=45312 E=67968 dim=22657
+start dim 180
+after l=3 (2 allowed residues, 6 Heilbronn matrices): dim 180
+after l=5 (2 allowed residues, 12 Heilbronn matrices): dim 80
+after l=11 (4 allowed residues, 30 Heilbronn matrices): dim 42
+after l=13 (3 allowed residues, 38 Heilbronn matrices): dim 34
+after l=19 (6 allowed residues, 58 Heilbronn matrices): dim 22
+after l=311 (6 allowed residues, 1470 Heilbronn matrices): dim 0
+FINAL dim 0
++ printf '3 0\n5 30\n11 1\n13 1\n17 26\n19 0\n23 29\n311 24\n'
++ /tmp/astra-c2-build/ms31 79072 run /tmp/astra-c2-build/V2471.bin /tmp/astra-c2-build/fEa.txt
+N=79072 |P1|=135936 V=45312 E=67968 dim=22657
+start dim 180
+after l=3 (1 allowed residues, 6 Heilbronn matrices): dim 168
+after l=5 (1 allowed residues, 12 Heilbronn matrices): dim 52
+after l=11 (1 allowed residues, 30 Heilbronn matrices): dim 10
+after l=13 (1 allowed residues, 38 Heilbronn matrices): dim 2
+after l=17 (1 allowed residues, 52 Heilbronn matrices): dim 2
+after l=19 (1 allowed residues, 58 Heilbronn matrices): dim 2
+after l=23 (1 allowed residues, 74 Heilbronn matrices): dim 2
+after l=311 (1 allowed residues, 1470 Heilbronn matrices): dim 2
+FINAL dim 2
+
+small-pari.log
+11 all six eigenspectra match PARI on full relative spaces, including level-dividing U primes
+14 all six eigenspectra match PARI on full relative spaces, including level-dividing U primes
+15 all six eigenspectra match PARI on full relative spaces, including level-dividing U primes
+
+$ python3 -I scripts/audit_skeleton.py
+167 mod16 7 h 11 factor [167]
+263 mod16 7 h 13 factor [263]
+2471 mod16 7 h 62 factor [7, 353]
+odd b gives 8 mod 16: True | even b gives 7 mod 8: True | odd squares mod 8: {1}
+small solutions (x>=1, b<3000, x<=12): []

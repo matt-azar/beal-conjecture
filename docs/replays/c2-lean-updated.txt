@@ -1,0 +1,46 @@
+f195d5cbcbdfcd94cd625fcce08e768f57345edd
+Lean (version 4.19.0, x86_64-unknown-linux-gnu, commit 6caaee842e94, Release)
+Lake version 5.0.0-6caaee8 (Lean version 4.19.0)
+ℹ [2793/2801] Built CubicTwists
+info: ./././lean/CubicTwists.lean:58:0: 'Beal.CubicTwists.no_local_cubes' depends on axioms: [propext, Quot.sound]
+ℹ [2794/2801] Built Twist167
+info: ./././lean/Twist167.lean:70:0: 'Beal.Twist167.no_local_witnesses' depends on axioms: [propext, Quot.sound]
+ℹ [2795/2801] Built Twist2471
+info: ./././lean/Twist2471.lean:75:0: 'Beal.Twist2471.no_local_witnesses' depends on axioms: [propext, Quot.sound]
+ℹ [2796/2801] Built QuadraticBridge
+info: ./././lean/QuadraticBridge.lean:194:0: 'Beal.QuadraticBridge.no_integral_twist167' depends on axioms: [propext, Quot.sound]
+info: ./././lean/QuadraticBridge.lean:195:0: 'Beal.QuadraticBridge.no_integral_twist2471' depends on axioms: [propext, Quot.sound]
+info: ./././lean/QuadraticBridge.lean:196:0: 'Beal.QuadraticBridge.right_base_is_odd' depends on axioms: [propext, Quot.sound]
+ℹ [2797/2801] Built TwistIdentity
+info: ./././lean/TwistIdentity.lean:220:0: 'Beal.TwistIdentity.absorb_unit_sign' depends on axioms: [propext, Quot.sound]
+info: ./././lean/TwistIdentity.lean:221:0: 'Beal.TwistIdentity.norm_gammaOf_solution' depends on axioms: [propext, Quot.sound]
+info: ./././lean/TwistIdentity.lean:222:0: 'Beal.TwistIdentity.no_integral_twist167_of_signed' depends on axioms: [propext, Quot.sound]
+info: ./././lean/TwistIdentity.lean:223:0: 'Beal.TwistIdentity.no_integral_twist2471_of_signed' depends on axioms: [propext, Quot.sound]
+ℹ [2798/2801] Built IdealDescent
+info: ./././lean/IdealDescent.lean:360:0: 'Beal.IdealDescent.units_pm_one_167' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ./././lean/IdealDescent.lean:361:0: 'Beal.IdealDescent.no_norm_two_167' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ./././lean/IdealDescent.lean:362:0: 'Beal.IdealDescent.class_number_167' depends on axioms: [propext, Lean.ofReduceBool]
+info: ./././lean/IdealDescent.lean:363:0: 'Beal.IdealDescent.class_number_2471' depends on axioms: [propext, Lean.ofReduceBool]
+info: ./././lean/IdealDescent.lean:364:0: 'Beal.IdealDescent.idealFrontDoor_of_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ./././lean/IdealDescent.lean:365:0: 'Beal.IdealDescent.frontDoor167' depends on axioms: [propext, Classical.choice, Lean.ofReduceBool, Quot.sound]
+info: ./././lean/IdealDescent.lean:366:0: 'Beal.IdealDescent.no_integral_twist167_of_gap' depends on axioms: [propext,
+ Classical.choice,
+ Lean.ofReduceBool,
+ Quot.sound]
+ℹ [2799/2801] Built Forced683
+info: ./././lean/Forced683.lean:107:0: 'Beal.Forced683.forced683_at5' depends on axioms: [propext, Quot.sound]
+info: ./././lean/Forced683.lean:108:0: 'Beal.Forced683.forced683_at67' depends on axioms: [propext, Quot.sound]
+ℹ [2800/2801] Built OmegaRing
+info: ./././lean/OmegaRing.lean:360:0: 'Beal.OmegaRing.idealAPI167' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ./././lean/OmegaRing.lean:361:0: 'Beal.OmegaRing.idealAPI2471' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ./././lean/OmegaRing.lean:362:0: 'Beal.OmegaRing.gamma_norm_is_pth_power' depends on axioms: [propext, Quot.sound]
+info: ./././lean/OmegaRing.lean:363:0: 'Beal.OmegaRing.mul_conjugate_eq_qnorm' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: ./././lean/OmegaRing.lean:364:0: 'Beal.OmegaRing.no_integral_twist167_of_mathlib_gap' depends on axioms: [propext,
+ Classical.choice,
+ Lean.ofReduceBool,
+ Quot.sound]
+info: ./././lean/OmegaRing.lean:365:0: 'Beal.OmegaRing.no_integral_twist2471_of_mathlib_gap' depends on axioms: [propext,
+ Classical.choice,
+ Lean.ofReduceBool,
+ Quot.sound]
+Build completed successfully.

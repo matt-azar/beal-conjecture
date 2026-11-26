@@ -1,6 +1,6 @@
 # A dependency-free modular-symbol replay of the two Hecke exclusions
 
-This is a third realization of the Hecke calculations at levels 79072 and 5344. It uses classical Manin symbols over $\mathbb F_p$ written from scratch, with no library beyond a C++ compiler. At 79072 it reaches the exclusion **without the trace at 683**. The decisive prime is 311. The only input from the descent is $x\equiv5\pmod{62}$. [Brandt calculation](brandt-sieve.md) · [Frey curve](frey-curve.md) · [Level 5344](frey-167.md)
+This is a third realization of the Hecke calculations at levels 79072 and 5344. It computes classical Manin symbols over $\mathbb F_p$ directly with C++ and OpenMP. At 79072 it reaches the exclusion **without the trace at 683**. The decisive prime is 311. The only input from the descent is $x\equiv5\pmod{62}$. [Brandt calculation](brandt-sieve.md) · [Frey curve](frey-curve.md) · [Level 5344](frey-167.md)
 
 | Level, residual prime | Space | Trace conditions used | Common kernel |
 |---|---|---|---:|
@@ -46,14 +46,15 @@ At 5344 the sets are $S_3=\{0,7\}$ and $S_5=\{0,2,4,7\}$ in $\mathbb F_{11}$, fo
 
 - At levels 11, 14 and 15 the program returns the known eigenvalues, including $U_q$ at primes dividing the level.
 - At level 79072 the trace list of the curve $Y^2=X^3+37X+114$ at $3,5,11,13,17,19,23,311$ leaves a common kernel of dimension exactly 2, one for each sign.
-- Every application of a Hecke operator is checked to return a circulation and to preserve the current subspace exactly.
+- When building the initial matrix, the program checks input and output circulations at every 4,099th basis column, starting with column zero. For each subsequent Hecke action on a retained subspace it checks the circulation condition on the first three basis images (or all if fewer) and tests the free coordinates of every basis image for membership in that subspace.
 - The set $S_{311}$ was recomputed by direct point counting over all residues.
 
 ## Reproduction
 
-The run takes about ten minutes on two cores and about 1 GB of memory. [Program](../scripts/check_modsym_hecke.cpp) · [Trace sets](../scripts/frey_trace_sets.py)
+The implementation uses AVX2 intrinsics. The commands below require an AVX2-capable x86 machine and a C++17 compiler with OpenMP support. The run takes about ten minutes on two cores and about 1 GB of memory. [Program](../scripts/check_modsym_hecke.cpp) · [Trace sets](../scripts/frey_trace_sets.py)
 
 ```sh
+export OMP_NUM_THREADS=2
 g++ -O3 -march=native -fopenmp -std=c++17 scripts/check_modsym_hecke.cpp -o /tmp/ms31
 g++ -O3 -march=native -fopenmp -std=c++17 -DPMOD=11 scripts/check_modsym_hecke.cpp -o /tmp/ms11
 /tmp/ms31 11 eig 2 3 5 7 13
