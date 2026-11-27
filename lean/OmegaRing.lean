@@ -324,8 +324,9 @@ theorem span_mul_conjugate (x : OmegaRing D) :
 
 /-! ## Front doors specialized to the Mathlib API
 
-The cubic exclusions below still require a `DedekindGap` certificate; the
-`IdealAPI` argument is now the concrete Mathlib realization above.
+These keep an explicit `DedekindGap` argument for modularity. L2f
+(`OmegaRingGap.lean`) assembles the gap from L2c–L2e and restates the
+cubic exclusions with only `ClassGroupOrderHypothesis`.
 -/
 
 /-- `IdealFrontDoor` for `d = 167` once a Dedekind gap certificate is supplied. -/
