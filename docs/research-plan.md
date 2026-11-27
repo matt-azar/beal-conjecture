@@ -30,7 +30,7 @@ The second test was run at 2471 with right exponent 31, for an arbitrary square 
 
 The next targets, in order:
 
-1. Commit the eclib replay of the Hecke operators at 61, 683 and 1117 that the internal review reports.
+1. Done: the review and an independent eclib replay of the Hecke operators are in the repository. [Review](square-summand-2471-review.md) · [eclib replay](replays/square-2471-eclib.md)
 2. The arbitrary-square test at 263 with right exponent 13 and level 8416. The fourth-power proof at 263 needed a separate Mordell-curve argument at right exponent 3, so this base may behave differently.
 3. Right exponents 3 and 4 for an arbitrary square. For $z$ even the equation is a difference of two squares equal to $d^x$, with finitely many factorizations. For $3\mid z$ it asks for the points on the Mordell curves $Y^2=X^3-d^{r}$, $0\le r\le5$, that are integral outside the primes dividing $d$. Together with the primitive-divisor argument, which never used the fourth power, these would give a statement for every even $y$ at one base.
 
