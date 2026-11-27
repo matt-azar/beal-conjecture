@@ -6,7 +6,7 @@ $$
 $$
 Consequently $2471^x+B^y=C^z$ has no positive primitive solution whenever $y$ is even and $31\mid z$. This includes the sixth-power target $2471^x+B^6=C^{31}$ and removes the condition $4\mid y$ at this right exponent. It is the analogue at 2471 of the [arbitrary-square result at 167](frey-167.md#an-arbitrary-square-summand-at-exponent-11).
 
-**Status.** Derived and computed by the lead on 2026-11-26. It has not been reviewed by another agent or by a specialist. The Hecke computation uses a new mode of the modular-symbol program, written for this note. Treat the claim as unverified until the review under C7 is done.
+**Status.** Derived and computed by the lead on 2026-11-26. The [independent review](square-summand-2471-review.md) covers the four cases, trace sets and simultaneous eigenvalue test. External specialist review and an end-to-end Lean proof remain open.
 
 Write $d=2471=7\cdot353$, $s^2=-d$, $K=\mathbb Q(s)$, $R=\mathbb Z[(1+s)/2]$. The class group of $K$ has order 62, so it is cyclic, and a prime $P$ above 2 has class of order 31 with $P^{31}=(\eta)$, $\eta=(90621+391s)/2$. [Class group and $\eta$](descent.md#from-an-integer-solution-to-a-twist)
 
@@ -44,23 +44,23 @@ The condition is restrictive when $\ell$ splits with $\ell\equiv1\pmod{31}$ (abo
 
 | Stage | Primes | Trace sets | Result |
 |---|---|---|---|
-| Class-independent | 3, then 24 primes from 5 to 227 | Union over all odd $x$ and all $U$. $S_3=\{0,\pm4\}$, $S_5=\{\pm2,6\}$, $S_{11}=\{0,\pm4,\pm12\}$, $S_{17}=\{0,\pm2,\pm4,\pm6,8\}$ | Kernel of dimension 209 after 3, then 111, 73, 73, 42, and 42 after every later prime |
-| Class-dependent | 61 (inert), 683 and 1117 (split) | $S_\ell(t,k)$, at most 4 residues each | Zero for all 961 pairs $(t,k)$ |
+| Class-independent | 3, then 25 primes from 5 to 227 | Union over all odd $x$ and all $U$. $S_3=\{0,\pm4\}$, $S_5=\{\pm2,6\}$, $S_{11}=\{0,\pm4,\pm12\}$, $S_{17}=\{0,\pm2,\pm4,\pm6,\pm8\}$ | Kernel of dimension 209 after 3, then 111, 73, 73, 42, and 42 after every later prime |
+| Class-dependent | 61 (inert), 683 and 1117 (split) | $S_\ell(t,k)$, signed maxima 4, 6 and 7, respectively | Zero for all 961 pairs $(t,k)$ |
 
-In the second stage 403 classes die at 61, a further 512 at 683 and the last 46 at 1117. The descent sieve alone, with 23 moduli up to 11719, leaves 81 of the 961 classes, so local conditions do not suffice. The Hecke test was run on all 961 classes and does not depend on the sieve. The 42-dimensional space was not identified beyond the control below. It is the analogue of the 22-dimensional space in the fourth-power replay.
+In the second stage 403 classes die at 61, a further 512 at 683 and the last 46 at 1117. The descent sieve alone, with modulus 961 and all 22 split primes congruent to 1 modulo 31 through 11719, leaves 81 of the 961 classes. The Hecke test was run on all 961 classes and does not depend on the sieve. The independent review lists the five simultaneous eigenvalue triples of the 42-dimensional space at these three primes. It is the analogue of the 22-dimensional space in the fourth-power replay.
 
 ## Checks
 
 - **Operators.** The retained space contains the CM system of $y^2=x^3-x$ (level 32) with multiplicity 8, which is four degeneracy maps times two signs. On it each of the 14 dumped operators, including $T_{2543}$, acts by the trace obtained from an independent point count.
 - **Signs.** Repeating both stages with both signs $\pm(\ell+1)$ allowed at every multiplicative prime gives the same dimensions and again zero for all 961 classes.
-- **Trace code.** Restricting $U$ to squares reproduces the documented fourth-power sets $S_{19}$ and $S_{311}$ for $x\equiv5\pmod{62}$, and the descent sieve restricted to squares reproduces the documented survivors $(5,23)$ and $(31,0)$.
+- **Trace code.** Restricting $U$ to squares reproduces the documented fourth-power sets $S_{19}$ and $S_{311}$ for $x\equiv5\pmod{62}$, and the descent sieve restricted to squares reproduces all four survivors $(5,23),(31,0),(67,8),(93,0)$ for $(x\bmod124,k)$. The lift to modulus 124 preserves the condition that $U$ is a square.
 - **Class sets.** Enumerating every value of $a$ directly agrees with the orbit description on five sampled $(\ell,t,k)$.
 - **Program.** At level 11 the modified program still returns the known eigenvalues. Each dumped operator passes the invariance test on all 22657 coordinates for every basis vector and the flow test on the first basis vector.
 
-## What has not been checked
+## Scope and verification
 
-- No second implementation of the level-79072 Hecke operators was run for this note. The fourth-power case has three. Here the evidence for the operators is the CM control and the checks inherited from the existing program.
-- The statements of Bilu–Hanrot–Voutier (including $q\equiv\pm1\pmod n$ for primitive divisors), Darmon–Merel, Mazur and the level-lowering theorem are used as in the existing notes. Case 1 is a new use of the first.
+- The independent review used eclib for a second construction of the level-79072 operators. The resulting exclusion still relies on the published modularity and level-lowering results.
+- The independent review gives the order argument for primitive divisors at index 31 and checks the published hypotheses in cases 1, 3 and 4.
 - The reduction $a_\ell(f)\equiv a_\ell(E)(\ell+1)$ at $\ell\mid c$ is used with its sign in the main run. The sign-free run does not need it.
 - Other right exponents are not treated. For $y$ even and $31\nmid z$ nothing is claimed.
 
