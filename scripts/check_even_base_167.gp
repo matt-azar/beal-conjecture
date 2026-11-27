@@ -1,7 +1,7 @@
 \\ Even right base at 167: the Frey curve of 167^x + U^2 = c^p with x odd, U odd, c even.
 \\ Replays the finite computations of docs/even-right-base-167.md.
 \\ Run from the repository root:  gp -q -f scripts/check_even_base_167.gp < /dev/null
-\\ Written and run with PARI/GP 2.15.4. The project pin is 2.17.2 (replay pending under C1).
+\\ Written and run with PARI/GP 2.15.4. Replayed with the pinned 2.17.2 in PRs #38 and #39.
 default(parisize, 1000000000);
 
 \\ Frey curve  Y^2 = X^3 + U X^2 + (C/4) X,  C = U^2 + D,  D = d^x.
@@ -31,9 +31,12 @@ canbemult(d, l) = {
 \\ B_l(f) = l * prod_{a good} N(a_l(f) - a) * N(a_l(f)^2 - (l+1)^2), the last
 \\ factor only when l can divide c. If f arises from a solution at the prime
 \\ exponent p, then p divides B_l(f) for every prime l not dividing 2d.
-Bl(d, a, l) = {
+\\ fnorm is the norm from the coefficient field of degree n. PARI's norm() squares
+\\ a rational scalar, which is wrong for n = 1 (found by the review, PR #39).
+fnorm(a, n) = if(type(a) == "t_POLMOD", norm(a), a^n);
+Bl(d, a, l, n) = {
   my(A = goodtraces(d, l, 0));
-  l * prod(j = 1, #A, norm(a - A[j])) * if(canbemult(d, l), norm(a^2 - (l+1)^2), 1);
+  l * prod(j = 1, #A, fnorm(a - A[j], n)) * if(canbemult(d, l), fnorm(a^2 - (l+1)^2, n), 1);
 };
 
 sieve(d, N, L) = {
@@ -42,7 +45,7 @@ sieve(d, N, L) = {
   for(i = 1, #F,
     co = mfcoefs(F[i], L);
     g = 0;
-    forprime(l = 3, L, if(d % l == 0, next); g = gcd(g, Bl(d, co[l+1], l)));
+    forprime(l = 3, L, if(d % l == 0, next); g = gcd(g, Bl(d, co[l+1], l, poldegree(flds[i]))));
     print("  class ", i, ": degree ", poldegree(flds[i]), ", field ", flds[i],
           ", a_2 = ", lift(co[3]), ", gcd of B_l for 3 <= l <= ", L, ": ",
           if(g, Str(factor(g)), "0")));
@@ -76,7 +79,7 @@ print("== Reduction at 2, sampled over odd x < 32 and U mod 2^14 ==");
         E = ellinit([0, U, 0, (C + 3*2^14)/4, 0]); gr = elllocalred(E, 2);
         T = setunion(T, Set([[gr[1], gr[2]]])))));
   print("v_2(C) >= 7, U = 1 mod 4: [U mod 8, conductor exponent, a_2] in ", S);
-  print("v_2(C) = 5, U = 1 mod 4: [conductor exponent, Kodaira code] in ", T);
+  print("v_2(C) = 5, U = 1 mod 4: [conductor exponent, Kodaira code] in ", T, "  (code -3 is III*)");
 }
 
 print("== Level 334 ==");
