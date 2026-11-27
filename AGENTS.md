@@ -2,7 +2,7 @@
 
 This file is the shared reference for every AI agent working in this repository. Read it before starting a task and again before opening a pull request.
 
-Last updated 2026-11-26 (evening) against `main` at `4fe2034`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
+Last updated 2026-11-26 (evening) against `main` at `b3dad67`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
 
 ## Roles
 
@@ -40,7 +40,7 @@ Environment: Lean 4.19.0 via elan, Mathlib v4.19.0 (run `lake exe cache get` bef
 You are the computation and verification agent for github.com/matt-azar/beal-conjecture.
 1. Read AGENTS.md in full, then README.md ("Reproduce the calculations") and docs/collaborating.md ("Verification").
 2. Your files: scripts/, and the result sections of the per-topic notes in docs/. For README.md, docs/collaborating.md and docs/research-plan.md follow the "Shared files" rule and task C6.
-3. Take tasks from the "Computation and verification" table of AGENTS.md in this order: C7 (whenever a lead research result is unreviewed), C1, C8, C5. C6 runs after every merge. C2, C3 and C4 are done.
+3. Take tasks from the "Computation and verification" table of AGENTS.md in this order: C1, C7 (whenever a lead research result is unreviewed), C8, C5. C6 runs after every merge. C2, C3 and C4 are done.
 4. Branch astra/<ID>-<slug>. Open a PR titled "<ID>: <summary>" using the handoff template. Do not merge and do not edit AGENTS.md.
 5. Report every output exactly as produced, including mismatches, survivors and failures. Never adjust a specification, a prime list or a parameter to change an outcome. If a specification looks wrong, say so in the PR and run it as written.
 6. For C7, your job is to break the argument: look for a missed case, an unmet hypothesis of a cited theorem, or a sign or orientation error. "No objection found" must list what you checked.
@@ -55,7 +55,7 @@ The claimed results on `main` are:
 
 1. For $A\in\{167,263,2471\}$, no positive primitive solution of $A^x+B^y=C^z$ with $x,y,z\geq3$ and $4\mid y$. Computer-assisted, see [`docs/fixed-bases.md`](docs/fixed-bases.md).
 2. $167^x+U^2=c^{11}$ has no primitive solution. See [`docs/frey-167.md`](docs/frey-167.md).
-3. $2471^x+U^2=c^{31}$ has no primitive solution. Merged before review, one implementation of its Hecke computation. See [`docs/square-summand-2471.md`](docs/square-summand-2471.md).
+3. $2471^x+U^2=c^{31}$ has no primitive solution. Reviewed by Astra in PR #21 with no gap found. The eclib replay reported there is not yet committed (C1). See [`docs/square-summand-2471.md`](docs/square-summand-2471.md).
 4. The smooth-summand, class-number and varying-first-summand restrictions listed in the [README](README.md).
 5. A twelve-base survey with exclusions at $(151,7)$ and $(167,11)$ and surviving eigensystems at 71, 103 and 119. See [`docs/breadth-survey-results.md`](docs/breadth-survey-results.md).
 
@@ -80,7 +80,7 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| R1 | Sixth-power case at the second base: $2471^x+B^6=C^{31}$ with $x$ odd and $C$ odd. Derive the twist with $b^2$ replaced by $B^3$, the exponent-and-twist sieve, both signs of the multiplicative traces, the Frey curve and its lowered level, and the admissible $T_5$ eigenvalues. Plan in [`docs/research-plan.md`](docs/research-plan.md#the-next-arithmetic-target). | `docs/sixth-power-2471.md` contains the full derivation and an exact specification of each finite computation (space, operators, residue prime, expected control). Astra runs them under C1. The result is either a complete exclusion or the exact surviving twist pairs and eigensystems. | merged in PR #18 as the stronger statement $2471^x+U^2=c^{31}$, before review. Review is C7 and the independent replay is C1 |
+| R1 | Sixth-power case at the second base: $2471^x+B^6=C^{31}$ with $x$ odd and $C$ odd. Derive the twist with $b^2$ replaced by $B^3$, the exponent-and-twist sieve, both signs of the multiplicative traces, the Frey curve and its lowered level, and the admissible $T_5$ eigenvalues. Plan in [`docs/research-plan.md`](docs/research-plan.md#the-next-arithmetic-target). | `docs/sixth-power-2471.md` contains the full derivation and an exact specification of each finite computation (space, operators, residue prime, expected control). Astra runs them under C1. The result is either a complete exclusion or the exact surviving twist pairs and eigensystems. | done. Merged in PR #18 as the stronger statement $2471^x+U^2=c^{31}$, reviewed in PR #21 |
 | R2 | Level-stability criterion for a varying first summand: conditions on discriminant valuations and local residues under which new prime factors vanish under level lowering, so one Hecke computation covers an infinite family with fewer multiplier restrictions than [`docs/varying-base.md`](docs/varying-base.md) and [`docs/frey-167.md`](docs/frey-167.md#varying-the-first-summand). | A stated and proved criterion, with the two existing families recovered as special cases and at least one new family tested. | open |
 | R3 | Remove $4\mid y$ for one base. For even $y$ the equation is $d^x+U^2=c^z$. Right exponents divisible by the class-number prime are done at 167 and, pending review, at 2471. The primitive-divisor step for other primes $p\ge5$ does not use the fourth power. Remaining: $z$ even (a difference of squares equal to $d^x$) and $3\mid z$ (points on $Y^2=X^3-d^r$, $0\le r\le5$, integral outside the primes of $d$). | A note proving, or stating the exact obstruction to, "no primitive solution of $d^x+B^y=C^z$ with $y$ even" for $d=167$ or $2471$. The Mordell computations are specified for Astra (C8). | open |
 | P1 | Independent audit of [`docs/fixed-bases.md`](docs/fixed-bases.md). Check that the case split is exhaustive, that the hypotheses of each cited theorem (Bennett–Ellenberg–Ng Theorem 1, Bilu–Hanrot–Voutier, level lowering including irreducibility and conductor computation) are met, and that sign and orientation conventions agree between the docs and the scripts. | [`docs/audit.md`](docs/audit.md) lists every step as checked, checked with caveat, or gap. Gaps become tasks on this board. | active. First pass merged in PR #6 and its two source caveats are closed by PR #9. The nine items under "Not yet audited" in `docs/audit.md` remain, starting with the Frey conductors and irreducibility |
@@ -93,13 +93,13 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| C1 | Independent replay for R1 (PR #18): recompute the Hecke operators at 61, 683 and 1117 on the 42-dimensional retained space at level 79072 modulo 31 with a second implementation (eclib or PARI), and rerun `scripts/check_square_2471.py verify` on the result. Later, the computations specified by R2. | A replay script per computation with pinned versions, a positive control, and the raw output committed in the doc. Report the output as found, including survivors. Do not change the specification. If it looks wrong, say so in the PR. | open. Highest priority after C7 |
+| C1 | Independent replay for R1 (PR #18): recompute the Hecke operators at 61, 683 and 1117 on the 42-dimensional retained space at level 79072 modulo 31 with a second implementation (eclib or PARI), and rerun `scripts/check_square_2471.py verify` on the result. Later, the computations specified by R2. | A replay script per computation with pinned versions, a positive control, and the raw output committed in the doc. Report the output as found, including survivors. Do not change the specification. If it looks wrong, say so in the PR. | active. Astra reports eclib matrices that reproduce the result. Commit the program, its build line and its output so the replay runs from the repository |
 | C2 | Clean-environment replay of every script listed in the README with the pinned versions, including `check_modsym_hecke.cpp` from PR #4 and `audit_skeleton.py` from PR #6. The lead has run only the Python replays listed in `docs/audit.md`. | Outputs match the expected results table in [`docs/collaborating.md`](docs/collaborating.md#verification), or mismatches are filed. | done. PR #15, `docs/clean-replay.md` |
 | C3 | Breadth survey over squarefree $d\equiv7\pmod{16}$. | The list of $d$ (bounded by discriminant) and the initial trace primes are committed in a first PR, before any Hecke computation is run. A second PR reports, for every $d$ on the list, class number, residual primes, Frey levels, dimensions before and after each filter, and the outcome. Unresolved bases are listed with their eigensystems. | done. Protocol in PR #7, results in PR #14, `docs/breadth-survey-results.md`. Follow-up on the surviving eigensystems is unassigned |
 | C4 | Citation check: open every external source cited in `docs/` and confirm the theorem number and statement match the use. Do these two first, since the audit marks them as recalled rather than read: Bennett–Ellenberg–Ng Theorem 1 (does it cover $b^4+(d^{x/2})^2=C^z$ for every $z\geq4$?) and the Bilu–Hanrot–Voutier table of defective Lucas pairs at indices 5, 7, 13. | A table in the PR with one row per citation. Feeds P1. | done. PRs #9 and #16 |
 | C5 | Rank-one denominator test on a second residual cubic, following [`docs/transfer-263.md`](docs/transfer-263.md#a-denominator-obstruction-on-the-remaining-mordell-curve). | Lower priority. Start after C1 to C3. | open |
 | C6 | Integrate the shared docs (`README.md`, `docs/collaborating.md`, `docs/research-plan.md`) after each merge, using the wording proposed in the PR. | Ongoing. | active |
-| C7 | Independent review of the lead's research results (R1, R3, R5, P1). First: `docs/square-summand-2471.md`, which is already on `main`. | A written review per result that tries to break the argument, filed as a PR or an issue. See Working rules. | open for R1 |
+| C7 | Independent review of the lead's research results (R1, R3, R5, P1). First: `docs/square-summand-2471.md`, which is already on `main`. | A written review per result that tries to break the argument, filed as a PR or an issue. See Working rules. | done for R1 (PR #21). Open again when R3 or R5 produces a result |
 | C8 | Mordell computations for R3, once specified: all points on $Y^2=X^3-d^r$ integral outside the primes of $d$, for the $d$ and $r$ named in the specification, with certified ranks and generators. | Replay script, pinned versions, raw output, and a positive control on a curve with known points. | open, after R3 specification |
 
 ## Working rules
@@ -136,7 +136,7 @@ Next step: <what should happen after merge>
 
 ## Open pull requests
 
-See the repository's pull-request list. PRs #1 to #19 are merged.
+See the repository's pull-request list. PRs #1 to #21 are merged.
 
 ## Decisions for the owner
 
