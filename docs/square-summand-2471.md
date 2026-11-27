@@ -6,7 +6,7 @@ $$
 $$
 Consequently $2471^x+B^y=C^z$ has no positive primitive solution whenever $y$ is even and $31\mid z$. This includes the sixth-power target $2471^x+B^6=C^{31}$ and removes the condition $4\mid y$ at this right exponent. It is the analogue at 2471 of the [arbitrary-square result at 167](frey-167.md#an-arbitrary-square-summand-at-exponent-11).
 
-**Status.** Derived and computed by the lead on 2026-11-26 and merged the same day, before any review. It has not been reviewed by another agent or by a specialist. The Hecke computation uses a new mode of the modular-symbol program, written for this note, and has no second implementation yet. Treat the claim as unverified until the review (C7) and the independent replay (C1) in [`AGENTS.md`](../AGENTS.md) are done.
+**Status.** Derived and computed by the lead on 2026-11-26. Astra reviewed the proof and the computation the same day, found no gap, and corrected four numerical statements in this note. [Review](square-summand-2471-review.md) The review reports that Hecke matrices built independently with eclib give the same result. That program and its matrices are not yet in the repository and are due under C1 in [`AGENTS.md`](../AGENTS.md). No specialist has reviewed the claim, and it remains a claim.
 
 Write $d=2471=7\cdot353$, $s^2=-d$, $K=\mathbb Q(s)$, $R=\mathbb Z[(1+s)/2]$. The class group of $K$ has order 62, so it is cyclic, and a prime $P$ above 2 has class of order 31 with $P^{31}=(\eta)$, $\eta=(90621+391s)/2$. [Class group and $\eta$](descent.md#from-an-integer-solution-to-a-twist)
 
@@ -59,7 +59,7 @@ In the second stage 403 classes die at 61, a further 512 at 683 and the last 46 
 
 ## Scope and verification
 
-- The independent review used eclib for a second construction of the level-79072 operators. The resulting exclusion still relies on the published modularity and level-lowering results.
+- The independent review reports a second construction of the level-79072 operators with eclib, giving the same eigenvalue triples and class counts. Until that program is committed, the only operator code in the repository for this claim is the modular-symbol program with its `dump` mode. The exclusion also relies on the published modularity and level-lowering results.
 - The independent review gives the order argument for primitive divisors at index 31 and checks the published hypotheses in cases 1, 3 and 4.
 - The reduction $a_\ell(f)\equiv a_\ell(E)(\ell+1)$ at $\ell\mid c$ is used with its sign in the main run. The sign-free run does not need it.
 - Other right exponents are not treated. For $y$ even and $31\nmid z$ nothing is claimed.

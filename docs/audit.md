@@ -61,4 +61,4 @@ The method throughout is established: descent in an imaginary quadratic field, p
 
 ## Later results
 
-The [arbitrary-square result at 2471](square-summand-2471.md) is not covered by this audit. It was merged before review. Its own note lists the checks that were run and those that were not.
+The [arbitrary-square result at 2471](square-summand-2471.md) is not covered by this audit. Astra reviewed it separately and found no gap. [Review](square-summand-2471-review.md)
