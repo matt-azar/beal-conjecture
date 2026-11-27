@@ -225,7 +225,7 @@ theorem sq_one_add_div_two_sub_self {K : Type*} [Field K] [CharZero K]
   have hx' : x ^ 2 = (Δ : K) := by rw [hx]; simp [eq_intCast]
   calc
     ((1 + x) / 2) ^ 2 - (1 + x) / 2
-        = ((1 + x) ^ 2 - 2 * (1 + x)) / 4 := by field_simp; ring_nf
+        = ((1 + x) ^ 2 - 2 * (1 + x)) / 4 := by field_simp; ring
     _ = (x ^ 2 - 1) / 4 := by ring
     _ = ((Δ : K) - 1) / 4 := by rw [hx']
     _ = (4 * ((Δ / 4 : ℤ) : K) + 1 - 1) / 4 := by rw [heK]
@@ -465,6 +465,10 @@ theorem charpoly_aeval (x y : ℚ) :
   · module
   · rw [h1, h2]; simp
 
+theorem smul_one_mul (r : ℚ) (z : QuadField d) :
+    (r • (1 : QuadField d)) * z = r • z := by
+  rw [Algebra.smul_def, Algebra.smul_def, mul_one]
+
 theorem isIntegral_of_trace_norm_int {x y : ℚ}
     (htr : ∃ m : ℤ, (m : ℚ) = 2 * x)
     (hn : ∃ n : ℤ, (n : ℚ) = x ^ 2 + (d : ℚ) * y ^ 2) :
@@ -536,9 +540,11 @@ theorem integral_eq_omega_coords
     omega
   have hpar := same_parity_of_norm_mod_four hmod hN4
   have hdiv2 : (2 : ℤ) ∣ (m - v) := by
+    apply Even.two_dvd
+    rw [Int.even_sub]
     rcases hpar with ⟨hm_e, hv_e⟩ | ⟨hm_o, hv_o⟩
-    · exact Even.two_dvd (Even.sub hm_e hv_e)
-    · exact Even.two_dvd (Odd.sub_odd hm_o hv_o)
+    · exact iff_of_true hm_e hv_e
+    · exact iff_of_false (Int.not_even_iff_odd.mpr hm_o) (Int.not_even_iff_odd.mpr hv_o)
   obtain ⟨a, ha⟩ := hdiv2
   refine ⟨a, v, ?_⟩
   have hm' : m = 2 * a + v := by linear_combination ha
@@ -707,20 +713,24 @@ theorem isDedekindDomain_omegaRing
 
 /-! ## Project bases: D = 42 (d = 167) and D = 618 (d = 2471) -/
 
+instance fact_pos_167 : Fact (0 < 167) := ⟨by decide⟩
+instance fact_pos_2471 : Fact (0 < 2471) := ⟨by decide⟩
+
 theorem isDedekindDomain_42 : IsDedekindDomain (OmegaRing 42) := by
-  haveI : Fact (0 < (167 : ℕ)) := ⟨by decide⟩
-  have hD : (4 : ℤ) * 42 = ((167 : ℕ) : ℤ) + 1 := by norm_num
-  have hmod : (167 : ℕ) % 4 = 3 := by native_decide
-  have hd : Squarefree (167 : ℕ) := by native_decide
-  have hpos : (0 : ℤ) < 4 * (42 : ℤ) - 1 := by norm_num
-  exact isDedekindDomain_omegaRing (d := 167) hD hmod hd hpos
+  refine isDedekindDomain_omegaRing (d := 167) (D := 42) (by decide)
+    (by decide) Beal.IdealDescent.squarefree_167 (by decide)
 
 theorem isDedekindDomain_618 : IsDedekindDomain (OmegaRing 618) := by
-  haveI : Fact (0 < (2471 : ℕ)) := ⟨by decide⟩
-  have hD : (4 : ℤ) * 618 = ((2471 : ℕ) : ℤ) + 1 := by norm_num
-  have hmod : (2471 : ℕ) % 4 = 3 := by native_decide
-  have hd : Squarefree (2471 : ℕ) := by native_decide
-  have hpos : (0 : ℤ) < 4 * (618 : ℤ) - 1 := by norm_num
-  exact isDedekindDomain_omegaRing (d := 2471) hD hmod hd hpos
+  refine isDedekindDomain_omegaRing (d := 2471) (D := 618) (by decide)
+    (by decide) Beal.IdealDescent.squarefree_2471 (by decide)
+
+instance instIsDedekindDomain_42 : IsDedekindDomain (OmegaRing 42) :=
+  isDedekindDomain_42
+
+instance instIsDedekindDomain_618 : IsDedekindDomain (OmegaRing 618) :=
+  isDedekindDomain_618
 
 end Beal.OmegaRingDedekind
+
+#print axioms Beal.OmegaRingDedekind.isDedekindDomain_42
+#print axioms Beal.OmegaRingDedekind.isDedekindDomain_618
