@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lean:
+    name: Lean build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Forbid sorry and new axiom declarations
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+          # Ignore documentation mentions written as `sorry` in backticks.
+          if rg -n --glob '*.lean' '\bsorry\b' lean/ | grep -v '`sorry`'; then
+            echo "::error::Lean sources must not contain sorry"
+            exit 1
+          fi
+          if rg -n --glob '*.lean' '^\s*axiom\s' lean/; then
+            echo "::error::Lean sources must not declare new axioms"
+            exit 1
+          fi
+          echo "No sorry or axiom declarations in lean/"
+
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Cache Mathlib build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            .lake/packages
+            .lake/build
+          key: lean-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+          restore-keys: |
+            lean-${{ runner.os }}-
+
+      - name: Get Mathlib oleans
+        run: lake exe cache get
+
+      - name: lake build
+        run: lake build
+
+  python-replays:
+    name: Standard-library replays
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: check_twists.py --exponents
+        run: python3 -I scripts/check_twists.py --exponents
+
+      - name: check_cubic_twists.py
+        run: python3 -I scripts/check_cubic_twists.py
+
+      - name: check_aux_traces.py --base 167
+        run: python3 -I scripts/check_aux_traces.py --base 167
+
+      - name: check_aux_traces.py --base 2471
+        run: python3 -I scripts/check_aux_traces.py --base 2471
+
+      - name: check_residual_form.py
+        run: python3 -I scripts/check_residual_form.py
+
+      - name: audit_skeleton.py
+        run: python3 -I scripts/audit_skeleton.py
+
+      - name: check_square_2471.py verify
+        run: python3 -I scripts/check_square_2471.py verify
