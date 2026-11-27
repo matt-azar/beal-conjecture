@@ -54,6 +54,7 @@ One row per claimed result. "Found in the literature" reports searches and sourc
 | The same at $d=2471$ | Bennett–Ellenberg–Ng, [Theorem 1](https://personal.math.ubc.ca/~bennett/BeElNgdraftFINAL.pdf) | $x$ even with $z\ge4$. The Bennett–Siksek theorems are for prime $q$ and do not apply to a composite base. | $x$ odd, and $3\mid z$. |
 | $167^x+U^2=c^{11}$ | Bennett–Siksek Theorem 4. Freitas–Naskręcki–Stoll on $X^2+Y^3=Z^{11}$ | $x$ even. Under GRH, the case $x=3$. | $x$ odd in general. |
 | $2471^x+U^2=c^{31}$ | [Darmon–Merel, Main Theorem, part 2](https://www.math.mcgill.ca/darmon/pub/Articles/Research/18.Merel/paper.pdf) | If $31\mid x$, then $c^{31}+(-2471^{x/31})^{31}=U^2$ is a nontrivial primitive solution of signature $(31,31,2)$, which the theorem excludes. | No source covering the whole family was found. The project-specific Hecke computation treats odd $x,c$ with $31\nmid x$. [Independent review](square-summand-2471-review.md) |
+| $263^x+U^2=c^{13}$ | Bennett–Siksek Theorem 4 | $x$ even. | $x$ odd, pending specialist review. [Note](square-summand-263.md) |
 | One summand a square forces a prime at least 13 in the other | Bennett–Siksek, [Theorem 2](https://doi.org/10.1090/tran/8734) | The complete list of 1,240 solutions. | Nothing. It is a corollary obtained by filtering their table. |
 | Class-number obstruction for squarefree $A$ | Classical primitive-divisor arguments for $x^2+D=y^n$ | The method, for $y$ odd and exponent prime to the class number. | The packaging only. |
 
