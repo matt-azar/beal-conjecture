@@ -14,6 +14,7 @@ The conjecture states that positive integers satisfying $A^x+B^y=C^z$ with $x,y,
 |---|---|
 | $A=167$, even $y$ and $11\mid z$ | The stronger equation $167^x+U^2=c^{11}$ has no primitive solution for any positive $x,U,c$. [Arbitrary square summand](docs/frey-167.md#an-arbitrary-square-summand-at-exponent-11) |
 | $A=2471$, even $y$ and $31\mid z$ | The stronger equation $2471^x+U^2=c^{31}$ has no primitive solution for any positive $x,U,c$. This includes $2471^x+B^6=C^{31}$. Reviewed within the project, with no gap found. Its Hecke computation has two independent implementations. No specialist has reviewed it. [Arbitrary square summand](docs/square-summand-2471.md) |
+| $A=263$, even $y$ and $13\mid z$ | The stronger equation $263^x+U^2=c^{13}$ has no primitive solution for any positive $x,U,c$. Reviewed within the project, with no gap found, and computed three ways. [Arbitrary square summand](docs/square-summand-263.md) |
 | One summand is a square | The complementary summand has a prime divisor at least 13. [Proof and verified 1,240-row classification filter](docs/results.md) |
 | Odd $x$, fourth-power summand, squarefree first base $A$, right exponent divisible by prime $p\geq11$ | Either $A\equiv15\pmod{16}$ or $p$ divides the class number of $\mathbb Q(\sqrt{-A})$. [Quadratic class-number obstruction](docs/results.md#the-quadratic-class-number-obstruction) |
 | Right exponent divisible by 11 or 31, varying first summand | The modular arguments exclude infinite families with a free multiplier and stated local conditions. [Exponent 11](docs/frey-167.md#varying-the-first-summand) · [Exponent 31](docs/varying-base.md) |
@@ -49,7 +50,7 @@ git -C ../lebnag show e8b1dab1f30487b0c38eee94b297bd88c821924f:lebesgue_nagell_s
 python3 scripts/check_smooth.py ../lebesgue_nagell_solutions.txt
 ```
 
-The arbitrary-square result at 2471 has its own replay. The command below checks all 961 descent classes against stored Hecke matrices in under a minute. Regenerating the matrices takes about ten minutes with the C++ program. [Commands and expected output](docs/square-summand-2471.md#reproduction)
+The arbitrary-square result at 263 is checked by `python3 scripts/check_square_class_test.py --base 263 verify`. [Commands](docs/square-summand-263.md#reproduction) The arbitrary-square result at 2471 has its own replay. The command below checks all 961 descent classes against stored Hecke matrices in under a minute. Regenerating the matrices takes about ten minutes with the C++ program. [Commands and expected output](docs/square-summand-2471.md#reproduction)
 
 ```sh
 python3 scripts/check_square_2471.py verify

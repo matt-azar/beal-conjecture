@@ -1,7 +1,7 @@
 """Class test for d^x + U^2 = c^p with x odd and c odd, where p divides h(-d). Bases 263 (p=13) and 2471 (p=31).
 
   python3 scripts/check_square_class_test.py --base 263 filters [--unsigned]
-  python3 scripts/check_square_class_test.py --base 263 verify [DIR/PREFIX] [--unsigned-space]
+  python3 scripts/check_square_class_test.py --base 263 verify [DIR/PREFIX]
   python3 scripts/check_square_class_test.py --base 263 sieve
 
 Same method as scripts/check_square_2471.py, with the base as a parameter. For 2471 it reads the matrices

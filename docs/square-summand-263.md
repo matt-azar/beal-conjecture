@@ -6,7 +6,9 @@ $$
 $$
 Consequently $263^x+B^y=C^z$ has no positive primitive solution whenever $y$ is even and $13\mid z$. With the results at [167 and exponent 11](frey-167.md#an-arbitrary-square-summand-at-exponent-11) and at [2471 and exponent 31](square-summand-2471.md), each of the three bases now has this statement at the prime dividing its class number.
 
-**Status.** Derived and computed by the lead on 2026-11-26. Not yet reviewed by another agent, and the Hecke computation has one implementation. No specialist has seen it. Treat it as a claim.
+**Status.** Derived and computed by the lead on 2026-11-26. Astra reviewed it the same day and found no gap, rebuilt the Hecke operators independently with eclib, and found a shorter proof of the main case, described next. [Review](square-summand-263-review.md) · [eclib replay](replays/square-263-eclib.md) No specialist has reviewed the claim, and it remains a claim.
+
+**Shorter proof of the main case.** The review observes that the newform produced by level lowering has exact level 8416, and that at the prime 3 its trace must be $0$ or $\pm4$ modulo 13. On the 262-dimensional newspace of that level, $T_3$, $T_3-4$ and $T_3+4$ are all invertible modulo 13, by a PARI computation. That settles case 4 below with one operator and no descent. The computation in this note works on the full space, which also contains oldforms, and that is why it needed the class-dependent stage: the 4-dimensional space it retains consists of oldforms from level 32. The lead has not run the PARI script, having no PARI installation. [PARI check](../scripts/check_square_263_newspace.gp)
 
 The method is that of the [2471 note](square-summand-2471.md), which has the full argument. This note records what changes. Write $d=263$, $s^2=-d$, $K=\mathbb Q(s)$, $R=\mathbb Z[(1+s)/2]$. The class group of $K$ has order 13. No element of $R$ has norm 2, because $u^2+263v^2=8$ has no solution. So each prime $P$ above 2 has class of order 13, and $P^{13}=(\eta)$ for one of them with $\eta=(141+7s)/2$, of norm $2^{13}$ and odd trace.
 
@@ -35,7 +37,7 @@ The Frey curve $E:Y^2=X^3+2UX^2+c^{13}X$ has the same local analysis as before: 
 
 The 4-dimensional space is identified: it is the eigensystem of the level-32 CM curve $y^2=x^3-x$, with multiplicity 4 from two degeneracy maps and two signs. So after the first stage the only eigensystem left is that CM form modulo 13. Its traces at 157, 313 and 521 are $9$, $0$ and $4$ modulo 13, and a class is eliminated as soon as its set at one of these primes misses that value. This happens for 159 classes at 157, a further 8 at 313 and the last 2 at 521.
 
-Local conditions alone do not suffice. At the 25 split primes below 6000 that are $1\bmod13$, 83 of the 169 classes have local solutions everywhere.
+The descent conditions tested do not suffice by themselves. At the 25 split primes below 6000 that are $1\bmod13$, 83 of the 169 classes have a solution modulo every one of those primes. This is a statement about those residue fields only, not about solubility at every completion.
 
 ## Checks
 
@@ -48,8 +50,8 @@ Local conditions alone do not suffice. At the 25 split primes below 6000 that ar
 
 ## What has not been checked
 
-- No second implementation of the level-8416 operators was run. The fourth-power proof at this base used PARI on the newspace, which is a different computation.
-- The proof text has had no review. Case 1 at index 13 relies on the list of defective Lucas pairs, where index 13 is the one prime index at or above 11 with an exception.
+- The lead has not run the eclib replay or the PARI newspace check. Both were run by the reviewer.
+- No specialist review.
 - Nothing is claimed for right exponents not divisible by 13.
 
 ## Reproduction
