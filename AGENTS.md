@@ -2,7 +2,7 @@
 
 This file is the shared reference for every AI agent working in this repository. Read it before starting a task and again before opening a pull request.
 
-Last updated 2026-11-26 (evening) against `main` at `b3dad67`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
+Last updated 2026-11-26 (evening) against `main` at `cfa3d6d`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
 
 ## Roles
 
@@ -40,7 +40,7 @@ Environment: Lean 4.19.0 via elan, Mathlib v4.19.0 (run `lake exe cache get` bef
 You are the computation and verification agent for github.com/matt-azar/beal-conjecture.
 1. Read AGENTS.md in full, then README.md ("Reproduce the calculations") and docs/collaborating.md ("Verification").
 2. Your files: scripts/, and the result sections of the per-topic notes in docs/. For README.md, docs/collaborating.md and docs/research-plan.md follow the "Shared files" rule and task C6.
-3. Take tasks from the "Computation and verification" table of AGENTS.md in this order: C1, C7 (whenever a lead research result is unreviewed), C8, C5. C6 runs after every merge. C2, C3 and C4 are done.
+3. Take tasks from the "Computation and verification" table of AGENTS.md in this order: C7 and C1 (whenever a lead research result is unreviewed or has one implementation), C8, C5. C6 runs after every merge. C2, C3 and C4 are done.
 4. Branch astra/<ID>-<slug>. Open a PR titled "<ID>: <summary>" using the handoff template. Do not merge and do not edit AGENTS.md.
 5. Report every output exactly as produced, including mismatches, survivors and failures. Never adjust a specification, a prime list or a parameter to change an outcome. If a specification looks wrong, say so in the PR and run it as written.
 6. For C7, your job is to break the argument: look for a missed case, an unmet hypothesis of a cited theorem, or a sign or orientation error. "No objection found" must list what you checked.
@@ -55,7 +55,7 @@ The claimed results on `main` are:
 
 1. For $A\in\{167,263,2471\}$, no positive primitive solution of $A^x+B^y=C^z$ with $x,y,z\geq3$ and $4\mid y$. Computer-assisted, see [`docs/fixed-bases.md`](docs/fixed-bases.md).
 2. $167^x+U^2=c^{11}$ has no primitive solution. See [`docs/frey-167.md`](docs/frey-167.md).
-3. $2471^x+U^2=c^{31}$ has no primitive solution. Reviewed by Astra in PR #21 with no gap found. The eclib replay reported there is not yet committed (C1). See [`docs/square-summand-2471.md`](docs/square-summand-2471.md).
+3. $2471^x+U^2=c^{31}$ has no primitive solution. Reviewed by Astra in PR #21 with no gap found, and replayed with eclib in PR #22. See [`docs/square-summand-2471.md`](docs/square-summand-2471.md).
 4. The smooth-summand, class-number and varying-first-summand restrictions listed in the [README](README.md).
 5. A twelve-base survey with exclusions at $(151,7)$ and $(167,11)$ and surviving eigensystems at 71, 103 and 119. See [`docs/breadth-survey-results.md`](docs/breadth-survey-results.md).
 
@@ -93,7 +93,7 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| C1 | Independent replay for R1 (PR #18): recompute the Hecke operators at 61, 683 and 1117 on the 42-dimensional retained space at level 79072 modulo 31 with a second implementation (eclib or PARI), and rerun `scripts/check_square_2471.py verify` on the result. Later, the computations specified by R2. | A replay script per computation with pinned versions, a positive control, and the raw output committed in the doc. Report the output as found, including survivors. Do not change the specification. If it looks wrong, say so in the PR. | active. Astra reports eclib matrices that reproduce the result. Commit the program, its build line and its output so the replay runs from the repository |
+| C1 | Independent replay for R1 (PR #18): recompute the Hecke operators at 61, 683 and 1117 on the 42-dimensional retained space at level 79072 modulo 31 with a second implementation (eclib or PARI), and rerun `scripts/check_square_2471.py verify` on the result. Later, the computations specified by R2. | A replay script per computation with pinned versions, a positive control, and the raw output committed in the doc. Report the output as found, including survivors. Do not change the specification. If it looks wrong, say so in the PR. | done for R1 (PR #22, `docs/replays/square-2471-eclib.md`). Open again for R2 or R5 |
 | C2 | Clean-environment replay of every script listed in the README with the pinned versions, including `check_modsym_hecke.cpp` from PR #4 and `audit_skeleton.py` from PR #6. The lead has run only the Python replays listed in `docs/audit.md`. | Outputs match the expected results table in [`docs/collaborating.md`](docs/collaborating.md#verification), or mismatches are filed. | done. PR #15, `docs/clean-replay.md` |
 | C3 | Breadth survey over squarefree $d\equiv7\pmod{16}$. | The list of $d$ (bounded by discriminant) and the initial trace primes are committed in a first PR, before any Hecke computation is run. A second PR reports, for every $d$ on the list, class number, residual primes, Frey levels, dimensions before and after each filter, and the outcome. Unresolved bases are listed with their eigensystems. | done. Protocol in PR #7, results in PR #14, `docs/breadth-survey-results.md`. Follow-up on the surviving eigensystems is unassigned |
 | C4 | Citation check: open every external source cited in `docs/` and confirm the theorem number and statement match the use. Do these two first, since the audit marks them as recalled rather than read: Bennett–Ellenberg–Ng Theorem 1 (does it cover $b^4+(d^{x/2})^2=C^z$ for every $z\geq4$?) and the Bilu–Hanrot–Voutier table of defective Lucas pairs at indices 5, 7, 13. | A table in the PR with one row per citation. Feeds P1. | done. PRs #9 and #16 |
@@ -136,7 +136,7 @@ Next step: <what should happen after merge>
 
 ## Open pull requests
 
-See the repository's pull-request list. PRs #1 to #21 are merged.
+See the repository's pull-request list. PRs #1 to #23 are merged.
 
 ## Decisions for the owner
 
