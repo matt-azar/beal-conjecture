@@ -1,0 +1,149 @@
+signed.filters
+3 0 4 9
+5 0 2 4 9 11
+7 0 2 4 9 11
+11 0 1 4 9 12
+17 2 6 7 8 11
+19 0 2 4 5 6 7 8 9 11
+23 0 2 4 5 8 9 11
+31 0 4 5 6 7 8 9
+37 1 2 3 6 7 10 11
+43 0 1 4 5 8 9 12
+61 1 2 3 6 7 10 11 12
+
+signed.eclib
+sign 1 ambient 1060
+T3 eigenvalue 0 dimension 12
+T3 eigenvalue 4 dimension 11
+T3 eigenvalue 9 dimension 0
+after 3 dimension 23
+after 5 dimension 7
+after 7 dimension 2
+after 11 dimension 2
+after 17 dimension 2
+after 19 dimension 2
+after 23 dimension 2
+after 31 dimension 2
+after 37 dimension 2
+after 43 dimension 2
+after 61 dimension 2
+computed T_3
+computed T_5
+computed T_7
+computed T_11
+computed T_17
+computed T_19
+computed T_157
+computed T_313
+computed T_521
+computed T_677
+computed T_937
+sign -1 ambient 1053
+T3 eigenvalue 0 dimension 12
+T3 eigenvalue 4 dimension 0
+T3 eigenvalue 9 dimension 4
+after 3 dimension 16
+after 5 dimension 7
+after 7 dimension 2
+after 11 dimension 2
+after 17 dimension 2
+after 19 dimension 2
+after 23 dimension 2
+after 31 dimension 2
+after 37 dimension 2
+after 43 dimension 2
+after 61 dimension 2
+computed T_3
+computed T_5
+computed T_7
+computed T_11
+computed T_17
+computed T_19
+computed T_157
+computed T_313
+computed T_521
+computed T_677
+computed T_937
+
+signed.verify
+base 263, exponent 13: retained space of dimension 4; the 11 operators commute
+control: the CM system of y^2 = x^3 - x has multiplicity 4 and every operator matches point counts
+control: orbit and direct enumerations of class sets agree on 4 samples
+signed multiplicative traces: classes surviving = []; last prime needed -> classes: {157: 159, 313: 8, 521: 2}
+both multiplicative signs allowed: classes surviving = []; last prime needed -> classes: {157: 159, 313: 8, 521: 2}
+all 169 classes (x mod 26, k) have zero common kernel
+
+unsigned.filters
+3 0 4 9
+5 0 2 4 9 11
+7 0 2 4 9 11
+11 0 1 4 9 12
+17 2 5 6 7 8 11
+19 0 2 4 5 6 7 8 9 11
+23 0 2 4 5 8 9 11
+31 0 4 5 6 7 8 9
+37 1 2 3 6 7 10 11 12
+43 0 1 4 5 8 9 12
+61 1 2 3 6 7 10 11 12
+
+unsigned.eclib
+sign 1 ambient 1060
+T3 eigenvalue 0 dimension 12
+T3 eigenvalue 4 dimension 11
+T3 eigenvalue 9 dimension 0
+after 3 dimension 23
+after 5 dimension 7
+after 7 dimension 2
+after 11 dimension 2
+after 17 dimension 2
+after 19 dimension 2
+after 23 dimension 2
+after 31 dimension 2
+after 37 dimension 2
+after 43 dimension 2
+after 61 dimension 2
+computed T_3
+computed T_5
+computed T_7
+computed T_11
+computed T_17
+computed T_19
+computed T_157
+computed T_313
+computed T_521
+computed T_677
+computed T_937
+sign -1 ambient 1053
+T3 eigenvalue 0 dimension 12
+T3 eigenvalue 4 dimension 0
+T3 eigenvalue 9 dimension 4
+after 3 dimension 16
+after 5 dimension 7
+after 7 dimension 2
+after 11 dimension 2
+after 17 dimension 2
+after 19 dimension 2
+after 23 dimension 2
+after 31 dimension 2
+after 37 dimension 2
+after 43 dimension 2
+after 61 dimension 2
+computed T_3
+computed T_5
+computed T_7
+computed T_11
+computed T_17
+computed T_19
+computed T_157
+computed T_313
+computed T_521
+computed T_677
+computed T_937
+
+unsigned.verify
+base 263, exponent 13: retained space of dimension 4; the 11 operators commute
+control: the CM system of y^2 = x^3 - x has multiplicity 4 and every operator matches point counts
+control: orbit and direct enumerations of class sets agree on 4 samples
+signed multiplicative traces: classes surviving = []; last prime needed -> classes: {157: 159, 313: 8, 521: 2}
+both multiplicative signs allowed: classes surviving = []; last prime needed -> classes: {157: 159, 313: 8, 521: 2}
+all 169 classes (x mod 26, k) have zero common kernel

@@ -1,4 +1,4 @@
-// Independent full-space replay for the square-summand calculation at level 79072.
+// Independent full-space replay for the square-summand calculation at levels 79072 and 8416.
 // See docs/replays/square-2471-eclib.md for dependencies, inputs and invocation.
 #include <fflas-ffpack/fflas-ffpack.h>
 #include <givaro/modular-balanced.h>
@@ -10,19 +10,24 @@
 #include <stdexcept>
 
 namespace {
-constexpr int level = 79072, prime = 31;
+struct Parameters {
+    int level, prime;
+    std::vector<int> dump_primes;
+};
+const Parameters base2471{79072, 31, {3,5,11,13,17,19,61,683,1117,1303,1489,1861,2357,2543}};
+const Parameters base263{8416, 13, {3,5,7,11,17,19,157,313,521,677,937}};
 using Field = Givaro::ModularBalanced<float>;
 using Rows = std::vector<std::vector<int>>;
 using Matrix = NTL::mat_zz_p;
 
-int residue(long value) { return (value % prime + prime) % prime; }
+int residue(long value, int prime) { return (value % prime + prime) % prime; }
 
 struct Filter {
     int ell;
     std::vector<int> values;
 };
 
-std::vector<Filter> read_filters(const char* path) {
+std::vector<Filter> read_filters(const char* path, int prime) {
     std::ifstream input(path);
     std::vector<Filter> filters;
     std::string line;
@@ -35,14 +40,14 @@ std::vector<Filter> read_filters(const char* path) {
         filters.push_back(filter);
     }
     if (filters.empty() || filters.front().ell != 3 ||
-        filters.front().values != std::vector<int>{0, 4, 27})
-        throw std::runtime_error("expected the R1 filter at 3");
+        filters.front().values != std::vector<int>{0, 4, prime-4})
+        throw std::runtime_error("unexpected filter at 3");
     return filters;
 }
 
 // Rows represent functionals by their values on eclib's primal Manin basis.
 // Column i of the primal operator is row i in the equations for a functional.
-Rows first_space(const homspace& symbols, const Filter& filter) {
+Rows first_space(const homspace& symbols, const Filter& filter, int prime) {
     const int n = symbols.h1dim();
     const Field field(prime);
     Rows basis;
@@ -61,7 +66,7 @@ Rows first_space(const homspace& symbols, const Filter& filter) {
         for (size_t k = 0; k < dimension; ++k) {
             auto& v = basis.emplace_back(n);
             for (int i = 0; i < n; ++i)
-                v[i] = residue(static_cast<long>(nullspace[i*stride+k]));
+                v[i] = residue(static_cast<long>(nullspace[i*stride+k]), prime);
         }
         FFLAS::fflas_delete(nullspace);
         std::cout << "T3 eigenvalue " << a << " dimension " << dimension << std::endl;
@@ -69,7 +74,7 @@ Rows first_space(const homspace& symbols, const Filter& filter) {
     return basis;
 }
 
-std::vector<int> normalize(Rows& rows) {
+std::vector<int> normalize(Rows& rows, int prime) {
     std::vector<int> pivots;
     const int m = rows.size(), n = rows.at(0).size();
     for (int j = 0; j < n && static_cast<int>(pivots.size()) < m; ++j) {
@@ -95,7 +100,7 @@ std::vector<int> normalize(Rows& rows) {
 // Every intermediate space is a common Hecke kernel and hence stable.
 // Its pivot evaluations determine each image uniquely.
 Matrix restrict_hecke(const homspace& symbols, const Rows& basis,
-                      const std::vector<int>& pivots, int ell) {
+                      const std::vector<int>& pivots, int ell, int prime) {
     const int m = basis.size();
     Matrix result;
     result.SetDims(m, m);
@@ -111,7 +116,7 @@ Matrix restrict_hecke(const homspace& symbols, const Rows& basis,
 }
 
 void filter_space(Rows& basis, std::vector<int>& pivots,
-                  const Matrix& op, const std::vector<int>& values) {
+                  const Matrix& op, const std::vector<int>& values, int prime) {
     const int m = basis.size();
     Matrix product = NTL::ident_mat_zz_p(m), kernel;
     for (int a : values) {
@@ -132,27 +137,26 @@ void filter_space(Rows& basis, std::vector<int>& pivots,
         for (int& value : next[i]) value %= prime;
     }
     basis = std::move(next);
-    pivots = normalize(basis);
+    pivots = normalize(basis, prime);
 }
 
-const std::vector<int> dump_primes{3,5,11,13,17,19,61,683,1117,1303,1489,1861,2357,2543};
-
-std::vector<Matrix> replay(int sign, const std::vector<Filter>& filters) {
-    homspace symbols(level, sign, 0, 0);
+std::vector<Matrix> replay(int sign, const std::vector<Filter>& filters, const Parameters& params) {
+    const int prime = params.prime;
+    homspace symbols(params.level, sign, 0, 0);
     // eclib returns denominator-scaled columns. The run uses integral bases.
     if (symbols.h1denom() != 1) throw std::runtime_error("nonintegral Manin basis");
     std::cout << "sign " << sign << " ambient " << symbols.h1dim() << std::endl;
-    Rows basis = first_space(symbols, filters.front());
-    auto pivots = normalize(basis);
+    Rows basis = first_space(symbols, filters.front(), prime);
+    auto pivots = normalize(basis, prime);
     std::cout << "after 3 dimension " << basis.size() << std::endl;
     for (size_t i = 1; i < filters.size(); ++i) {
         const auto& f = filters[i];
-        filter_space(basis, pivots, restrict_hecke(symbols, basis, pivots, f.ell), f.values);
+        filter_space(basis, pivots, restrict_hecke(symbols, basis, pivots, f.ell, prime), f.values, prime);
         std::cout << "after " << f.ell << " dimension " << basis.size() << std::endl;
     }
     std::vector<Matrix> blocks;
-    for (int ell : dump_primes) {
-        blocks.push_back(restrict_hecke(symbols, basis, pivots, ell));
+    for (int ell : params.dump_primes) {
+        blocks.push_back(restrict_hecke(symbols, basis, pivots, ell, prime));
         std::cout << "computed T_" << ell << std::endl;
     }
     return blocks;
@@ -160,17 +164,18 @@ std::vector<Matrix> replay(int sign, const std::vector<Filter>& filters) {
 } // namespace
 
 int main(int argc, char** argv) {
-    if (argc != 3) {
-        std::cerr << "usage: check_square_2471_eclib FILTERS OUTPUT_PREFIX\n";
+    if (argc != 3 && (argc != 4 || std::string(argv[3]) != "263")) {
+        std::cerr << "usage: check_square_2471_eclib FILTERS OUTPUT_PREFIX [263]\n";
         return 1;
     }
-    NTL::zz_p::init(prime);
-    const auto filters = read_filters(argv[1]);
-    const auto plus = replay(1, filters);
-    const auto minus = replay(-1, filters);
-    for (size_t k = 0; k < dump_primes.size(); ++k) {
+    const Parameters& params = argc == 4 ? base263 : base2471;
+    NTL::zz_p::init(params.prime);
+    const auto filters = read_filters(argv[1], params.prime);
+    const auto plus = replay(1, filters, params);
+    const auto minus = replay(-1, filters, params);
+    for (size_t k = 0; k < params.dump_primes.size(); ++k) {
         const int p = plus[k].NumRows(), n = p + minus[k].NumRows();
-        std::ofstream out(std::string(argv[2]) + "_" + std::to_string(dump_primes[k]) + ".txt");
+        std::ofstream out(std::string(argv[2]) + "_" + std::to_string(params.dump_primes[k]) + ".txt");
         out.exceptions(std::ios::badbit | std::ios::failbit);
         out << n << '\n';
         for (int i = 0; i < n; ++i) {
