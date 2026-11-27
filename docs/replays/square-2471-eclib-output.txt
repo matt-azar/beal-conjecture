@@ -1,0 +1,191 @@
+eclib
+sign 1 ambient 11336
+T3 eigenvalue 0 dimension 84
+T3 eigenvalue 4 dimension 26
+T3 eigenvalue 27 dimension 2
+after 3 dimension 112
+after 5 dimension 63
+after 11 dimension 44
+after 13 dimension 44
+after 17 dimension 21
+after 19 dimension 21
+after 23 dimension 21
+after 29 dimension 21
+after 37 dimension 21
+after 41 dimension 21
+after 43 dimension 21
+after 47 dimension 21
+after 53 dimension 21
+after 59 dimension 21
+after 61 dimension 21
+after 89 dimension 21
+after 101 dimension 21
+after 103 dimension 21
+after 109 dimension 21
+after 113 dimension 21
+after 127 dimension 21
+after 139 dimension 21
+after 173 dimension 21
+after 191 dimension 21
+after 197 dimension 21
+after 227 dimension 21
+computed T_3
+computed T_5
+computed T_11
+computed T_13
+computed T_17
+computed T_19
+computed T_61
+computed T_683
+computed T_1117
+computed T_1303
+computed T_1489
+computed T_1861
+computed T_2357
+computed T_2543
+sign -1 ambient 11321
+T3 eigenvalue 0 dimension 84
+T3 eigenvalue 4 dimension 3
+T3 eigenvalue 27 dimension 10
+after 3 dimension 97
+after 5 dimension 48
+after 11 dimension 29
+after 13 dimension 29
+after 17 dimension 21
+after 19 dimension 21
+after 23 dimension 21
+after 29 dimension 21
+after 37 dimension 21
+after 41 dimension 21
+after 43 dimension 21
+after 47 dimension 21
+after 53 dimension 21
+after 59 dimension 21
+after 61 dimension 21
+after 89 dimension 21
+after 101 dimension 21
+after 103 dimension 21
+after 109 dimension 21
+after 113 dimension 21
+after 127 dimension 21
+after 139 dimension 21
+after 173 dimension 21
+after 191 dimension 21
+after 197 dimension 21
+after 227 dimension 21
+computed T_3
+computed T_5
+computed T_11
+computed T_13
+computed T_17
+computed T_19
+computed T_61
+computed T_683
+computed T_1117
+computed T_1303
+computed T_1489
+computed T_1861
+computed T_2357
+computed T_2543
+
+verify-signed
+dimension of the retained space: 42; the 14 operators commute
+control: the CM system of y^2 = x^3 - x has multiplicity 8 and all 14 operators match point counts
+control: orbit and direct enumerations of class sets agree on 5 samples
+signed multiplicative traces: classes surviving = []; last prime needed -> classes: {61: 403, 683: 512, 1117: 46}
+both multiplicative signs allowed: classes surviving = []; last prime needed -> classes: {61: 403, 683: 512, 1117: 46}
+all 961 classes (x mod 62, k) have zero common kernel
+
+eclib-unsigned
+sign 1 ambient 11336
+T3 eigenvalue 0 dimension 84
+T3 eigenvalue 4 dimension 26
+T3 eigenvalue 27 dimension 2
+after 3 dimension 112
+after 5 dimension 63
+after 11 dimension 44
+after 13 dimension 44
+after 17 dimension 21
+after 19 dimension 21
+after 23 dimension 21
+after 29 dimension 21
+after 37 dimension 21
+after 41 dimension 21
+after 43 dimension 21
+after 47 dimension 21
+after 53 dimension 21
+after 59 dimension 21
+after 61 dimension 21
+after 89 dimension 21
+after 101 dimension 21
+after 103 dimension 21
+after 109 dimension 21
+after 113 dimension 21
+after 127 dimension 21
+after 139 dimension 21
+after 191 dimension 21
+after 227 dimension 21
+computed T_3
+computed T_5
+computed T_11
+computed T_13
+computed T_17
+computed T_19
+computed T_61
+computed T_683
+computed T_1117
+computed T_1303
+computed T_1489
+computed T_1861
+computed T_2357
+computed T_2543
+sign -1 ambient 11321
+T3 eigenvalue 0 dimension 84
+T3 eigenvalue 4 dimension 3
+T3 eigenvalue 27 dimension 10
+after 3 dimension 97
+after 5 dimension 48
+after 11 dimension 29
+after 13 dimension 29
+after 17 dimension 21
+after 19 dimension 21
+after 23 dimension 21
+after 29 dimension 21
+after 37 dimension 21
+after 41 dimension 21
+after 43 dimension 21
+after 47 dimension 21
+after 53 dimension 21
+after 59 dimension 21
+after 61 dimension 21
+after 89 dimension 21
+after 101 dimension 21
+after 103 dimension 21
+after 109 dimension 21
+after 113 dimension 21
+after 127 dimension 21
+after 139 dimension 21
+after 191 dimension 21
+after 227 dimension 21
+computed T_3
+computed T_5
+computed T_11
+computed T_13
+computed T_17
+computed T_19
+computed T_61
+computed T_683
+computed T_1117
+computed T_1303
+computed T_1489
+computed T_1861
+computed T_2357
+computed T_2543
+
+verify-unsigned
+dimension of the retained space: 42; the 14 operators commute
+control: the CM system of y^2 = x^3 - x has multiplicity 8 and all 14 operators match point counts
+control: orbit and direct enumerations of class sets agree on 5 samples
+signed multiplicative traces: classes surviving = []; last prime needed -> classes: {61: 403, 683: 512, 1117: 46}
+both multiplicative signs allowed: classes surviving = []; last prime needed -> classes: {61: 403, 683: 512, 1117: 46}
+all 961 classes (x mod 62, k) have zero common kernel
