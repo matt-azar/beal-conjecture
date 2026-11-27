@@ -6,7 +6,7 @@ $$
 $$
 Consequently $2471^x+B^y=C^z$ has no positive primitive solution whenever $y$ is even and $31\mid z$. This includes the sixth-power target $2471^x+B^6=C^{31}$ and removes the condition $4\mid y$ at this right exponent. It is the analogue at 2471 of the [arbitrary-square result at 167](frey-167.md#an-arbitrary-square-summand-at-exponent-11).
 
-**Status.** Derived and computed by the lead on 2026-11-26. It has not been reviewed by another agent or by a specialist. The Hecke computation uses a new mode of the modular-symbol program, written for this note. Treat the claim as unverified until the review under C7 is done.
+**Status.** Derived and computed by the lead on 2026-11-26 and merged the same day, before any review. It has not been reviewed by another agent or by a specialist. The Hecke computation uses a new mode of the modular-symbol program, written for this note, and has no second implementation yet. Treat the claim as unverified until the review (C7) and the independent replay (C1) in [`AGENTS.md`](../AGENTS.md) are done.
 
 Write $d=2471=7\cdot353$, $s^2=-d$, $K=\mathbb Q(s)$, $R=\mathbb Z[(1+s)/2]$. The class group of $K$ has order 62, so it is cyclic, and a prime $P$ above 2 has class of order 31 with $P^{31}=(\eta)$, $\eta=(90621+391s)/2$. [Class group and $\eta$](descent.md#from-an-integer-solution-to-a-twist)
 
