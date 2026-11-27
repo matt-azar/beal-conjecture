@@ -2,7 +2,7 @@
 
 This file is the shared reference for every AI agent working in this repository. Read it before starting a task and again before opening a pull request.
 
-Last updated 2026-11-26 (evening) against `main` at `cfa3d6d`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
+Last updated 2026-11-26 (evening) against `main` at `07db6d2`. Only the lead edits this file. Everyone else proposes changes to it in a PR description.
 
 ## Roles
 
@@ -25,13 +25,14 @@ The owner delegates a lane by giving an agent the matching brief below. Each bri
 
 ```
 You are the formalization agent for github.com/matt-azar/beal-conjecture.
-1. Read AGENTS.md in full, then docs/collaborating.md (section "Verification").
-2. Your files: lean/, lakefile.toml, lake-manifest.json, lean-toolchain, .github/workflows/. Touch nothing else except as the "Shared files" rule allows.
-3. Take the first task in the "Formalization" table of AGENTS.md whose status is open and whose prerequisites are done. Work top to bottom.
-4. Branch cursor/<ID>-<slug>. Open a PR titled "<ID>: <summary>" using the handoff template. Do not merge and do not edit AGENTS.md.
-5. A theorem counts as done only when its hypotheses match the task's "Done when" column. If a statement in docs/ cannot be formalized as written, stop and report that in the PR. It is a finding, not a failure.
-6. After opening a PR, start the next open task. Do not wait for review.
-Environment: Lean 4.19.0 via elan, Mathlib v4.19.0 (run `lake exe cache get` before `lake build`), 16 GB RAM or more.
+1. Read AGENTS.md in full. Then read the "Formalization" section again, including "Lean map" and "Notes for the formalization agent", and the section "Verification" of docs/collaborating.md. For the mathematics behind a task, read the note its row links to.
+2. Your files: lean/, lakefile.toml, lake-manifest.json, lean-toolchain, .github/workflows/. Touch nothing else. Put any wording for README.md or docs/ in the PR description.
+3. Take tasks from the "Formalization" table in the order given in its "Order" column. Skip a task only if its prerequisite is not merged.
+4. One task per branch, named cursor/<ID>-<slug>. Open a PR titled "<ID>: <summary>" using the handoff template. Do not merge and do not edit AGENTS.md. After opening a PR, start the next task from main plus your open branches. Do not wait for review.
+5. A task is done only when the theorem's hypotheses match its "Done when" cell. No sorry, no new axiom. A theorem that assumes part of its conclusion must say so in its docstring.
+6. If a statement in docs/ or an existing Lean statement is false, unprovable as written, or stronger than the mathematics supports, stop and report it in the PR with the smallest counterexample or the missing hypothesis. That is a finding and counts as progress.
+7. Every PR description includes the output of `lake build` and of `#print axioms` for each new headline theorem.
+Environment: Lean 4.19.0 via elan, Mathlib v4.19.0. Run `lake exe cache get` before `lake build`. 16 GB RAM or more.
 ```
 
 ### Brief for the computation and verification agent
@@ -69,12 +70,50 @@ Status values: `open`, `active`, `review`, `done`, `blocked`.
 
 ### Formalization (Cursor)
 
-| ID | Task | Done when | Status |
-|---|---|---|---|
-| L1 | Mathlib `v4.19.0` and `IdealDescent.lean` (PR #2, merged as `0103d29`). Follow-up: paste the `#print axioms` output for each headline theorem into `docs/collaborating.md` and state there that `class_number_167` and `class_number_2471` use `native_decide`. | Follow-up merged. | done, follow-up open |
-| L2 | Instantiate `IdealAPI` for Mathlib ideals of $\mathcal O_K$ and fill `DedekindGap` for 167 and 2471. | `no_integral_twist167_of_gap` and `no_integral_twist2471_of_gap` are restated with no `api` or `gap` hypothesis, starting from a primitive solution. No `sorry`, no new `axiom`. | active. `IdealAPI` is instantiated on Mathlib ideals of $\mathbb Z[\omega]$ in `OmegaRing.lean` (PR #8). Filling `DedekindGap` remains |
-| L3 | Formalize the period of the cubic residue certificate and the passage from the ideal factorization to the input of `CubicTwists.no_local_cubes`. | A theorem whose hypothesis is the equation with right exponent 3, not a residue table. | open |
-| L4 | Continuous integration. | A workflow runs `lake build`, the pure-Python replays (`check_twists.py --exponents`, `check_cubic_twists.py`, `check_aux_traces.py` for 167 and 2471, `check_residual_form.py`) and the level-5344 run of `check_modsym_hecke.cpp` on every PR. | open |
+No Lean file states or proves the Beal conjecture or any complete theorem of this project. The Lean development checks finite steps and implications inside the quadratic descent for $d=167$ and $d=2471$. The goal of this lane is to close the gap between a primitive integer solution and the principalized twist identity, so that the descent half of the fixed-base proof is machine-checked from the equation to the finite certificate. Level lowering and the Hecke computations stay outside Lean for now.
+
+#### Lean map
+
+Elements of $\mathbb Z[\omega]$, $\omega=(1+\sqrt{-d})/2$, are pairs `(a, b) : Int × Int` meaning $a+b\omega$, with $\omega^2=\omega-D$ and $4D=d+1$. So $D=42$ for 167 and $D=618$ for 2471.
+
+| File | What it proves | What it assumes |
+|---|---|---|
+| `Twist167.lean`, `Twist2471.lean` | The finite local sieve on the twist index $k$ for left exponent $x=3$. | Nothing. Pure `decide`. |
+| `QuadraticBridge.lean` | `right_base_is_odd`. `no_integral_twist167` and `no_integral_twist2471`: no $\beta,k$ with $\beta^p=\eta^k\gamma$ for $x=3$. | The twist identity itself is a hypothesis. |
+| `Forced683.lean` | $683\mid c$ for both surviving classes at 2471. | The twist identity and the equation. |
+| `TwistIdentity.lean` | The norm identity for odd $x$, the encodings of $\eta$, absorption of a unit sign. Defines `IdealFrontDoor`. | `IdealFrontDoor.signed_twist` is the outstanding input. |
+| `CubicTwists.lean` | `no_local_cubes`: the twelve oriented residue checks at right exponent 3. | Takes residue data, not the equation. |
+| `IdealDescent.lean` | Units are $\pm1$, no element of norm 2, reduced-form counts 11 and 62 (by `native_decide`), and `idealFrontDoor_of_gap`: `DedekindGap` implies `IdealFrontDoor`. Defines `IdealAPI` and `DedekindGap`. | `DedekindGap` has three unproved fields. |
+| `OmegaRing.lean` | `OmegaRing D` is a commutative domain. `idealAPI167`, `idealAPI2471` realize `IdealAPI` with Mathlib ideals. Conjugation and `span_mul_conjugate`. | `no_integral_twist*_of_mathlib_gap` still take a `DedekindGap`. |
+
+The three unproved fields of `DedekindGap` are `gamma_perfect_power` ($(\gamma)=I^p$), `eta_is_P_pow` ($P^p=(\eta)$ for a chosen $P\mid2$), and `principalizer` (some $IP^k$ is principal). Mathematics: [`docs/descent.md`](docs/descent.md#from-an-integer-solution-to-a-twist).
+
+#### Tasks
+
+| ID | Order | Task | Done when | Status |
+|---|---:|---|---|---|
+| L1 | | Mathlib `v4.19.0` and `IdealDescent.lean`. | Merged in PR #2. Axiom output and the `native_decide` note are recorded in `docs/clean-replay.md`. | done |
+| L4 | 1 | Continuous integration. There is no `.github/workflows` directory yet. | A workflow on every PR runs `lake exe cache get`, `lake build`, and the standard-library replays `check_twists.py --exponents`, `check_cubic_twists.py`, `check_aux_traces.py --base 167`, `check_aux_traces.py --base 2471`, `check_residual_form.py`, `audit_skeleton.py`, `check_square_2471.py verify`. It fails if any Lean file contains `sorry` or a new `axiom`. | open |
+| L2a | 2 | Repair the statements. `DedekindGap.gamma_perfect_power` and `IdealFrontDoor.signed_twist` quantify over all integers $b,c$ with $d^x+b^4=c^p$ and $x$ odd. The mathematics needs $\gcd(b,d)=1$: without it the ideals $(\gamma)$ and $(\bar\gamma)$ need not be coprime. Add the hypothesis, or prove it is automatic. | Both fields carry the coprimality hypothesis. The $x=3$ theorems keep their present statements, with coprimality derived inside the proof from valuations ($v_q(d^3)=3$ is not a multiple of $p$ for $q\mid d$). If you find the hypothesis is not needed, say why in the PR. | open |
+| L2b | 3 | `IsDedekindDomain (OmegaRing D)` for $D=42$ and $D=618$. | An instance for each, or one theorem for every $D$ with $4D-1$ squarefree. Either prove integral closure directly, or build a ring isomorphism with `NumberField.RingOfIntegers` of $\mathbb Q(\sqrt{-d})$. | open |
+| L2c | 4 | Prove `gamma_perfect_power` for `idealAPI167` and `idealAPI2471`. | From the equation, $x$ odd and $\gcd(b,d)=1$: $c$ is odd (`right_base_is_odd`), $(\gamma)$ and $(\bar\gamma)$ are coprime, their product is $(c)^p$, hence $(\gamma)=I^p$. Uses unique factorization of ideals from L2b. | open, after L2b |
+| L2d | 5 | Define $P$ and prove `eta_is_P_pow` for both bases. | An explicit ideal `P` above 2 with `P ^ p = Ideal.span {η}` in `OmegaRing D`, $p=11$ and $31$. | open, after L2b |
+| L5 | 6 | Elementary lemmas of the arbitrary-square note at 2471, in a new file `SquareSummand.lean`. See [`docs/square-summand-2471.md`](docs/square-summand-2471.md). | (i) For $x$ odd and $U$ even, $2471^x+U^2\equiv7$ or $11\pmod{16}$, and for $U$ odd it is even. (ii) With $W=U^2+2471^x$ and $U$ even: $3+4U+W\equiv2\pmod4$, $(1+U)^2+2471^x\equiv0\pmod8$, and the resulting $b_8'$ has 2-adic valuation exactly 2. (iii) In an additive commutative group of order 62, if $31q=0$ and $2q=31j$ then $q=0$. Each docstring names the case of the note it serves. | open |
+| L3 | 7 | The period of the cubic residue certificate and the passage from the ideal factorization to the input of `CubicTwists.no_local_cubes`. | A theorem whose hypothesis is the equation with right exponent 3 and $c$ even, not a residue table. It may assume a cubic analogue of `DedekindGap`, stated explicitly. | open |
+| L2e | 8 | Prove `principalizer` for both bases. This is the hardest task: it needs the $p$-part of `ClassGroup (OmegaRing D)` to be generated by the class of $P$. | Either a full proof, or the single remaining assumption isolated as one named proposition about Mathlib's `ClassGroup` (for example: the class group has order 11, respectively 62), with everything else derived. Report which. The reduced-form counts in `IdealDescent.lean` are not yet connected to `ClassGroup`. | open, after L2d |
+| L2f | 9 | Remove the gap hypothesis. | `no_integral_twist167` and `no_integral_twist2471` restated from the equation alone for $x=3$, and a general statement for odd $x$ with $\gcd(b,d)=1$ producing the signed twist identity. Any remaining assumption from L2e appears as an explicit hypothesis. | open, after L2c to L2e |
+| L6 | 10 | Certificate check for the 2471 arbitrary-square class test. Embed the three $42\times42$ matrices over $\mathbb F_{31}$ at 61, 683, 1117 from `docs/replays/square-2471/` and the 961 class sets as literals. | A theorem that the five triples in [`docs/square-summand-2471-review.md`](docs/square-summand-2471-review.md) are the only simultaneous eigenvalue triples, and that no class set product contains one. `native_decide` is acceptable here and must be flagged. The class sets and matrices are inputs, so the docstring must say the theorem checks the final linear algebra only. | open, optional |
+| L7 | 11 | Scouting report, no code: what in `github.com/anthropics/fermats-last-theorem` could be reused for the modular half. | A section in the PR description listing the exact declarations for modularity, Galois representations of elliptic curves, level lowering and Mazur's isogeny theorem, their generality (any elliptic curve over $\mathbb Q$, or only the Fermat Frey curve), and the Lean and Mathlib versions. State what an upgrade from Lean 4.19.0 would cost this project. | open |
+
+#### Notes for the formalization agent
+
+- **Coprimality of conjugates (L2c).** A prime ideal dividing both $(\gamma)$ and $(\bar\gamma)$ contains $\gamma+\bar\gamma=2b^2$ and $\gamma\bar\gamma=c^p$. With $c$ odd and $\gcd(b,c)=1$ this is impossible. $\gcd(b,c)=1$ follows from $\gcd(b,d)=1$ and the equation.
+- **From a product to a power (L2c).** In a Dedekind domain the nonzero ideals form a unique factorization monoid. Mathlib has a lemma of the shape "coprime $a,b$ with $ab=c^k$ implies $a$ is associated to a $k$th power" for such monoids. Search for `exists_associated_pow_of_mul_eq_pow` and confirm the name and hypotheses in `v4.19.0` before relying on it.
+- **The ideal $P$ (L2d).** $\eta$ has norm $2^p$ and odd trace, so exactly one prime above 2 divides it. `Ideal.span {2, η}` is a natural candidate for $P$. A proof by norms is likely easier than expanding a $p$th power of a two-generator ideal.
+- **Class group (L2e).** The Minkowski bound for $d=167$ is below 9 and for $d=2471$ below 32, so in principle the class group is generated by primes above 2, 3, 5, 7 (respectively up to 31). This is long. Do not start it before L2a to L2d are merged.
+- **`native_decide`.** Allowed for finite counts and matrix checks until the owner decides D2. Prefer `decide` whenever it terminates in reasonable time. List every use in the PR.
+- **Base 263.** There is no Lean development for 263. Its proof uses a Mordell curve at right exponent 3 and is not a formalization target yet.
+- **Do not formalize** level lowering, modularity or Hecke operators from scratch. L7 decides whether existing work can supply them.
 
 ### Research (Claude)
 
@@ -136,12 +175,12 @@ Next step: <what should happen after merge>
 
 ## Open pull requests
 
-See the repository's pull-request list. PRs #1 to #23 are merged.
+See the repository's pull-request list. PRs #1 to #25 are merged.
 
 ## Decisions for the owner
 
 | ID | Question | Context |
 |---|---|---|
 | D1 | Mathlib as a dependency. | Settled: accepted with the merge of PR #2. First build now needs `lake exe cache get`. |
-| D2 | Is `native_decide` acceptable for the class-number counts? | It adds trust in the Lean compiler beyond the kernel. The alternative is a slower `decide` or a certificate-checking proof. Open. |
+| D2 | Is `native_decide` acceptable for the class-number counts and for certificate checks? | It adds trust in the Lean compiler beyond the kernel. The alternative is a slower `decide` or a certificate-checking proof. Open. Until decided, it is allowed if flagged. |
 | D3 | Lane assignments and merging. | Settled 2026-11-26: the lead takes the research tasks, the other agents take formalization and computation, and the lead merges. |
