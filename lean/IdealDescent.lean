@@ -1,5 +1,8 @@
 import TwistIdentity
 import Mathlib.Tactic
+import Mathlib.Data.Nat.Squarefree
+import Mathlib.Data.Nat.Factorization.Basic
+import Mathlib.NumberTheory.Padics.PadicVal.Basic
 
 /-!
 Dedekind / class-group steps for the twist-identity front door.
@@ -19,8 +22,9 @@ Paper steps from `docs/descent.md`:
 7. units `{±1}` ⇒ signed ring identity
 
 Proved here: (3) ring side, (4) reduced-form class counts and exact `p`-power,
-(7) units, integer support for (1), and composition of a `DedekindGap`
-certificate into `IdealFrontDoor`. Remaining: realize (1)(2)(5)(6) by
+(7) units, integer support for (1), composition of a `DedekindGap`
+certificate into `IdealFrontDoor`, and (L2a) automatic `gcd(b,d)=1` for
+cubic equations over squarefree `d`. Remaining: realize (1)(2)(5)(6) by
 instantiating `IdealAPI` / `DedekindGap` (Mathlib ideals of `𝓞 K`).
 -/
 namespace Beal.IdealDescent
@@ -226,13 +230,17 @@ structure IdealAPI (D : Int) where
       ∃ u, QuadraticBridge.norm D u = 1 ∧ mul D u x = y
 
 /-- Remaining Dedekind / class-group facts (paper steps 1–2 and 5–6, with
-step 3's ideal `P` and step 4's generation folded into `principalizer`). -/
+step 3's ideal `P` and step 4's generation folded into `principalizer`).
+`gamma_perfect_power` requires `gcd(b,d)=1` so that `(γ)` and `(γ̄)` are
+coprime; without it the perfect-power conclusion can fail. -/
 structure DedekindGap
     (d p : Nat) (D : Int) (eta : Element) (api : IdealAPI D) where
-  /-- Steps 1–2: conjugate coprimality + Dedekind UFD give `(γ) = I^p`. -/
+  /-- Steps 1–2: conjugate coprimality + Dedekind UFD give `(γ) = I^p`.
+  Needs `gcd(b,d)=1`. -/
   gamma_perfect_power :
     ∀ (b c : Int) (x : Nat),
       x % 2 = 1 →
+      Int.gcd b (d : Int) = 1 →
       (d : Int)^x + b^4 = c^p →
       ∃ I : api.Ideal,
         api.powI I p = api.principal (gammaOf ((d : Int)^((x - 1) / 2)) b)
@@ -285,8 +293,8 @@ theorem idealFrontDoor_of_gap
   hD := fin.hD
   hp_odd := fin.hp_odd
   signed_twist := by
-    intro b c x hx eqn
-    obtain ⟨I, hI⟩ := gap.gamma_perfect_power b c x hx eqn
+    intro b c x hx hbd eqn
+    obtain ⟨I, hI⟩ := gap.gamma_perfect_power b c x hx hbd eqn
     obtain ⟨k, beta, hk, hbeta⟩ :=
       gap.principalizer I ⟨gammaOf ((d : Int)^((x - 1) / 2)) b, hI⟩
     have hpow :
@@ -333,23 +341,127 @@ def frontDoor2471 (api : IdealAPI 618) (gap : DedekindGap 2471 31 618 eta2471 ap
     IdealFrontDoor 2471 31 618 eta2471 :=
   idealFrontDoor_of_gap finite2471 gap
 
-/-- With a gap certificate, the cubic exclusion follows for `d = 167`. -/
+/-! ## Automatic coprimality for cubic equations (L2a)
+
+If `d` is squarefree and `d³ + b⁴ = cᵖ` with `¬ p ∣ 3`, then `gcd(b,d)=1`.
+A common prime factor `q` would give `v_q(d)=1`, hence `v_q(d³)=3 < 4 ≤ v_q(b⁴)`,
+so ultrametric inequality forces `v_q(d³+b⁴)=3`, which cannot be a multiple of `p`.
+-/
+
+/-- Squarefree radicand + cubic equation ⇒ `gcd(b,d)=1`. -/
+theorem coprime_b_d_of_cubic
+    {d : ℕ} {b c : ℤ} {p : ℕ}
+    (hd : Squarefree d) (hp : ¬(p ∣ 3)) (hppos : 0 < p)
+    (eqn : (d : ℤ) ^ 3 + b ^ 4 = c ^ p) :
+    Int.gcd b (d : ℤ) = 1 := by
+  classical
+  change Nat.gcd b.natAbs d = 1
+  by_contra hg
+  have hd0 : d ≠ 0 := hd.ne_zero
+  have hgpos : 0 < Nat.gcd b.natAbs d :=
+    Nat.gcd_pos_of_pos_right _ (Nat.pos_of_ne_zero hd0)
+  have hgt1 : 1 ≤ Nat.gcd b.natAbs d := Nat.succ_le_of_lt hgpos
+  have hgt : 1 < Nat.gcd b.natAbs d := lt_of_le_of_ne hgt1 (Ne.symm hg)
+  obtain ⟨q, hq_prime, hq_dvd_g⟩ := Nat.exists_prime_and_dvd (ne_of_gt hgt)
+  have hq_b : q ∣ b.natAbs := hq_dvd_g.trans (Nat.gcd_dvd_left _ _)
+  have hq_d : q ∣ d := hq_dvd_g.trans (Nat.gcd_dvd_right _ _)
+  haveI : Fact q.Prime := ⟨hq_prime⟩
+  have hv_d : padicValNat q d = 1 := by
+    have := Nat.factorization_eq_one_of_squarefree hd hq_prime hq_d
+    rwa [← Nat.factorization_def d hq_prime]
+  by_cases hb : b = 0
+  · subst hb
+    have eqn' : (d : ℤ) ^ 3 = c ^ p := by simpa using eqn
+    have hc0 : c ≠ 0 := by
+      intro hc; subst hc
+      have : (d : ℤ) ^ 3 = 0 := by
+        simpa [zero_pow hppos.ne'] using eqn'
+      exact (pow_ne_zero 3 (Nat.cast_ne_zero.mpr hd0)) this
+    have eqnQ : ((d : ℕ) : ℚ) ^ 3 = (c : ℚ) ^ p := by exact_mod_cast eqn'
+    have hv_d3 : padicValRat q ((d : ℚ) ^ 3) = 3 := by
+      have hdQ : (d : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hd0
+      rw [padicValRat.pow hdQ, padicValRat.of_nat, hv_d]; norm_num
+    have hv_cp : padicValRat q ((c : ℚ) ^ p) = (p : ℤ) * padicValRat q (c : ℚ) :=
+      padicValRat.pow (Int.cast_ne_zero.mpr hc0)
+    have heq : (3 : ℤ) = (p : ℤ) * padicValRat q (c : ℚ) := by
+      rw [← hv_d3, eqnQ, hv_cp]
+    have : (p : ℤ) ∣ (3 : ℤ) := ⟨_, by rw [heq, mul_comm]⟩
+    exact hp (Int.ofNat_dvd_natCast.mp this)
+  have hc0 : c ≠ 0 := by
+    intro hc; subst hc
+    have : (d : ℤ) ^ 3 + b ^ 4 = 0 := by
+      simpa [zero_pow hppos.ne'] using eqn
+    have hpos : (0 : ℤ) < (d : ℤ) ^ 3 + b ^ 4 := by
+      have hdpos : (0 : ℤ) < (d : ℤ) ^ 3 :=
+        pow_pos (Int.natCast_pos.mpr (Nat.pos_of_ne_zero hd0)) 3
+      have hb4 : (0 : ℤ) ≤ b ^ 4 := Even.pow_nonneg (by decide : Even 4) b
+      linarith
+    exact (lt_irrefl _ (this ▸ hpos)).elim
+  have eqnQ : ((d : ℕ) : ℚ) ^ 3 + (b : ℚ) ^ 4 = (c : ℚ) ^ p := by
+    exact_mod_cast eqn
+  have hv_d3 : padicValRat q ((d : ℚ) ^ 3) = 3 := by
+    have hdQ : (d : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hd0
+    rw [padicValRat.pow hdQ, padicValRat.of_nat, hv_d]; norm_num
+  have hv_b4 : (4 : ℤ) ≤ padicValRat q ((b : ℚ) ^ 4) := by
+    have hbQ : (b : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hb
+    rw [padicValRat.pow hbQ, padicValRat.of_int]
+    change (4 : ℤ) ≤ (4 : ℤ) * (padicValInt q b : ℤ)
+    have h1 : 1 ≤ padicValInt q b := by
+      change 1 ≤ padicValNat q b.natAbs
+      exact one_le_padicValNat_of_dvd (Int.natAbs_pos.mpr hb) hq_b
+    nlinarith
+  have hlt : padicValRat q ((d : ℚ) ^ 3) < padicValRat q ((b : ℚ) ^ 4) := by
+    rw [hv_d3]; linarith
+  have hsum0 : (d : ℚ) ^ 3 + (b : ℚ) ^ 4 ≠ 0 := by
+    rw [eqnQ]; exact pow_ne_zero _ (Int.cast_ne_zero.mpr hc0)
+  have hv_sum : padicValRat q ((d : ℚ) ^ 3 + (b : ℚ) ^ 4) = 3 := by
+    have hdQ : (d : ℚ) ^ 3 ≠ 0 := pow_ne_zero 3 (Nat.cast_ne_zero.mpr hd0)
+    have hbQ : (b : ℚ) ^ 4 ≠ 0 := pow_ne_zero 4 (Int.cast_ne_zero.mpr hb)
+    rw [padicValRat.add_eq_of_lt (p := q) hsum0 hdQ hbQ hlt, hv_d3]
+  have hv_cp : padicValRat q ((c : ℚ) ^ p) = (p : ℤ) * padicValRat q (c : ℚ) :=
+    padicValRat.pow (Int.cast_ne_zero.mpr hc0)
+  have heq : (3 : ℤ) = (p : ℤ) * padicValRat q (c : ℚ) := by
+    calc (3 : ℤ)
+        = padicValRat q ((d : ℚ) ^ 3 + (b : ℚ) ^ 4) := hv_sum.symm
+      _ = padicValRat q ((c : ℚ) ^ p) := by rw [eqnQ]
+      _ = (p : ℤ) * padicValRat q (c : ℚ) := hv_cp
+  have : (p : ℤ) ∣ (3 : ℤ) := ⟨_, by rw [heq, mul_comm]⟩
+  exact hp (Int.ofNat_dvd_natCast.mp this)
+
+theorem prime_167 : Nat.Prime 167 := by native_decide
+theorem squarefree_167 : Squarefree 167 := prime_167.squarefree
+
+theorem prime_7 : Nat.Prime 7 := by decide
+theorem prime_353 : Nat.Prime 353 := by native_decide
+theorem eq_2471 : (2471 : ℕ) = 7 * 353 := by native_decide
+theorem squarefree_2471 : Squarefree 2471 := by
+  rw [eq_2471]
+  exact (Nat.squarefree_mul (by decide)).2 ⟨prime_7.squarefree, prime_353.squarefree⟩
+
+/-- With a gap certificate, the cubic exclusion follows for `d = 167`.
+Coprimality `gcd(b,167)=1` is derived from the equation (L2a). -/
 theorem no_integral_twist167_of_gap
     (api : IdealAPI 42) (gap : DedekindGap 167 11 42 eta167 api)
     (b c : Int) (eqn : (167 : Int) ^ 3 + b ^ 4 = c ^ 11) : False := by
+  have hbd : Int.gcd b (167 : Int) = 1 :=
+    coprime_b_d_of_cubic squarefree_167 (by decide : ¬(11 ∣ 3)) (by decide) eqn
   obtain ⟨beta, k, hk, h⟩ :=
-    twist_identity_of_front_door (frontDoor167 api gap) b c 3 (by decide) eqn
+    twist_identity_of_front_door (frontDoor167 api gap) b c 3 (by decide) hbd eqn
   have hγ : gammaOf ((167 : Nat) : Int) b = gamma 167 b := gammaOf_cubic 167 b
   -- `(3-1)/2 = 1`, so the coefficient is `167`.
   have h' : pow 42 beta 11 = mul 42 (pow 42 eta167 k) (gamma 167 b) := by
     simpa [hγ] using h
   exact no_integral_twist167 b beta k hk h'
 
+/-- With a gap certificate, the cubic exclusion follows for `d = 2471`.
+Coprimality `gcd(b,2471)=1` is derived from the equation (L2a). -/
 theorem no_integral_twist2471_of_gap
     (api : IdealAPI 618) (gap : DedekindGap 2471 31 618 eta2471 api)
     (b c : Int) (eqn : (2471 : Int) ^ 3 + b ^ 4 = c ^ 31) : False := by
+  have hbd : Int.gcd b (2471 : Int) = 1 :=
+    coprime_b_d_of_cubic squarefree_2471 (by decide : ¬(31 ∣ 3)) (by decide) eqn
   obtain ⟨beta, k, hk, h⟩ :=
-    twist_identity_of_front_door (frontDoor2471 api gap) b c 3 (by decide) eqn
+    twist_identity_of_front_door (frontDoor2471 api gap) b c 3 (by decide) hbd eqn
   have hγ : gammaOf ((2471 : Nat) : Int) b = gamma 2471 b := gammaOf_cubic 2471 b
   have h' : pow 618 beta 31 = mul 618 (pow 618 eta2471 k) (gamma 2471 b) := by
     simpa [hγ] using h
@@ -361,6 +473,7 @@ end Beal.IdealDescent
 #print axioms Beal.IdealDescent.no_norm_two_167
 #print axioms Beal.IdealDescent.class_number_167
 #print axioms Beal.IdealDescent.class_number_2471
+#print axioms Beal.IdealDescent.coprime_b_d_of_cubic
 #print axioms Beal.IdealDescent.idealFrontDoor_of_gap
 #print axioms Beal.IdealDescent.frontDoor167
 #print axioms Beal.IdealDescent.no_integral_twist167_of_gap

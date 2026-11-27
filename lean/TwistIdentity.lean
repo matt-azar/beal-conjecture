@@ -141,17 +141,21 @@ conjugate coprimality ⇒ `(γ) = I^p`, ideal `P` with `P^p = (η)`, and the
 principalizer. Downstream: local periodicity `x ↦ x+4p` and the odd-residue sweep.
 -/
 
-/-- Hypotheses that turn a primitive solution into a signed twist identity. -/
+/-- Hypotheses that turn a primitive solution into a signed twist identity.
+The twist step requires `Int.gcd b d = 1`: without it the ideals `(γ)` and
+`(γ̄)` need not be coprime (see `docs/descent.md`). -/
 structure IdealFrontDoor (d p : Nat) (D : Int) (eta : Element) where
   /-- Discriminant relation for the integral basis. -/
   hD : 4 * D = (d : Int) + 1
   /-- Odd prime exponent (used for unit absorption). -/
   hp_odd : p % 2 = 1
   /-- From `(γ) = I^p`, `P^p = (η)`, `[P]` generating `Cl[p]`, and
-  `IP^k = (β)`, ideal arithmetic supplies a signed identity in the ring. -/
+  `IP^k = (β)`, ideal arithmetic supplies a signed identity in the ring.
+  Requires `gcd(b,d)=1` so that `(γ)` and `(γ̄)` are coprime. -/
   signed_twist :
     ∀ (b c : Int) (x : Nat),
       x % 2 = 1 →
+      Int.gcd b (d : Int) = 1 →
       (d : Int)^x + b^4 = c^p →
       ∃ (beta : Element) (k : Nat),
         k < p ∧
@@ -175,12 +179,13 @@ theorem twist_identity_of_front_door
     {d p : Nat} {D : Int} {eta : Element}
     (door : IdealFrontDoor d p D eta)
     (b c : Int) (x : Nat) (hx : x % 2 = 1)
+    (hbd : Int.gcd b (d : Int) = 1)
     (eqn : (d : Int)^x + b^4 = c^p) :
     ∃ (beta : Element) (k : Nat),
       k < p ∧
       pow D beta p
         = mul D (pow D eta k) (gammaOf ((d : Int)^((x - 1) / 2)) b) := by
-  rcases door.signed_twist b c x hx eqn with ⟨beta, k, hk, hid⟩
+  rcases door.signed_twist b c x hx hbd eqn with ⟨beta, k, hk, hid⟩
   rcases unsigned_twist_of_signed door.hp_odd hid with ⟨beta', h'⟩
   exact ⟨beta', k, hk, h'⟩
 
